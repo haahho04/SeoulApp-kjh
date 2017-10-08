@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,9 +15,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+
 public class TourMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+    private static final String TAG = "TourMainActivity";
+
+    private String uid;
+    private DatabaseReference ref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +56,18 @@ public class TourMainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        ref = FirebaseDatabase.getInstance().getReference().child("member").child(uid);
     }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+
+        updateMemberData();
+    } // onStart()
 
     @Override // button event: open drawer
     public void onBackPressed() {
@@ -118,8 +144,9 @@ public class TourMainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
-    }
+    } // onNavigationItemSelected()
 
     public void onClick(View v)
     {
@@ -131,6 +158,61 @@ public class TourMainActivity extends AppCompatActivity
                 Intent intent = new Intent(this, TourRegionActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btn_update_stamp:
+                updateStamp("u5", 0);
+                break;
         }
+    } // onClick()
+
+    void updateMemberData()
+    {
+        //ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                Log.d(TAG, "getvalue: " + dataSnapshot.getValue().toString());
+
+                MemberData memberData = dataSnapshot.getValue(MemberData.class);
+
+                // update UI using member data
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "MemberData:onCancelled", databaseError.toException());
+                // ...
+            }
+        });
+    } // updateMemberData()
+
+    void updateStamp(String key, int num)
+    {
+        ref.child("stampMap").child(key).runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Log.d(TAG, "doTransaction");
+
+                String stamp = (String) mutableData.getValue();
+                if (stamp == null)
+                    return Transaction.success(mutableData);
+                else
+                {
+                    int num = Integer.parseInt(stamp);
+
+                    // Set value and report transaction success
+                    mutableData.setValue(stamp);
+                    return Transaction.success(mutableData);
+                }
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b,
+                                   DataSnapshot dataSnapshot) {
+                // Transaction completed
+                Log.d(TAG, "stampTransaction:onComplete:" + databaseError);
+            }
+        });
     }
-}
+} // class

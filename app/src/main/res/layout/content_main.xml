@@ -21,6 +21,14 @@
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="next" />
+
+        <Button
+            android:id="@+id/btn_update_stamp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="update stamp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
