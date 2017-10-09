@@ -12,4 +12,6 @@ public class MemberData
 {
     public String name = new String();
     public Map<String, String> stampMap;
+
+    // test commit
 }
