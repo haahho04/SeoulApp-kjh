@@ -2,6 +2,7 @@ package com.kjh.seoulapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -16,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +29,7 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
-public class TourMainActivity extends AppCompatActivity
+public class TourMainActivity extends GoogleSignInActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
     private static final String TAG = "TourMainActivity";
@@ -131,8 +135,8 @@ public class TourMainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.sign_out) {
+            signOut();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -218,4 +222,26 @@ public class TourMainActivity extends AppCompatActivity
             }
         });
     }
+
+    private void signOut() {
+        // Firebase sign out
+        mAuth.signOut();
+
+        // Intent를 미리 생성 -> callback에서도 어려움없이 startActivity()
+        final Intent intent = new Intent(this, SocialLoginActivity.class);
+
+        // Google sign out
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>()
+                {
+                    @Override
+                    public void onResult(@NonNull Status status)
+                    {
+                        //Log.d(TAG, "onResult()");
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+    }
+
 } // class
