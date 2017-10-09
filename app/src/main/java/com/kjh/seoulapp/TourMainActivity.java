@@ -196,31 +196,7 @@ public class TourMainActivity extends GoogleSignInActivity
 
     void updateStamp(String key, int num)
     {
-        ref.child("stampMap").child(key).runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Log.d(TAG, "doTransaction");
-
-                String stamp = (String) mutableData.getValue();
-                if (stamp == null)
-                    return Transaction.success(mutableData);
-                else
-                {
-                    int num = Integer.parseInt(stamp);
-
-                    // Set value and report transaction success
-                    mutableData.setValue(stamp);
-                    return Transaction.success(mutableData);
-                }
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b,
-                                   DataSnapshot dataSnapshot) {
-                // Transaction completed
-                Log.d(TAG, "stampTransaction:onComplete:" + databaseError);
-            }
-        });
+        // TODO
     }
 
     private void signOut() {
