@@ -203,9 +203,6 @@ public class TourMainActivity extends GoogleSignInActivity
         // Firebase sign out
         mAuth.signOut();
 
-        // Intent를 미리 생성 -> callback에서도 어려움없이 startActivity()
-        final Intent intent = new Intent(this, SocialLoginActivity.class);
-
         // Google sign out
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>()
@@ -214,10 +211,11 @@ public class TourMainActivity extends GoogleSignInActivity
                     public void onResult(@NonNull Status status)
                     {
                         //Log.d(TAG, "onResult()");
+                        Intent intent = new Intent(TourMainActivity.this, SocialLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
                 });
-    }
+    } // signOut()
 
 } // class
