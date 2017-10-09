@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -59,6 +60,8 @@ public class TourMainActivity extends AppCompatActivity
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         ref = FirebaseDatabase.getInstance().getReference().child("member").child(uid);
+
+
     }
 
     @Override

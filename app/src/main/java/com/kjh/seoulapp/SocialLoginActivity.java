@@ -3,8 +3,10 @@ package com.kjh.seoulapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -23,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class SocialLoginActivity  extends BaseActivity implements
+public class SocialLoginActivity  extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener
 {
@@ -35,17 +37,16 @@ public class SocialLoginActivity  extends BaseActivity implements
     // [END declare_auth]
 
     private GoogleApiClient mGoogleApiClient;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_social_login);
 
-        // Button listeners
-//        findViewById(R.id.sign_in_button).setOnClickListener(this);
-//        findViewById(R.id.sign_out_button).setOnClickListener(this);
-//        findViewById(R.id.disconnect_button).setOnClickListener(this);
-//        findViewById(R.id.GoogleLoginButton).setOnClickListener(this);
+        // [START initialize_auth]
+        mAuth = FirebaseAuth.getInstance();
+        // [END initialize_auth]
 
         // [START config_signin]
         // Configure Google Sign In
@@ -55,15 +56,12 @@ public class SocialLoginActivity  extends BaseActivity implements
                 .build();
         // [END config_signin]
 
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        // [START initialize_auth]
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
     }
 
     // [START on_start_check_user]
@@ -220,4 +218,7 @@ public class SocialLoginActivity  extends BaseActivity implements
 //            revokeAccess();
 //        }
     }
+
+    void showProgressDialog() { progressBar.setVisibility(View.VISIBLE); }
+    void hideProgressDialog() { progressBar.setVisibility(View.GONE); }
 }
