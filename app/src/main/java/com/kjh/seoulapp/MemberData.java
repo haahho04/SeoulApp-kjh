@@ -1,7 +1,5 @@
 package com.kjh.seoulapp;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +8,19 @@ import java.util.Map;
 
 public class MemberData
 {
-    public String name = new String();
-    public Map<String, String> stampMap;
+    public String name;
+    public Map<String, Integer> stampMap;
+
+    @Override
+    public String toString()
+    {
+        String result = "name: " + name + "/ stampMap: ";
+
+        for(String key : stampMap.keySet())
+        {
+            result += stampMap.get(key) + ", ";
+        }
+
+        return result;
+    }
 }

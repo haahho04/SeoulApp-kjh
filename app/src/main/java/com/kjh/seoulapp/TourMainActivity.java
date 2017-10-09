@@ -3,31 +3,28 @@ package com.kjh.seoulapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
+import android.view.View;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.GsonConverterFactory;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class TourMainActivity extends GoogleSignInActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -35,7 +32,6 @@ public class TourMainActivity extends GoogleSignInActivity
     private static final String TAG = "TourMainActivity";
 
     private String uid;
-    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +59,12 @@ public class TourMainActivity extends GoogleSignInActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        ref = FirebaseDatabase.getInstance().getReference().child("member").child(uid);
-
-
     }
 
     @Override
     public void onStart()
     {
         super.onStart();
-
-        updateMemberData();
     } // onStart()
 
     @Override // button event: open drawer
@@ -165,38 +156,36 @@ public class TourMainActivity extends GoogleSignInActivity
                 Intent intent = new Intent(this, TourRegionActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.btn_update_stamp:
-                updateStamp("u5", 0);
+            case R.id.btn_test:
+                printMemberData();
                 break;
         }
     } // onClick()
 
-    void updateMemberData()
+    void printMemberData()
     {
-        //ref.addValueEventListener(new ValueEventListener() {
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://seoulapp-kjh.firebaseio.com")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        FirebaseAPI firebaseAPI = retrofit.create(FirebaseAPI.class);
+
+        Call<MemberData> call = firebaseAPI.getMemberData(uid);
+        //Call<String> call = firebaseAPI.getMemberData();
+
+        call.enqueue(new Callback<MemberData>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                Log.d(TAG, "getvalue: " + dataSnapshot.getValue().toString());
-
-                MemberData memberData = dataSnapshot.getValue(MemberData.class);
-
-                // update UI using member data
+            public void onResponse(Call<MemberData> call, Response<MemberData> response) {
+                Log.d(TAG, response.body().toString());
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w(TAG, "MemberData:onCancelled", databaseError.toException());
-                // ...
+            public void onFailure(Call<MemberData> call, Throwable t) {
+                Log.d(TAG, "URL: " + call.request().url().toString());
+                Log.d(TAG, "onFailure(): " + t.getMessage());
             }
         });
-    } // updateMemberData()
-
-    void updateStamp(String key, int num)
-    {
-        // TODO
     }
 
     private void signOut() {
