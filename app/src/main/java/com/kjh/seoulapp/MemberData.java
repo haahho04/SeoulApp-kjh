@@ -14,12 +14,9 @@ public class MemberData
     @Override
     public String toString()
     {
-        String result = "name: " + name + "/ stampMap: ";
-
+        String result = "name: " + name + " / stampMap: ";
         for(String key : stampMap.keySet())
-        {
             result += stampMap.get(key) + ", ";
-        }
 
         return result;
     }

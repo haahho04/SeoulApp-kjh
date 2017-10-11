@@ -25,18 +25,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.GsonConverterFactory;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 public class TourMainActivity extends GoogleSignInActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
     private static final String TAG = "TourMainActivity";
 
     private String uid;
+    FirebaseDatabase database;
+    DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +51,9 @@ public class TourMainActivity extends GoogleSignInActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference("members").child(uid);
     }
 
     @Override
@@ -160,42 +159,19 @@ public class TourMainActivity extends GoogleSignInActivity
 
     void printMemberData()
     {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://seoulapp-kjh.firebaseio.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        FirebaseAPI firebaseAPI = retrofit.create(FirebaseAPI.class);
-
-        Call<MemberData> call = firebaseAPI.getMemberData(uid);
-        //Call<String> call = firebaseAPI.getMemberData();
-
-        call.enqueue(new Callback<MemberData>() {
-            @Override
-            public void onResponse(Call<MemberData> call, Response<MemberData> response) {
-                Log.d(TAG, response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<MemberData> call, Throwable t) {
-                Log.d(TAG, "URL: " + call.request().url().toString());
-                Log.d(TAG, "onFailure(): " + t.getMessage());
-            }
-        });
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        //Log.d(TAG, ref.toString());
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
+                MemberData value = dataSnapshot.getValue(MemberData.class);
                 Log.d(TAG, "Value is: " + value);
+                // TODO
             }
 
             @Override
             public void onCancelled(DatabaseError e) {
                 Log.w(TAG, "Failed to read value.", e.toException());
+                // TODO
             }
         });
     }
