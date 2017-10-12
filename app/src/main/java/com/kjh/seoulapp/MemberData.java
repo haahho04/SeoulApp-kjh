@@ -4,8 +4,8 @@ import java.util.Map;
 
 public class MemberData
 {
-    private String name;
-    private Map<String, Integer> stampMap;
+    public String name;
+    public Map<String, Integer> stampMap;
 
     @Override
     public String toString()

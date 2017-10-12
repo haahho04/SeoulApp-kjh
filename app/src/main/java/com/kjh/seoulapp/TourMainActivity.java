@@ -53,6 +53,8 @@ public class TourMainActivity extends GoogleAuthActivity
     public void onStart()
     {
         super.onStart();
+
+        Log.d(TAG, uid);
     } // onStart()
 
     @Override // button event: open drawer
@@ -152,7 +154,7 @@ public class TourMainActivity extends GoogleAuthActivity
 
     void printMemberData()
     {
-        //Log.d(TAG, ref.toString());
+        Log.d(TAG, ref.toString());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

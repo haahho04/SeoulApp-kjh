@@ -115,17 +115,18 @@ public class SocialLoginActivity  extends GoogleAuthActivity
     private void updateUI(FirebaseUser user)
     {
         hideProgressDialog();
+
         if (user != null)
         {
-            Log.d(TAG, user.getEmail());
             uid = user.getUid();
+            Log.d(TAG, user.getEmail() + ", " + uid);
 
             // change activity
             Intent intent = new Intent(this, TourMainActivity.class);
             startActivity(intent);
             finish();
         } else
-            {
+        {
             Log.d(TAG, "non auth state");
         }
     }

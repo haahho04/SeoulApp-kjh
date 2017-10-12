@@ -6,10 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * Created by sor02 on 2017-10-12.
- */
-
 public abstract class AuthActivity extends AppCompatActivity
 {
     private static final String TAG = "AuthActivity";
@@ -24,7 +20,6 @@ public abstract class AuthActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         mAuth = FirebaseAuth.getInstance();
-        uid = "UID";
         database = FirebaseDatabase.getInstance();
     }
 }
