@@ -18,21 +18,17 @@ import android.view.View;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class TourMainActivity extends GoogleSignInActivity
+public class TourMainActivity extends GoogleAuthActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
     private static final String TAG = "TourMainActivity";
 
-    private String uid;
-    FirebaseDatabase database;
-    DatabaseReference ref;
+    private DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +46,6 @@ public class TourMainActivity extends GoogleSignInActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-        database = FirebaseDatabase.getInstance();
         ref = database.getReference("members").child(uid);
     }
 

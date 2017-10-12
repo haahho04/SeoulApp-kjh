@@ -2,14 +2,10 @@ package com.kjh.seoulapp;
 
 import java.util.Map;
 
-/**
- * Created by hojong on 2017-10-08.
- */
-
 public class MemberData
 {
-    public String name;
-    public Map<String, Integer> stampMap;
+    private String name;
+    private Map<String, Integer> stampMap;
 
     @Override
     public String toString()

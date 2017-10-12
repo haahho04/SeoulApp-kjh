@@ -2,7 +2,6 @@ package com.kjh.seoulapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,28 +11,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.firebase.auth.FirebaseAuth;
 
-public abstract class GoogleSignInActivity extends AppCompatActivity
+public abstract class GoogleAuthActivity extends AuthActivity
         implements GoogleApiClient.OnConnectionFailedListener
 {
-    private static final String TAG = "GoogleSignInActivity";
-
-    // [START declare_auth]
-    protected static FirebaseAuth mAuth;
-    // [END declare_auth]
-
+    private static final String TAG = "GoogleAuthActivity";
+    
     protected static GoogleApiClient mGoogleApiClient;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        // [START initialize_auth]
-        mAuth = FirebaseAuth.getInstance();
-        // [END initialize_auth]
-
+        
         // [START config_signin]
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

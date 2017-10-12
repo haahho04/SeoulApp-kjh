@@ -12,21 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--splash-->
-        <activity android:name=".SplashActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SocialLoginActivity"
             android:label="@string/title_activity_social_login"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TourMainActivity"
             android:label="@string/title_activity_tour_main"
@@ -34,8 +34,7 @@
         <activity
             android:name=".TourRegionActivity"
             android:label="@string/title_activity_tour_region"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

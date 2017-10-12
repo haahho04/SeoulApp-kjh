@@ -18,7 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class SocialLoginActivity  extends GoogleSignInActivity
+public class SocialLoginActivity  extends GoogleAuthActivity
         implements View.OnClickListener
 {
     private static final String TAG = "SocialLoginActivity";
@@ -112,26 +112,21 @@ public class SocialLoginActivity  extends GoogleSignInActivity
     }
     // [END auth_with_google]
 
-    private void updateUI(FirebaseUser user) {
+    private void updateUI(FirebaseUser user)
+    {
         hideProgressDialog();
-        if (user != null) {
-            Log.d(TAG, user.getEmail() + ", " + user.getUid());
+        if (user != null)
+        {
+            Log.d(TAG, user.getEmail());
+            uid = user.getUid();
+
             // change activity
             Intent intent = new Intent(this, TourMainActivity.class);
             startActivity(intent);
             finish();
-//            mStatusTextView.setText(getString(R.string.google_status_fmt, user.getEmail()));
-//            mDetailTextView.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-//
-//            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-        } else {
+        } else
+            {
             Log.d(TAG, "non auth state");
-//            mStatusTextView.setText(R.string.signed_out);
-//            mDetailTextView.setText(null);
-//
-//            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);
         }
     }
 
