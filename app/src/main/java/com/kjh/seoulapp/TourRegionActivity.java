@@ -1,5 +1,6 @@
 package com.kjh.seoulapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class TourRegionActivity extends AuthActivity
+        implements View.OnClickListener
 {
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -72,6 +73,18 @@ public class TourRegionActivity extends AuthActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v)
+    {
+        switch(v.getId())
+        {
+            case R.id.quiz:
+                Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -99,10 +112,26 @@ public class TourRegionActivity extends AuthActivity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_tour_region, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+                                 Bundle savedInstanceState)
+        {
+            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+            View rootView = null;
+
+            switch(sectionNumber)
+            {
+                case 1:
+                    rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
+                    break;
+                case 2:
+                    rootView = inflater.inflate(R.layout.fragment_region_road, container, false);
+                    break;
+                case 3:
+                    rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
+                    break;
+            }
+
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
@@ -134,11 +163,11 @@ public class TourRegionActivity extends AuthActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "유적지 설명";
                 case 1:
-                    return "SECTION 2";
+                    return "가는 길";
                 case 2:
-                    return "SECTION 3";
+                    return "문제풀이 & 스탬프 얻기";
             }
             return null;
         }

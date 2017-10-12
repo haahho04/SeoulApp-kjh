@@ -132,21 +132,14 @@ public class SocialLoginActivity  extends GoogleAuthActivity
     }
 
     @Override
-    public void onClick(View v) {
-        int i = v.getId();
-
-        if (i == R.id.GoogleLoginButton)
+    public void onClick(View v)
+    {
+        switch(v.getId())
         {
-            signIn();
+            case R.id.GoogleLoginButton:
+                signIn();
+                break;
         }
-//        else if (i == R.id.sign_out_button)
-//        {
-//            signOut();
-//        }
-//        else if (i == R.id.disconnect_button)
-//        {
-//            revokeAccess();
-//        }
     }
 
     void showProgressDialog() { progressBar.setVisibility(View.VISIBLE); }
