@@ -4,6 +4,11 @@ import java.util.Map;
 
 public class MemberData
 {
+    public String name = new String();
+    public Map<String, String> stampMap;
+
+    // test commit
+=======
     public String name;
     public Map<String, Integer> stampMap;
 
@@ -16,4 +21,5 @@ public class MemberData
 
         return result;
     }
+>>>>>>> 5508d2cd5a4f6ff75c7d7b632dd6be676e52b93a
 }
