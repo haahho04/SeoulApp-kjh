@@ -21,12 +21,13 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:id="@+id/splashscreen"
+            android:id="@+id/splash_screen"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:contentDescription="splashscreen"
-            android:src="@drawable/side_nav_bar"
+            android:adjustViewBounds="true"
+            android:contentDescription="splash_screen"
+            android:background="@drawable/splash_screen"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
@@ -34,7 +35,10 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Hello World, splash"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="65dp"
+            android:text="@string/loading"
+            android:textAlignment="center"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="0dp" />
 
