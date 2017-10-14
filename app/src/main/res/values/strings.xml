@@ -11,5 +11,6 @@
     <string name="title_activity_tour_main">TourMainActivity</string>
     <string name="title_activity_tour_region">TourRegionActivity</string>
     <string name="loading">Loading...</string>
+    <string name="daum_api_key">eaceb6c22d46c5b24797373ac32e32c5</string>
 
 </resources>

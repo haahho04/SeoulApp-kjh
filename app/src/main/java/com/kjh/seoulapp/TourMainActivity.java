@@ -110,7 +110,7 @@ public class TourMainActivity extends GoogleAuthActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    //@SuppressWarnings("StatementWithEmptyBody")
     @Override // TODO
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
