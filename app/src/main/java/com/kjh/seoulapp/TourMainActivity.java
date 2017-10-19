@@ -14,14 +14,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 public class TourMainActivity extends GoogleAuthActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -45,8 +50,6 @@ public class TourMainActivity extends GoogleAuthActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        ref = database.getReference("members").child(uid);
     }
 
     @Override
@@ -55,6 +58,16 @@ public class TourMainActivity extends GoogleAuthActivity
         super.onStart();
 
         Log.d(TAG, uid);
+        ref = database.getReference("members").child(uid);
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        ImageView user_photo = (ImageView) findViewById(R.id.user_photo);
+        TextView user_name = (TextView) findViewById(R.id.user_name);
+        TextView user_email = (TextView) findViewById(R.id.user_email);
+
+        user_photo.setImageURI(user.getPhotoUrl());
+        user_name.setText(user.getDisplayName());
+        user_email.setText(user.getEmail());
     } // onStart()
 
     @Override // button event: open drawer
