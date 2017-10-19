@@ -81,7 +81,7 @@ public class TourRegionActivity extends AuthActivity
     {
         switch(v.getId())
         {
-            case R.id.quiz:
+            case R.id.quiz_start:
                 Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
                 startActivity(intent);
                 break;

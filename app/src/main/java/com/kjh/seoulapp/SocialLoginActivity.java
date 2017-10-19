@@ -58,7 +58,6 @@ public class SocialLoginActivity  extends GoogleAuthActivity
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d(TAG, "onActivityResult");
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
@@ -70,6 +69,7 @@ public class SocialLoginActivity  extends GoogleAuthActivity
             } else {
                 // Google Sign In failed, update UI appropriately
                 // [START_EXCLUDE]
+                Log.d(TAG, "status: " + result.getStatus());
                 updateUI(null);
                 // [END_EXCLUDE]
             }

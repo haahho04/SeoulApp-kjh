@@ -1,6 +1,9 @@
 package com.kjh.seoulapp;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -50,6 +54,29 @@ public class TourMainActivity extends GoogleAuthActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            View nav_header = navigationView.getHeaderView(0);
+            ImageView user_photo = nav_header.findViewById(R.id.user_photo);
+            TextView user_name = nav_header.findViewById(R.id.user_name);
+            TextView user_email = nav_header.findViewById(R.id.user_email);
+
+            String strName = user.getDisplayName();
+            String strEmail = user.getEmail();
+
+//            if (user_photo != null) {
+//                Glide
+//                        .with(nav_header.getContext())
+//                        .load(user.getPhotoUrl()) // the uri you got from Firebase
+//                        .override(200,200)
+//                        .into(user_photo); // Your imageView variable
+//            }
+            if (user_name != null && strName != null)
+                user_name.setText(strName);
+            if (user_email != null && strEmail != null)
+                user_email.setText(strEmail);
+        }
     }
 
     @Override
@@ -60,14 +87,6 @@ public class TourMainActivity extends GoogleAuthActivity
         Log.d(TAG, uid);
         ref = database.getReference("members").child(uid);
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        ImageView user_photo = (ImageView) findViewById(R.id.user_photo);
-        TextView user_name = (TextView) findViewById(R.id.user_name);
-        TextView user_email = (TextView) findViewById(R.id.user_email);
-
-        user_photo.setImageURI(user.getPhotoUrl());
-        user_name.setText(user.getDisplayName());
-        user_email.setText(user.getEmail());
     } // onStart()
 
     @Override // button event: open drawer
@@ -129,17 +148,13 @@ public class TourMainActivity extends GoogleAuthActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.sign_out) {
+        if (id == R.id.nav_sign_out) {
             signOut();
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_app_info) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_contact) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_donate) {
 
         }
 
