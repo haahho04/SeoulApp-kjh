@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -99,7 +98,6 @@ public class TourRegionActivity extends AuthActivity
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private static final String TAG = "PlaceholderFragment";
 
         public PlaceholderFragment() {
         }

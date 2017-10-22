@@ -1,9 +1,6 @@
 package com.kjh.seoulapp;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -20,7 +17,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -30,11 +26,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 public class TourMainActivity extends GoogleAuthActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
+    enum POPUP_TYPE {APP_INFO, CONTACT, DONATE}
     private static final String TAG = "TourMainActivity";
 
     private DatabaseReference ref;
@@ -148,15 +143,14 @@ public class TourMainActivity extends GoogleAuthActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_sign_out) {
+        if (id == R.id.nav_sign_out)
             signOut();
-        } else if (id == R.id.nav_app_info) {
-
-        } else if (id == R.id.nav_contact) {
-
-        } else if (id == R.id.nav_donate) {
-
-        }
+        else if (id == R.id.nav_app_info)
+            popupActivity(POPUP_TYPE.APP_INFO);
+        else if (id == R.id.nav_contact)
+            popupActivity(POPUP_TYPE.CONTACT);
+        else if (id == R.id.nav_donate)
+            popupActivity(POPUP_TYPE.DONATE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -217,5 +211,12 @@ public class TourMainActivity extends GoogleAuthActivity
                     }
                 });
     } // signOut()
+
+    void popupActivity(POPUP_TYPE type)
+    {
+        Intent intent = new Intent (TourMainActivity.this, PopupActivity.class);
+        intent.putExtra("POPUP_TYPE", type);
+        startActivity(intent);
+    }
 
 } // class

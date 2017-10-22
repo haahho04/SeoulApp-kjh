@@ -12,8 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/daum_api_key" />
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/daum_api_key" />
 
         <activity
             android:name=".SplashActivity"
@@ -38,7 +39,10 @@
             android:name=".TourRegionActivity"
             android:label="@string/title_activity_tour_region"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".QuizProblemActivity"></activity>
+        <activity android:name=".QuizProblemActivity" />
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@style/PopupTheme" />
     </application>
 
 </manifest>
