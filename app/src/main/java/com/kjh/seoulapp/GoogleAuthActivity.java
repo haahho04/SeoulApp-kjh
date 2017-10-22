@@ -55,7 +55,7 @@ public abstract class GoogleAuthActivity extends AuthActivity
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
-                        //updateUI(null);
+                        //enableBtnNext(null);
                     }
                 });
     }

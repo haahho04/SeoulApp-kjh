@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import static com.kjh.seoulapp.TourMainActivity.POPUP_TYPE;
-
 public class PopupActivity extends AppCompatActivity
     implements View.OnClickListener
 {
+    enum POPUP_TYPE { APP_INFO, CONTACT, DONATE, END_QUIZ }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +32,10 @@ public class PopupActivity extends AppCompatActivity
             case DONATE:
                 titleView.setText("DONATE");
                 break;
+            case END_QUIZ: // from QuizProblemActivity
+                titleView.setText("퀴즈 결과");
+                break;
+            default: assert false;
         }
     }
 
@@ -50,9 +53,11 @@ public class PopupActivity extends AppCompatActivity
         switch(id)
         {
             case R.id.popup_close:
+                Intent intent = new Intent();
+                //intent.putExtra("result", "Close Popup");
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }
     }
-
 }

@@ -26,10 +26,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
+
 public class TourMainActivity extends GoogleAuthActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
-    enum POPUP_TYPE {APP_INFO, CONTACT, DONATE}
     private static final String TAG = "TourMainActivity";
 
     private DatabaseReference ref;
@@ -79,9 +80,12 @@ public class TourMainActivity extends GoogleAuthActivity
     {
         super.onStart();
 
-        Log.d(TAG, uid);
-        ref = database.getReference("members").child(uid);
+        Log.d(TAG, "onStart()");
 
+        if (uid != null) {
+            Log.d(TAG, uid);
+            ref = database.getReference("members").child(uid);
+        }
     } // onStart()
 
     @Override // button event: open drawer
@@ -164,7 +168,7 @@ public class TourMainActivity extends GoogleAuthActivity
 
         switch(id)
         {
-            case R.id.btn_next:
+            case R.id.btn_answer:
                 Intent intent = new Intent(this, TourRegionActivity.class);
                 startActivity(intent);
                 break;
