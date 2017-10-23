@@ -21,10 +21,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
 
@@ -126,7 +123,7 @@ public class TourMainActivity extends GoogleAuthActivity
         return true;
     }
 
-    @Override // TODO
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -141,8 +138,7 @@ public class TourMainActivity extends GoogleAuthActivity
         return super.onOptionsItemSelected(item);
     }
 
-    //@SuppressWarnings("StatementWithEmptyBody")
-    @Override // TODO
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -173,29 +169,27 @@ public class TourMainActivity extends GoogleAuthActivity
                 startActivity(intent);
                 break;
             case R.id.btn_test:
-                printMemberData();
+//                printMemberData();
                 break;
         }
     } // onClick()
 
-    void printMemberData()
-    {
-        Log.d(TAG, ref.toString());
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                MemberData value = dataSnapshot.getValue(MemberData.class);
-                Log.d(TAG, "Value is: " + value);
-                // TODO
-            }
-
-            @Override
-            public void onCancelled(DatabaseError e) {
-                Log.w(TAG, "Failed to read value.", e.toException());
-                // TODO
-            }
-        });
-    }
+//    void printMemberData()
+//    {
+//        Log.d(TAG, ref.toString());
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                MemberData value = dataSnapshot.getValue(MemberData.class);
+//                Log.d(TAG, "Value is: " + value);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError e) {
+//                Log.w(TAG, "Failed to read value.", e.toException());
+//            }
+//        });
+//    }
 
     private void signOut() {
         // Firebase sign out

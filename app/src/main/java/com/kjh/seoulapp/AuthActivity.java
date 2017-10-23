@@ -9,15 +9,17 @@ import com.google.firebase.database.FirebaseDatabase;
 public abstract class AuthActivity extends AppCompatActivity
 {
     protected static FirebaseAuth mAuth;
-    protected static String uid;
     protected static FirebaseDatabase database;
+    protected static String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        if (mAuth == null)
+            mAuth = FirebaseAuth.getInstance();
+        if (database == null)
+            database = FirebaseDatabase.getInstance();
     }
 }

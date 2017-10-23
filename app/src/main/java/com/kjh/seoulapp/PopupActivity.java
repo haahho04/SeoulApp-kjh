@@ -17,7 +17,8 @@ public class PopupActivity extends AppCompatActivity
         setContentView(R.layout.activity_popup);
 
         Intent intent = getIntent();
-        POPUP_TYPE type = (POPUP_TYPE) intent.getSerializableExtra("POPUP_TYPE");
+        //POPUP_TYPE type = (POPUP_TYPE) intent.getSerializableExtra("POPUP_TYPE");
+        POPUP_TYPE type = intent.getParcelableExtra("POPUP_TYPE");
         TextView titleView = (TextView) findViewById(R.id.popup_title);
         TextView msgView = (TextView) findViewById(R.id.popup_msg);
 

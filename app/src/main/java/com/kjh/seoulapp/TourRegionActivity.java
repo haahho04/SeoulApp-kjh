@@ -25,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+
 //import net.daum.mf.map.api.MapView;
 
 public class TourRegionActivity extends AuthActivity
@@ -46,6 +48,8 @@ public class TourRegionActivity extends AuthActivity
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    int regionID;
+    DatabaseReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +96,10 @@ public class TourRegionActivity extends AuthActivity
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     GPS_PERMISSION_REQUEST);
         }
+
+        Intent intent = getIntent();
+        regionID = intent.getIntExtra("regionID", 1);
+
     }
 
     @Override
@@ -155,6 +163,7 @@ public class TourRegionActivity extends AuthActivity
         {
             case R.id.quiz_start:
                 Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
+                intent.putExtra("regionID", regionID);
                 startActivity(intent);
                 break;
         }
