@@ -27,11 +27,12 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 
-//import net.daum.mf.map.api.MapView;
+import net.daum.mf.map.api.MapView;
 
 public class TourRegionActivity extends AuthActivity
         implements View.OnClickListener
 {
+    static final String TAG = "TourRegionActivity";
     static final int GPS_PERMISSION_REQUEST = 1235;
 
     /**
@@ -173,7 +174,7 @@ public class TourRegionActivity extends AuthActivity
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment
-            //implements MapView.OpenAPIKeyAuthenticationResultListener
+            implements MapView.OpenAPIKeyAuthenticationResultListener
     {
         /**
          * The fragment argument representing the section number for this
@@ -212,11 +213,11 @@ public class TourRegionActivity extends AuthActivity
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_region_road, container, false);
 
-//                    MapView mapView = new MapView(activity);
-//                    mapView.setOpenAPIKeyAuthenticationResultListener(this);
-//
-//                    ViewGroup mapViewContainer = rootView.findViewById(R.id.map_view);
-//                    mapViewContainer.addView(mapView);
+                    MapView mapView = new MapView(activity);
+                    mapView.setOpenAPIKeyAuthenticationResultListener(this);
+
+                    ViewGroup mapViewContainer = rootView.findViewById(R.id.map_view);
+                    mapViewContainer.addView(mapView);
 
                     break;
                 case 3:
@@ -282,11 +283,10 @@ public class TourRegionActivity extends AuthActivity
             return rootView;
         } // onCreateView()
 
-//        @Override
-//        public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) {
-//            Log.d(TAG, "Daum Map API Auth: " + s);
-//        }
-
+        @Override
+        public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) {
+            Log.d(TAG, "Daum Map API Auth: " + s);
+        }
     }
 
     /**
