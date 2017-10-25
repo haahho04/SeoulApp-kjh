@@ -81,7 +81,7 @@ public class TourMainActivity extends GoogleAuthActivity
 
         if (uid != null) {
             Log.d(TAG, uid);
-            ref = database.getReference("members").child(uid);
+            ref = database.getReference("member").child(uid);
         }
     } // onStart()
 
