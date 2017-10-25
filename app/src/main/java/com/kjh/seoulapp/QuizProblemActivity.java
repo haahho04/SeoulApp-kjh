@@ -25,9 +25,11 @@ public class QuizProblemActivity extends AuthActivity
     static final String TAG = "QuizProblemActivity";
     static final int LAST_PROB_NUM = 3;
     static final int END_QUIZ = 1234;
+    static final String REGION_REF = "regionList";
+    static final String PROB_REF = "problemList";
     TextView probView;
     RadioGroup answerGroup;
-    Button btnAnswer, btnNext;
+    Button btnPrev, btnAnswer, btnNext;
     ImageView resultImage;
     int probNum;
     boolean correct;
@@ -42,6 +44,7 @@ public class QuizProblemActivity extends AuthActivity
 
         probView = (TextView) findViewById(R.id.prob_desc);
         answerGroup = (RadioGroup) findViewById(R.id.answer_group);
+        btnNext = (Button) findViewById(R.id.btn_prev);
         btnAnswer = (Button) findViewById(R.id.btn_answer);
         btnNext = (Button) findViewById(R.id.btn_next);
         resultImage = (ImageView) findViewById(R.id.result_image);
@@ -52,7 +55,7 @@ public class QuizProblemActivity extends AuthActivity
         Intent intent = getIntent();
         regionID = intent.getIntExtra("regionID", 1);
 
-        ref = database.getReference("regionData").child(""+regionID).child("problem");
+        ref = database.getReference(REGION_REF).child(""+regionID).child(PROB_REF);
 
         Log.d(TAG, ref.toString());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -61,17 +64,19 @@ public class QuizProblemActivity extends AuthActivity
                 @SuppressWarnings("unchecked")
                 List<ProblemData> value = (List<ProblemData>) dataSnapshot.getValue();
                 Log.d(TAG, "Value is: " + value);
-                // TODO: get data from db
+
+                updateNextProb(); // TODO: stopped at a while.
+                enableLoading(false);
             }
 
             @Override
             public void onCancelled(DatabaseError e) {
                 Log.w(TAG, "Failed to read value.", e.toException());
-                // TODO: cannot get data from db
+                // TODO: error popup message -> return to prev activity
             }
         });
 
-        updateProbContent();
+        enableLoading(true);
     }
 
     @Override
@@ -128,7 +133,7 @@ public class QuizProblemActivity extends AuthActivity
 
     void nextProb()
     {
-        updateProbContent();
+        updateNextProb();
         enableBtnNext(false);
     }
 
@@ -149,7 +154,7 @@ public class QuizProblemActivity extends AuthActivity
         }
     }
 
-    void updateProbContent()
+    void updateNextProb()
     {
         probNum++;
         probView.setText("Q" + probNum + ". 문제");
@@ -174,5 +179,12 @@ public class QuizProblemActivity extends AuthActivity
         {
             // TODO: go to AR Activity with finish()
         }
+    }
+
+    void enableLoading(boolean flag)
+    {
+        btnPrev.setEnabled(flag);
+        btnAnswer.setEnabled(flag);
+        btnNext.setEnabled(flag);
     }
 }

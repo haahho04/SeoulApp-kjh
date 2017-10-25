@@ -2,7 +2,7 @@ package com.kjh.seoulapp.data;
 
 import java.util.List;
 
-public class MemberData
+public class UserData
 {
     public String name;
     public List<Integer> stampList;

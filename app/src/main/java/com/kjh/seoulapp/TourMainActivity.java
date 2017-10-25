@@ -25,7 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.kjh.seoulapp.data.MemberData;
+import com.kjh.seoulapp.data.UserData;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
 
@@ -33,6 +33,7 @@ public class TourMainActivity extends GoogleAuthActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
     private static final String TAG = "TourMainActivity";
+    static final String USER_REF = "user";
 
     private DatabaseReference ref;
 
@@ -85,7 +86,7 @@ public class TourMainActivity extends GoogleAuthActivity
 
         if (uid != null) {
             Log.d(TAG, uid);
-            ref = database.getReference("member").child(uid);
+            ref = database.getReference(USER_REF).child(uid);
         }
     } // onStart()
 
@@ -184,7 +185,7 @@ public class TourMainActivity extends GoogleAuthActivity
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                MemberData value = dataSnapshot.getValue(MemberData.class);
+                UserData value = dataSnapshot.getValue(UserData.class);
                 Log.d(TAG, "Value is: " + value);
             }
 
