@@ -13,6 +13,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.kjh.seoulapp.data.ProblemData;
+
+import java.util.List;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
 
@@ -49,21 +52,22 @@ public class QuizProblemActivity extends AuthActivity
         Intent intent = getIntent();
         regionID = intent.getIntExtra("regionID", 1);
 
-        ref = database.getReference("regionData").child("region" + regionID);
+        ref = database.getReference("regionData").child(""+regionID).child("problem");
 
         Log.d(TAG, ref.toString());
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                RegionData value = dataSnapshot.getValue(RegionData.class);
-//                Log.d(TAG, "Value is: " + value);
-                // TODO: UI Update
+                @SuppressWarnings("unchecked")
+                List<ProblemData> value = (List<ProblemData>) dataSnapshot.getValue();
+                Log.d(TAG, "Value is: " + value);
+                // TODO: get data from db
             }
 
             @Override
             public void onCancelled(DatabaseError e) {
                 Log.w(TAG, "Failed to read value.", e.toException());
-                // TODO: UI Update
+                // TODO: cannot get data from db
             }
         });
 
