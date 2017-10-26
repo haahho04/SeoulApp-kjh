@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
@@ -48,13 +49,16 @@ public class TourRegionActivity extends AuthActivity
 	static final int ROAD_TAB = 2;
 	static final int QUIZ_START_TAB = 3;
 
-	private SectionsPagerAdapter mSectionsPagerAdapter;
-	private ViewPager mViewPager;
+	// static PlaceholderFragment class에서 access하기 위하여 static declaration
+	static Button quizStart;
+	static ViewFlipper flipper;
+	static ToggleButton toggleFlipping;
+
+	SectionsPagerAdapter mSectionsPagerAdapter;
+	ViewPager mViewPager;
 	DatabaseReference ref;
 	String inputData;
-	public ViewFlipper flipper;
-	public ToggleButton toggleFlipping;
-	public String infoContent;
+	String infoContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -66,7 +70,6 @@ public class TourRegionActivity extends AuthActivity
 		setSupportActionBar(toolbar);
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-		flipper = (ViewFlipper) findViewById(R.id.ViewFlipperID);
 
        /*for(int num1=0 ; num1 < 2 ; num1++){
             ImageView img = new ImageView(this);
@@ -82,7 +85,6 @@ public class TourRegionActivity extends AuthActivity
 */
 
         /*
-        toggleFlipping=(ToggleButton)findViewById(R.id.toggle_auto);
 
 
 
@@ -134,6 +136,7 @@ public class TourRegionActivity extends AuthActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
                 infoContent = cultural.content; // 유적지 설명
+				QuizProblemActivity.probList.clear();
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro1, cultural.ans1));
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro2, cultural.ans2));
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
@@ -145,7 +148,7 @@ public class TourRegionActivity extends AuthActivity
             @Override
             public void onCancelled(DatabaseError e) {
                 Log.w(TAG, "Failed to read value.", e.toException());
-                // TODO
+                // TODO: 네트워크가 불안정하여 퀴즈진행이 불가능합니다.
             }
         });
     }
@@ -201,6 +204,7 @@ public class TourRegionActivity extends AuthActivity
         {
             case R.id.quiz_start:
                 Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
+				// TODO:
                 startActivity(intent);
                 break;
             case R.id.flipper_pre:
@@ -236,6 +240,8 @@ public class TourRegionActivity extends AuthActivity
 			{
 				case INFO_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
+					flipper = rootView.findViewById(R.id.ViewFlipperID);
+					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
 					break;
 				case ROAD_TAB:
 					//////////////////////////////////////////////////////////////////////
@@ -274,6 +280,12 @@ public class TourRegionActivity extends AuthActivity
 
 				case QUIZ_START_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
+					quizStart = rootView.findViewById(R.id.quiz_start);
+					int size = QuizProblemActivity.probList.size();
+					if(size == 0)
+						quizStart.setEnabled(false);
+					else
+						quizStart.setEnabled(true);
 
 					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
 					logView.setText("GPS 가 잡혀야 좌표가 구해짐");

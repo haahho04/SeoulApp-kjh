@@ -49,6 +49,8 @@ public class QuizProblemActivity extends AuthActivity
         probNum = 0;
         correctCnt = 0;
 
+        btnPrev.setEnabled(false);
+
 		updateNextProb();
     }
 
