@@ -13,7 +13,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -54,8 +54,6 @@ public class TourRegionActivity extends AuthActivity
 	static ViewFlipper flipper;
 	static ToggleButton toggleFlipping;
 
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	ViewPager mViewPager;
 	DatabaseReference ref;
 	String inputData;
 	String infoContent;
@@ -63,13 +61,16 @@ public class TourRegionActivity extends AuthActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		/* auto-generated code */
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tour_region);
-
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+		SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+		tabLayout.setupWithViewPager(mViewPager);
 
        /*for(int num1=0 ; num1 < 2 ; num1++){
             ImageView img = new ImageView(this);
@@ -100,35 +101,27 @@ public class TourRegionActivity extends AuthActivity
             }
         });
 */
-		mViewPager = (ViewPager) findViewById(R.id.container);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-		tabLayout.setupWithViewPager(mViewPager);
-
-		// check permission gps & internet
-		boolean permissionFlag = true;
-
+		/* check gps permissions */
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
-			permissionFlag = false;
+			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, GPS_PERMISSION_REQUEST);
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
-			permissionFlag = false;
+			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GPS_PERMISSION_REQUEST);
 
-		if (!permissionFlag)
-			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, GPS_PERMISSION_REQUEST);
-
+		/* init members */
 		inputData = TourMainActivity.regionFlag;
 		ref = database.getReference("cultural").child(inputData);
+		infoContent = "infoContent";
 	}
 
     @Override
     public void onStart()
     {
         super.onStart();
-        printMemberData();
+        loadCulturalData();
     } // onStart()
 
-    void printMemberData()
+    void loadCulturalData()
     {
         Log.v(TAG, ref.toString());
         ref.addValueEventListener(new ValueEventListener() {
@@ -298,8 +291,8 @@ public class TourRegionActivity extends AuthActivity
 					// 네트워크 프로바이더 사용가능여부
 					boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-					Log.d("Main", "isGPSEnabled=" + isGPSEnabled);
-					Log.d("Main", "isNetworkEnabled=" + isNetworkEnabled);
+					Log.d(TAG, "isGPSEnabled=" + isGPSEnabled);
+					Log.d(TAG, "isNetworkEnabled=" + isNetworkEnabled);
 
 					LocationListener locationListener = new LocationListener()
 					{
@@ -328,7 +321,7 @@ public class TourRegionActivity extends AuthActivity
 						{
 							double lng = lastKnownLocation.getLatitude();
 							double lat = lastKnownLocation.getLatitude();
-							Log.d("Main", "longtitude=" + lng + ", latitude=" + lat);
+							Log.d(TAG, "longtitude=" + lng + ", latitude=" + lat);
 						}
 					}
 					break;
@@ -340,12 +333,17 @@ public class TourRegionActivity extends AuthActivity
 		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) { Log.d(TAG, "Daum Map API Auth: " + s); }
 	}
 
-	public class SectionsPagerAdapter extends FragmentPagerAdapter
+	public class SectionsPagerAdapter extends FragmentStatePagerAdapter
 	{
 		public SectionsPagerAdapter(FragmentManager fm) { super(fm); }
 
+		// getItem() -> newInstance() -> onCreateView()
 		@Override
-		public Fragment getItem(int position) { return PlaceholderFragment.newInstance(position + 1); }
+		public Fragment getItem(int position)
+		{
+			Log.d(TAG, "getItem() " + (position + 1));
+			return PlaceholderFragment.newInstance(position + 1);
+		}
 
 		@Override
 		public int getCount() { return 3; }
@@ -353,13 +351,13 @@ public class TourRegionActivity extends AuthActivity
 		@Override
 		public CharSequence getPageTitle(int position)
 		{
-			switch (position)
+			switch (position + 1)
 			{
-				case 0:
+				case INFO_TAB:
 					return "유적지 설명";
-				case 1:
+				case ROAD_TAB:
 					return "가는 길";
-				case 2:
+				case QUIZ_START_TAB:
 					return "문제풀이 & 스탬프 얻기";
 				default:
 					return null;
