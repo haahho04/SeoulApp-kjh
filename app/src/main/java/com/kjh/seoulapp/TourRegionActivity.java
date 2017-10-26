@@ -1,12 +1,19 @@
 package com.kjh.seoulapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +21,37 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterViewFlipper;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import android.widget.ImageView;
+import android.widget.BaseAdapter;
+import android.widget.ViewFlipper;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 //import net.daum.mf.map.api.MapView;
 
 public class TourRegionActivity extends AuthActivity
         implements View.OnClickListener
 {
+    private static final String TAG = "TourRegionActivity";
+    String inputdata =  TourMainActivity.regionflag;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference ref = database.getReference("cultural").child(inputdata);
+
+
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -35,11 +67,47 @@ public class TourRegionActivity extends AuthActivity
      */
     private ViewPager mViewPager;
 
+
+    public ViewFlipper flipper;
+    public ToggleButton toggle_flipping;
+
+    public String info_content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_region);
 
+       /*for(int num1=0 ; num1 < 2 ; num1++){
+            ImageView img = new ImageView(this);
+            img.setImageResource(R.drawable.t4+num1);
+            flipper.addView(img);
+        }
+
+        Animation showIn= AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
+
+        flipper.setInAnimation(showIn);
+
+        flipper.setOutAnimation(this, android.R.anim.slide_out_right);
+*/
+
+        /*
+        toggle_flipping=(ToggleButton)findViewById(R.id.toggle_auto);
+
+
+
+        toggle_flipping.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    flipper.setFlipInterval(2000);
+                    flipper.startFlipping();
+                }else{
+                    flipper.stopFlipping();
+                }
+            }
+        });
+*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -52,6 +120,37 @@ public class TourRegionActivity extends AuthActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+/*
+        TextView info_textview = (TextView) findViewById(R.id.infotext);
+        info_textview.setText(info_content);
+*/
+    }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        printMemberData();
+    } // onStart()
+
+    void printMemberData()
+    {
+        Log.v(TAG, ref.toString());
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                CulturalData value = dataSnapshot.getValue(CulturalData.class);
+                info_content = value.getContent();
+                Log.d(TAG, "Value is: " + value);
+                // TODO
+            }
+
+            @Override
+            public void onCancelled(DatabaseError e) {
+                Log.w(TAG, "Failed to read value.", e.toException());
+                // TODO
+            }
+        });
     }
 
     @Override
@@ -79,11 +178,19 @@ public class TourRegionActivity extends AuthActivity
     @Override
     public void onClick(View v)
     {
+        flipper = (ViewFlipper) findViewById(R.id.ViewFlipperID);
         switch(v.getId())
         {
             case R.id.quiz_start:
                 Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
+
                 startActivity(intent);
+                break;
+            case R.id.flipper_pre:
+                flipper.showPrevious();
+                break;
+            case R.id.flipper_next:
+                flipper.showNext();
                 break;
         }
     }
@@ -94,6 +201,10 @@ public class TourRegionActivity extends AuthActivity
     public static class PlaceholderFragment extends Fragment
         //implements MapView.OpenAPIKeyAuthenticationResultListener
     {
+
+        ViewFlipper flipper;
+        ToggleButton toggle_flipping;
+
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -188,4 +299,5 @@ public class TourRegionActivity extends AuthActivity
             return null;
         }
     }
+
 }

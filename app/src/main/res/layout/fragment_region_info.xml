@@ -13,7 +13,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.0">
+<!--
 
         <ImageView
             android:id="@+id/imageView3"
@@ -24,9 +27,59 @@
             app:srcCompat="@drawable/side_nav_bar"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />
+-->
+
+        <ViewFlipper
+            android:id="@+id/ViewFlipperID"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="50"
+            android:flipInterval="1500">
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/t1"/>
+            <ImageView
+                android:id="@+id/img2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/t2"/>
+            <ImageView
+                android:id="@+id/img3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/t3"/>
+
+        </ViewFlipper>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <Button
+                android:id="@+id/flipper_pre"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="PRE"
+                android:onClick="onClick"/>
+
+            <ToggleButton
+                android:id="@+id/toggle_auto"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="AUTO" />
+
+            <Button
+                android:id="@+id/flipper_next"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:text="NEXT"
+                android:onClick="onClick"/>
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/infotext"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
