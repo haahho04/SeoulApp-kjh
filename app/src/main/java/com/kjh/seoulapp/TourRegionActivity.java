@@ -35,42 +35,54 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
 import com.kjh.seoulapp.data.ProblemData;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapView;
 
 public class TourRegionActivity extends AuthActivity
-        implements View.OnClickListener
+		implements View.OnClickListener
 {
     private static final String TAG = "TourRegionActivity";
     static final int GPS_PERMISSION_REQUEST = 1235;
-    String inputdata;
+	static final int INFO_TAB = 1;
+	static final int ROAD_TAB = 2;
+	static final int QUIZ_START_TAB = 3;
+	String inputdata;
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+	/**
+	 * The {@link android.support.v4.view.PagerAdapter} that will provide
+	 * fragments for each of the sections. We use a
+	 * {@link FragmentPagerAdapter} derivative, which will keep every
+	 * loaded fragment in memory. If this becomes too memory intensive, it
+	 * may be best to switch to a
+	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+	 */
+	private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-    int regionID;
-    DatabaseReference ref;
+	/**
+	 * The {@link ViewPager} that will host the section contents.
+	 */
+	private ViewPager mViewPager;
+	DatabaseReference ref;
 
+	public ViewFlipper flipper;
+	public ToggleButton toggle_flipping;
 
-    public ViewFlipper flipper;
-    public ToggleButton toggle_flipping;
+	public String info_content;
 
-    public String info_content;
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_tour_region);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tour_region);
+		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		// Create the adapter that will return a fragment for each of the three
+		// primary sections of the activity.
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
+		// 뭐임 이거?
        /*for(int num1=0 ; num1 < 2 ; num1++){
             ImageView img = new ImageView(this);
             img.setImageResource(R.drawable.t4+num1);
@@ -101,57 +113,46 @@ public class TourRegionActivity extends AuthActivity
             }
         });
 */
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		// Set up the ViewPager with the sections adapter.
+		mViewPager = (ViewPager) findViewById(R.id.container);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+		tabLayout.setupWithViewPager(mViewPager);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+		// check permission gps & internet
+		boolean flag = true;
 
-        // check permission gps & internet
-        boolean flag = true;
-
-        if (ContextCompat.checkSelfPermission(TourRegionActivity.this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
-        {
-            flag = false;
-        }
-        if (ContextCompat.checkSelfPermission(TourRegionActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
-        {
-            Log.d("PERMISSION_DENIED", "ACCESS_FINE_LOCATION");
-            flag = false;
-        }
+		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
+		{
+			flag = false;
+		}
+		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
+		{
+			Log.d("PERMISSION_DENIED", "ACCESS_FINE_LOCATION");
+			flag = false;
+		}
 //        if (ContextCompat.checkSelfPermission(TourRegionActivity.this,
 //                Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED) {
 //            Log.d("PERMISSION_DENIED", "INTERNET");
 //            flag = false;
 //        }
 
-        if (!flag) {
+		if (!flag)
+		{
 
-            // ask permissions here using below code
-            ActivityCompat.requestPermissions(TourRegionActivity.this,
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
-                    GPS_PERMISSION_REQUEST);
-        }
+			// ask permissions here using below code
+			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, GPS_PERMISSION_REQUEST);
+		}
 
-        Intent intent = getIntent();
-        regionID = intent.getIntExtra("regionID", 1);
-
-        inputdata =  TourMainActivity.regionflag;
-        ref = database.getReference("cultural").child(inputdata);
+		inputdata = TourMainActivity.regionflag;
+		ref = database.getReference("cultural").child(inputdata);
 /*
         TextView info_textview = (TextView) findViewById(R.id.infotext);
         info_textview.setText(info_content);
 */
-    }
+	}
+
     @Override
     public void onStart()
     {
@@ -183,59 +184,61 @@ public class TourRegionActivity extends AuthActivity
         });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults)
-    {
-        switch (requestCode) {
-            case GPS_PERMISSION_REQUEST:
-            {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0)
-                {
-                    for (int i=0;i<grantResults.length;i++)
-                    {
-                        if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
-                        {
-                            // permission was granted, yay! Do the
-                            // contacts-related task you need to do.
-                        }
-                        else
-                        {
-                            // permission denied, boo! Disable the
-                            // functionality that depends on this permission.
-                        }
-                    }
-                }
-                break;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+	{
+		switch (requestCode)
+		{
+			case GPS_PERMISSION_REQUEST:
+			{
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0)
+				{
+					for (int i = 0; i < grantResults.length; i++)
+					{
+						if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
+						{
+							// permission was granted, yay! Do the
+							// contacts-related task you need to do.
+						} else
+						{
+							// permission denied, boo! Disable the
+							// functionality that depends on this permission.
+						}
+					}
+				}
+				break;
+			}
+			// other 'case' lines to check for other
+			// permissions this app might request
 
-        } // switch()
-    } // onRequestPermissionsResult()
+		} // switch()
+	} // onRequestPermissionsResult()
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.menu_search, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.action_search)
+		{
+			return true;
+		}
 
-        return super.onOptionsItemSelected(item);
-    }
+		return super.onOptionsItemSelected(item);
+	}
 
     @Override
     public void onClick(View v)
@@ -245,7 +248,6 @@ public class TourRegionActivity extends AuthActivity
         {
             case R.id.quiz_start:
                 Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
-                intent.putExtra("regionID", regionID);
                 startActivity(intent);
                 break;
             case R.id.flipper_pre:
@@ -257,165 +259,199 @@ public class TourRegionActivity extends AuthActivity
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment
-            //implements MapView.OpenAPIKeyAuthenticationResultListener
-    {
-
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment implements MapView.OpenAPIKeyAuthenticationResultListener
+	{
+		/**
+		 * The fragment argument representing the section number for this
+		 * fragment.
+		 */
+		private static final String ARG_SECTION_NUMBER = "section_number";
         ViewFlipper flipper;
         ToggleButton toggle_flipping;
 
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+		public PlaceholderFragment()
+		{
+		}
 
-        public PlaceholderFragment() {
-        }
+		/**
+		 * Returns a new instance of this fragment for the given section
+		 * number.
+		 */
+		public static PlaceholderFragment newInstance(int sectionNumber)
+		{
+			PlaceholderFragment fragment = new PlaceholderFragment();
+			Bundle args = new Bundle();
+			args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+			fragment.setArguments(args);
+			return fragment;
+		}
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+		{
+			Activity activity = getActivity();
+			int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
+			View rootView = null;
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState)
-        {
-            Activity activity = getActivity();
-            int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-            View rootView = null;
+			switch (sectionNumber)
+			{
+				case INFO_TAB:
+					rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
+					break;
+				case ROAD_TAB:
 
-            switch(sectionNumber)
-            {
-                case 1:
-                    rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
-                    break;
-                case 2:
-                    rootView = inflater.inflate(R.layout.fragment_region_road, container, false);
+					//////////////////////////////////////////////////////////////////////
+					//					Road Tab with Daum Map API begin				//
+					//////////////////////////////////////////////////////////////////////
 
-//                    MapView mapView = new MapView(activity);
-//                    mapView.setOpenAPIKeyAuthenticationResultListener(this);
-//
-//                    ViewGroup mapViewContainer = rootView.findViewById(R.id.map_view);
-//                    mapViewContainer.addView(mapView);
+					rootView = inflater.inflate(R.layout.fragment_region_road, container, false);
 
-                    break;
-                case 3:
-                    rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
+					MapView mapView = new MapView(activity);
+					mapView.setOpenAPIKeyAuthenticationResultListener(this);
 
-                    final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
-                    logView.setText("GPS 가 잡혀야 좌표가 구해짐");
+					Location region = new Location("region");
+					region.setLatitude(37.581812);
+					region.setLongitude(126.992723);
+					Location myLoc = new Location("myLoc");
+					myLoc.setLatitude(37.586577);
+					myLoc.setLongitude(126.989258);
+					Log.d(TAG, "distance: " + myLoc.distanceTo(region)); // 611.0321
 
-                    // Acquire a reference to the system Location Manager
-                    LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+					MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(region.getLatitude(), region.getLongitude());
+					mapView.setMapCenterPointAndZoomLevel(mapPoint, 2, true);
+					MapPOIItem marker = new MapPOIItem();
+					marker.setItemName("Default Marker");
+					marker.setTag(0);
+					marker.setMapPoint(mapPoint);
+					marker.setMarkerType(MapPOIItem.MarkerType.BluePin); // 기본으로 제공하는 BluePin 마커 모양.
+					marker.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin); // 마커를 클릭했을때, 기본으로 제공하는 RedPin 마커 모양.
 
-                    // GPS 프로바이더 사용가능여부
-                    boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                    // 네트워크 프로바이더 사용가능여부
-                    boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+					mapView.addPOIItem(marker);
 
-                    Log.d("Main", "isGPSEnabled="+ isGPSEnabled);
-                    Log.d("Main", "isNetworkEnabled="+ isNetworkEnabled);
+					ViewGroup mapViewContainer = rootView.findViewById(R.id.map_view);
+					mapViewContainer.addView(mapView);
+					break;
 
-                    LocationListener locationListener = new LocationListener() {
-                        public void onLocationChanged(Location location) {
-                            double lat = location.getLatitude();
-                            double lng = location.getLongitude();
+					//////////////////////////////////////////////////////////////////////
+					//					Road Tab with Daum Map API end					//
+					//////////////////////////////////////////////////////////////////////
 
-                            logView.setText("latitude: "+ lat +", longitude: "+ lng);
-                        }
+				case QUIZ_START_TAB:
+					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 
-                        public void onStatusChanged(String provider, int status, Bundle extras) {
-                            logView.setText("onStatusChanged");
-                        }
+					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
+					logView.setText("GPS 가 잡혀야 좌표가 구해짐");
 
-                        public void onProviderEnabled(String provider) {
-                            logView.setText("onProviderEnabled");
-                        }
+					// Acquire a reference to the system Location Manager
+					LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
-                        public void onProviderDisabled(String provider) {
-                            logView.setText("onProviderDisabled");
-                        }
-                    };
+					// GPS 프로바이더 사용가능여부
+					boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+					// 네트워크 프로바이더 사용가능여부
+					boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+					Log.d("Main", "isGPSEnabled=" + isGPSEnabled);
+					Log.d("Main", "isNetworkEnabled=" + isNetworkEnabled);
+
+					LocationListener locationListener = new LocationListener()
+					{
+						public void onLocationChanged(Location location)
+						{
+							double lat = location.getLatitude();
+							double lng = location.getLongitude();
+
+							logView.setText("latitude: " + lat + ", longitude: " + lng);
+						}
+
+						public void onStatusChanged(String provider, int status, Bundle extras)
+						{
+							logView.setText("onStatusChanged");
+						}
+
+						public void onProviderEnabled(String provider)
+						{
+							logView.setText("onProviderEnabled");
+						}
+
+						public void onProviderDisabled(String provider)
+						{
+							logView.setText("onProviderDisabled");
+						}
+					};
 
 
-                    if (ContextCompat.checkSelfPermission(activity,
-                            Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-                            ContextCompat.checkSelfPermission(activity,
-                                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                    {
-                        // Register the listener with the Location Manager to receive location updates
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+					if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+					{
+						// Register the listener with the Location Manager to receive location updates
+						locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+						locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
-                        // 수동으로 위치 구하기
-                        String locationProvider = LocationManager.GPS_PROVIDER;
-                        Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-                        if (lastKnownLocation != null) {
-                            double lng = lastKnownLocation.getLatitude();
-                            double lat = lastKnownLocation.getLatitude();
-                            Log.d("Main", "longtitude=" + lng + ", latitude=" + lat);
-                        }
-                    }
-                    break;
-            }
+						// 수동으로 위치 구하기
+						String locationProvider = LocationManager.GPS_PROVIDER;
+						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+						if (lastKnownLocation != null)
+						{
+							double lng = lastKnownLocation.getLatitude();
+							double lat = lastKnownLocation.getLatitude();
+							Log.d("Main", "longtitude=" + lng + ", latitude=" + lat);
+						}
+					}
+					break;
+			}
 
-            return rootView;
-        } // onCreateView()
+			return rootView;
+		} // onCreateView()
 
-//        @Override
-//        public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) {
-//            Log.d(TAG, "Daum Map API Auth: " + s);
-//        }
+		@Override
+		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s)
+		{
+			Log.d(TAG, "Daum Map API Auth: " + s);
+		}
+	}
 
-    }
+	/**
+	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+	 * one of the sections/tabs/pages.
+	 */
+	public class SectionsPagerAdapter extends FragmentPagerAdapter
+	{
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+		public SectionsPagerAdapter(FragmentManager fm)
+		{
+			super(fm);
+		}
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+		@Override
+		public Fragment getItem(int position)
+		{
+			// getItem is called to instantiate the fragment for the given page.
+			// Return a PlaceholderFragment (defined as a static inner class below).
+			return PlaceholderFragment.newInstance(position + 1);
+		}
 
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
+		@Override
+		public int getCount()
+		{
+			// Show 3 total pages.
+			return 3;
+		}
 
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "유적지 설명";
-                case 1:
-                    return "가는 길";
-                case 2:
-                    return "문제풀이 & 스탬프 얻기";
-            }
-            return null;
-        }
-    }
-
+		@Override
+		public CharSequence getPageTitle(int position)
+		{
+			switch (position)
+			{
+				case 0:
+					return "유적지 설명";
+				case 1:
+					return "가는 길";
+				case 2:
+					return "문제풀이 & 스탬프 얻기";
+			}
+			return null;
+		}
+	}
 }
