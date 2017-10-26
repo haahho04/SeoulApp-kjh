@@ -31,6 +31,17 @@
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp" />
 
+<!--        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="65dp"
+            android:text="@string/loading"
+            android:textAlignment="center"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />-->
+
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

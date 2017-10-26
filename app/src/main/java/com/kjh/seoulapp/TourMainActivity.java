@@ -37,6 +37,7 @@ public class TourMainActivity extends GoogleAuthActivity
 
     private DatabaseReference ref;
 
+    static String regionflag = "0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,7 +170,8 @@ public class TourMainActivity extends GoogleAuthActivity
 
         switch(id)
         {
-            case R.id.btn_answer:
+            case R.id.btn_next:
+                regionflag = "1";
                 Intent intent = new Intent(this, TourRegionActivity.class);
                 startActivity(intent);
                 break;
