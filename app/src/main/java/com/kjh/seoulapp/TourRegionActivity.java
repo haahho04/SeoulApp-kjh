@@ -1,16 +1,9 @@
 package com.kjh.seoulapp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,24 +26,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.AdapterViewFlipper;
-import android.widget.CompoundButton;
-import android.widget.TextView;
+
 import android.widget.ToggleButton;
-import android.widget.ImageView;
-import android.widget.BaseAdapter;
 import android.widget.ViewFlipper;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
+import com.kjh.seoulapp.data.CulturalData;
+import com.kjh.seoulapp.data.ProblemData;
 
 public class TourRegionActivity extends AuthActivity
         implements View.OnClickListener
@@ -182,9 +165,13 @@ public class TourRegionActivity extends AuthActivity
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                CulturalData value = dataSnapshot.getValue(CulturalData.class);
-                info_content = value.getContent();
-                Log.d(TAG, "Value is: " + value);
+                CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
+                info_content = cultural.content; // 유적지 설명
+				QuizProblemActivity.probList.add(new ProblemData(cultural.pro1, cultural.ans1));
+				QuizProblemActivity.probList.add(new ProblemData(cultural.pro2, cultural.ans2));
+				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
+                Log.d(TAG, "Value is: " + cultural);
+				Log.d(TAG, "probList: " + QuizProblemActivity.probList);
                 // TODO
             }
 

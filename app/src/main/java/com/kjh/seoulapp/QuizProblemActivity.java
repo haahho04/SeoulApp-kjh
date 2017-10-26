@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.ProblemData;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
@@ -25,17 +26,14 @@ public class QuizProblemActivity extends AuthActivity
     static final String TAG = "QuizProblemActivity";
     static final int LAST_PROB_NUM = 3;
     static final int END_QUIZ = 1234;
-    static final String REGION_REF = "regionList";
-    static final String PROB_REF = "problemList";
+    static List<ProblemData> probList = new ArrayList<>();
     TextView probView;
     RadioGroup answerGroup;
     Button btnPrev, btnAnswer, btnNext;
     ImageView resultImage;
     int probNum;
-    boolean correct;
     int correctCnt;
-    int regionID;
-    DatabaseReference ref;
+	ProblemData nowProb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,39 +42,14 @@ public class QuizProblemActivity extends AuthActivity
 
         probView = (TextView) findViewById(R.id.prob_desc);
         answerGroup = (RadioGroup) findViewById(R.id.answer_group);
-        btnNext = (Button) findViewById(R.id.btn_prev);
+        btnPrev = (Button) findViewById(R.id.btn_prev);
         btnAnswer = (Button) findViewById(R.id.btn_answer);
         btnNext = (Button) findViewById(R.id.btn_next);
         resultImage = (ImageView) findViewById(R.id.result_image);
         probNum = 0;
-        correct = true;
         correctCnt = 0;
 
-        Intent intent = getIntent();
-        regionID = intent.getIntExtra("regionID", 1);
-
-        ref = database.getReference(REGION_REF).child(""+regionID).child(PROB_REF);
-
-        Log.d(TAG, ref.toString());
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                @SuppressWarnings("unchecked")
-                List<ProblemData> value = (List<ProblemData>) dataSnapshot.getValue();
-                Log.d(TAG, "Value is: " + value);
-
-                updateNextProb(); // TODO: stopped at a while.
-                enableLoading(false);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError e) {
-                Log.w(TAG, "Failed to read value.", e.toException());
-                // TODO: error popup message -> return to prev activity
-            }
-        });
-
-        enableLoading(true);
+		updateNextProb();
     }
 
     @Override
@@ -93,7 +66,7 @@ public class QuizProblemActivity extends AuthActivity
                 answerProb();
                 break;
             case R.id.btn_next:
-                if (probNum < LAST_PROB_NUM) nextProb();
+                if (probNum <= LAST_PROB_NUM - 1) nextProb();
                 else endQuiz();
                 break;
         }
@@ -107,6 +80,8 @@ public class QuizProblemActivity extends AuthActivity
     void answerProb()
     {
         int btn_checked = answerGroup.getCheckedRadioButtonId();
+
+		boolean correct = nowProb.answer;
 
         if (btn_checked == -1)
         {
@@ -156,10 +131,11 @@ public class QuizProblemActivity extends AuthActivity
 
     void updateNextProb()
     {
-        probNum++;
-        probView.setText("Q" + probNum + ". 문제");
+		nowProb = probList.get(probNum);
+		probNum++;
+        probView.setText("Q" + (probNum) + ". " + nowProb.description);
 
-        if (probNum == LAST_PROB_NUM)
+        if (probNum == LAST_PROB_NUM - 1)
             btnNext.setText("최종 제출");
     }
 
@@ -179,12 +155,5 @@ public class QuizProblemActivity extends AuthActivity
         {
             // TODO: go to AR Activity with finish()
         }
-    }
-
-    void enableLoading(boolean flag)
-    {
-        btnPrev.setEnabled(flag);
-        btnAnswer.setEnabled(flag);
-        btnNext.setEnabled(flag);
     }
 }
