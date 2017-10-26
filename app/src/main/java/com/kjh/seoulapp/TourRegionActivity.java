@@ -47,28 +47,14 @@ public class TourRegionActivity extends AuthActivity
 	static final int INFO_TAB = 1;
 	static final int ROAD_TAB = 2;
 	static final int QUIZ_START_TAB = 3;
-	String inputdata;
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link FragmentPagerAdapter} derivative, which will keep every
-	 * loaded fragment in memory. If this becomes too memory intensive, it
-	 * may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
 	private SectionsPagerAdapter mSectionsPagerAdapter;
-
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	private ViewPager mViewPager;
 	DatabaseReference ref;
-
+	String inputData;
 	public ViewFlipper flipper;
-	public ToggleButton toggle_flipping;
-
-	public String info_content;
+	public ToggleButton toggleFlipping;
+	public String infoContent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -78,11 +64,10 @@ public class TourRegionActivity extends AuthActivity
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-		// 뭐임 이거?
+		flipper = (ViewFlipper) findViewById(R.id.ViewFlipperID);
+
        /*for(int num1=0 ; num1 < 2 ; num1++){
             ImageView img = new ImageView(this);
             img.setImageResource(R.drawable.t4+num1);
@@ -97,11 +82,11 @@ public class TourRegionActivity extends AuthActivity
 */
 
         /*
-        toggle_flipping=(ToggleButton)findViewById(R.id.toggle_auto);
+        toggleFlipping=(ToggleButton)findViewById(R.id.toggle_auto);
 
 
 
-        toggle_flipping.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        toggleFlipping.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
@@ -113,7 +98,6 @@ public class TourRegionActivity extends AuthActivity
             }
         });
 */
-		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.container);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -121,36 +105,18 @@ public class TourRegionActivity extends AuthActivity
 		tabLayout.setupWithViewPager(mViewPager);
 
 		// check permission gps & internet
-		boolean flag = true;
+		boolean permissionFlag = true;
 
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
-		{
-			flag = false;
-		}
+			permissionFlag = false;
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
-		{
-			Log.d("PERMISSION_DENIED", "ACCESS_FINE_LOCATION");
-			flag = false;
-		}
-//        if (ContextCompat.checkSelfPermission(TourRegionActivity.this,
-//                Manifest.permission.INTERNET) == PackageManager.PERMISSION_DENIED) {
-//            Log.d("PERMISSION_DENIED", "INTERNET");
-//            flag = false;
-//        }
+			permissionFlag = false;
 
-		if (!flag)
-		{
-
-			// ask permissions here using below code
+		if (!permissionFlag)
 			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, GPS_PERMISSION_REQUEST);
-		}
 
-		inputdata = TourMainActivity.regionflag;
-		ref = database.getReference("cultural").child(inputdata);
-/*
-        TextView info_textview = (TextView) findViewById(R.id.infotext);
-        info_textview.setText(info_content);
-*/
+		inputData = TourMainActivity.regionFlag;
+		ref = database.getReference("cultural").child(inputData);
 	}
 
     @Override
@@ -167,7 +133,7 @@ public class TourRegionActivity extends AuthActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
-                info_content = cultural.content; // 유적지 설명
+                infoContent = cultural.content; // 유적지 설명
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro1, cultural.ans1));
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro2, cultural.ans2));
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
@@ -191,34 +157,28 @@ public class TourRegionActivity extends AuthActivity
 		{
 			case GPS_PERMISSION_REQUEST:
 			{
-				// If request is cancelled, the result arrays are empty.
 				if (grantResults.length > 0)
 				{
 					for (int i = 0; i < grantResults.length; i++)
 					{
 						if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
 						{
-							// permission was granted, yay! Do the
-							// contacts-related task you need to do.
-						} else
+							// granted
+						}
+						else
 						{
-							// permission denied, boo! Disable the
-							// functionality that depends on this permission.
+							// permission denied
 						}
 					}
 				}
 				break;
 			}
-			// other 'case' lines to check for other
-			// permissions this app might request
-
 		} // switch()
 	} // onRequestPermissionsResult()
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_search, menu);
 		return true;
 	}
@@ -226,16 +186,10 @@ public class TourRegionActivity extends AuthActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
-		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_search)
-		{
 			return true;
-		}
 
 		return super.onOptionsItemSelected(item);
 	}
@@ -243,7 +197,6 @@ public class TourRegionActivity extends AuthActivity
     @Override
     public void onClick(View v)
     {
-        flipper = (ViewFlipper) findViewById(R.id.ViewFlipperID);
         switch(v.getId())
         {
             case R.id.quiz_start:
@@ -259,27 +212,10 @@ public class TourRegionActivity extends AuthActivity
         }
     }
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
 	public static class PlaceholderFragment extends Fragment implements MapView.OpenAPIKeyAuthenticationResultListener
 	{
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
 		private static final String ARG_SECTION_NUMBER = "section_number";
-        ViewFlipper flipper;
-        ToggleButton toggle_flipping;
 
-		public PlaceholderFragment()
-		{
-		}
-
-		/**
-		 * Returns a new instance of this fragment for the given section
-		 * number.
-		 */
 		public static PlaceholderFragment newInstance(int sectionNumber)
 		{
 			PlaceholderFragment fragment = new PlaceholderFragment();
@@ -302,11 +238,9 @@ public class TourRegionActivity extends AuthActivity
 					rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
 					break;
 				case ROAD_TAB:
-
 					//////////////////////////////////////////////////////////////////////
 					//					Road Tab with Daum Map API begin				//
 					//////////////////////////////////////////////////////////////////////
-
 					rootView = inflater.inflate(R.layout.fragment_region_road, container, false);
 
 					MapView mapView = new MapView(activity);
@@ -334,7 +268,6 @@ public class TourRegionActivity extends AuthActivity
 					ViewGroup mapViewContainer = rootView.findViewById(R.id.map_view);
 					mapViewContainer.addView(mapView);
 					break;
-
 					//////////////////////////////////////////////////////////////////////
 					//					Road Tab with Daum Map API end					//
 					//////////////////////////////////////////////////////////////////////
@@ -365,23 +298,10 @@ public class TourRegionActivity extends AuthActivity
 
 							logView.setText("latitude: " + lat + ", longitude: " + lng);
 						}
-
-						public void onStatusChanged(String provider, int status, Bundle extras)
-						{
-							logView.setText("onStatusChanged");
-						}
-
-						public void onProviderEnabled(String provider)
-						{
-							logView.setText("onProviderEnabled");
-						}
-
-						public void onProviderDisabled(String provider)
-						{
-							logView.setText("onProviderDisabled");
-						}
+						public void onStatusChanged(String provider, int status, Bundle extras) { logView.setText("onStatusChanged"); }
+						public void onProviderEnabled(String provider) { logView.setText("onProviderEnabled"); }
+						public void onProviderDisabled(String provider) { logView.setText("onProviderDisabled"); }
 					};
-
 
 					if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
 					{
@@ -401,43 +321,22 @@ public class TourRegionActivity extends AuthActivity
 					}
 					break;
 			}
-
 			return rootView;
 		} // onCreateView()
 
 		@Override
-		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s)
-		{
-			Log.d(TAG, "Daum Map API Auth: " + s);
-		}
+		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) { Log.d(TAG, "Daum Map API Auth: " + s); }
 	}
 
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter
 	{
-
-		public SectionsPagerAdapter(FragmentManager fm)
-		{
-			super(fm);
-		}
+		public SectionsPagerAdapter(FragmentManager fm) { super(fm); }
 
 		@Override
-		public Fragment getItem(int position)
-		{
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class below).
-			return PlaceholderFragment.newInstance(position + 1);
-		}
+		public Fragment getItem(int position) { return PlaceholderFragment.newInstance(position + 1); }
 
 		@Override
-		public int getCount()
-		{
-			// Show 3 total pages.
-			return 3;
-		}
+		public int getCount() { return 3; }
 
 		@Override
 		public CharSequence getPageTitle(int position)
@@ -450,8 +349,9 @@ public class TourRegionActivity extends AuthActivity
 					return "가는 길";
 				case 2:
 					return "문제풀이 & 스탬프 얻기";
+				default:
+					return null;
 			}
-			return null;
 		}
 	}
 }
