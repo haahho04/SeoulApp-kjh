@@ -222,7 +222,7 @@ public class TourRegionActivity extends AuthActivity
                 case 3:
                     rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 
-                    TextView logView = rootView.findViewById(R.id.my_stamp_desc);
+                    final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
                     logView.setText("GPS 가 잡혀야 좌표가 구해짐");
 
                     // Acquire a reference to the system Location Manager
