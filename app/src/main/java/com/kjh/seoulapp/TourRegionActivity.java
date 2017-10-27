@@ -39,7 +39,8 @@ import com.kjh.seoulapp.data.ProblemData;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-import static com.kjh.seoulapp.data.GlobalVariables.*;
+
+import static com.kjh.seoulapp.data.GlobalVariables.database;
 
 public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
@@ -50,7 +51,6 @@ public class TourRegionActivity extends AppCompatActivity
 	static final int INFO_TAB = 1;
 	static final int ROAD_TAB = 2;
 	static final int QUIZ_START_TAB = 3;
-
 
 	// static PlaceholderFragment class에서 access하기 위하여 static declaration
 	static Button quizStart;

@@ -8,7 +8,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -29,9 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.UserData;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
-import static com.kjh.seoulapp.data.GlobalVariables.*;
+import static com.kjh.seoulapp.data.GlobalVariables.database;
+import static com.kjh.seoulapp.data.GlobalVariables.mAuth;
+import static com.kjh.seoulapp.data.GlobalVariables.uid;
+import static com.kjh.seoulapp.data.GlobalVariables.userData;
 
-public class TourMainActivity extends AppCompatActivity
+public class TourMainActivity extends GoogleApiClientActivity
 		implements NavigationView.OnNavigationItemSelectedListener
 {
 	private static final String TAG = "TourMainActivity";
@@ -206,6 +208,7 @@ public class TourMainActivity extends AppCompatActivity
 		mAuth.signOut();
 
 		// Google sign out
+		while(mGoogleApiClient.isConnecting());
 		Log.d(TAG, "isConnected(): " + mGoogleApiClient.isConnected());
 		Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
 		{
