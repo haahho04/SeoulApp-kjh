@@ -2,6 +2,7 @@ package com.kjh.seoulapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ import java.util.List;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
 
-public class QuizProblemActivity extends AuthActivity
+public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
 {
     static final String TAG = "QuizProblemActivity";

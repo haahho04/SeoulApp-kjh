@@ -6,12 +6,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 
 import java.security.MessageDigest;
 
-public class SplashActivity extends AuthActivity
+public class SplashActivity extends AppCompatActivity
 {
     /** 스플래쉬시간(ms)  **/
     private final int SPLASH_DISPLAY_LENGTH = 1500;
@@ -24,9 +25,9 @@ public class SplashActivity extends AuthActivity
         new Handler().postDelayed(new Runnable(){
             @Override
             public void run() {
-                Intent mainIntent = new Intent(SplashActivity.this,SocialLoginActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
-                SplashActivity.this.finish();
+                Intent intent = new Intent(SplashActivity.this,SocialLoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
 

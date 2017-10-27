@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,11 +39,13 @@ import com.kjh.seoulapp.data.ProblemData;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+import static com.kjh.seoulapp.data.GlobalVariables.*;
 
-public class TourRegionActivity extends AuthActivity
+public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
 {
-    private static final String TAG = "TourRegionActivity";
+    static final String TAG = "TourRegionActivity";
+	static final String CULTURAL_REF = "cultural";
     static final int GPS_PERMISSION_REQUEST = 1235;
 	static final int INFO_TAB = 1;
 	static final int ROAD_TAB = 2;
@@ -54,12 +57,8 @@ public class TourRegionActivity extends AuthActivity
 	static ViewFlipper flipper;
 	static ToggleButton toggleFlipping;
 	static TextView infotextview = null;
-
-	DatabaseReference ref;
-	String inputData;
-
-
 	static String infoData;
+	String inputData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -80,23 +79,17 @@ public class TourRegionActivity extends AuthActivity
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 		tabLayout.setupWithViewPager(mViewPager);
 
-       /*for(int num1=0 ; num1 < 2 ; num1++){
+/*
+       for(int num1=0 ; num1 < 2 ; num1++){
             ImageView img = new ImageView(this);
             img.setImageResource(R.drawable.t4+num1);
             flipper.addView(img);
         }
-
         Animation showIn= AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
-
         flipper.setInAnimation(showIn);
-
         flipper.setOutAnimation(this, android.R.anim.slide_out_right);
 */
-
-        /*
-
-
-
+/*
         toggleFlipping.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -118,7 +111,6 @@ public class TourRegionActivity extends AuthActivity
 
 		/* init members */
 		inputData = TourMainActivity.regionFlag;
-		ref = database.getReference("cultural").child(inputData);
 		infoData = "infoContent";
 	}
 
@@ -126,11 +118,12 @@ public class TourRegionActivity extends AuthActivity
     public void onStart()
     {
         super.onStart();
-        loadCulturalData();
+        readCulturalData();
     } // onStart()
 
-    void loadCulturalData()
+    void readCulturalData()
     {
+		DatabaseReference ref = database.getReference(CULTURAL_REF).child(inputData);
         Log.v(TAG, ref.toString());
 		ref.addValueEventListener(new ValueEventListener() {
             @Override
@@ -158,8 +151,7 @@ public class TourRegionActivity extends AuthActivity
                 // TODO: 네트워크가 불안정하여 퀴즈진행이 불가능합니다.
             }
         });
-
-    }
+    } // readCulturalData()
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
