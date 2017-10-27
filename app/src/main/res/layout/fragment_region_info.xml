@@ -86,7 +86,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_weight="50"
-            android:text="유적지 설명이 들어갈 자리입니다."
+            android:text="유적지 설명이 들어갈 자리입니다아아아아아아아아아아아아아."
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
