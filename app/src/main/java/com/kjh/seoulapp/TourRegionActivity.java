@@ -40,6 +40,8 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import org.w3c.dom.Text;
+
 public class TourRegionActivity extends AuthActivity
 		implements View.OnClickListener
 {
@@ -49,22 +51,28 @@ public class TourRegionActivity extends AuthActivity
 	static final int ROAD_TAB = 2;
 	static final int QUIZ_START_TAB = 3;
 
+
 	// static PlaceholderFragment class에서 access하기 위하여 static declaration
 	static Button quizStart;
 	static ViewFlipper flipper;
 	static ToggleButton toggleFlipping;
+	static TextView infotextview = null;
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ViewPager mViewPager;
 	DatabaseReference ref;
 	String inputData;
-	String infoContent;
+
+
+	static String infodata;
+	static boolean dataflag = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tour_region);
+
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -119,23 +127,31 @@ public class TourRegionActivity extends AuthActivity
 
 		inputData = TourMainActivity.regionFlag;
 		ref = database.getReference("cultural").child(inputData);
+
+		printMemberData();
 	}
 
     @Override
     public void onStart()
     {
         super.onStart();
-        printMemberData();
+
     } // onStart()
 
     void printMemberData()
     {
         Log.v(TAG, ref.toString());
-        ref.addValueEventListener(new ValueEventListener() {
+		ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
-                infoContent = cultural.content; // 유적지 설명
+
+				infodata = cultural.content;
+
+				while(infotextview == null);
+				infotextview.setText(cultural.content);
+
 				QuizProblemActivity.probList.clear();
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro1, cultural.ans1));
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro2, cultural.ans2));
@@ -151,6 +167,7 @@ public class TourRegionActivity extends AuthActivity
                 // TODO: 네트워크가 불안정하여 퀴즈진행이 불가능합니다.
             }
         });
+
     }
 
 	@Override
@@ -235,13 +252,19 @@ public class TourRegionActivity extends AuthActivity
 			Activity activity = getActivity();
 			int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
 			View rootView = null;
-
 			switch (sectionNumber)
 			{
 				case INFO_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
 					flipper = rootView.findViewById(R.id.ViewFlipperID);
 					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
+					infotextview = (TextView) rootView.findViewById(R.id.infotext);
+
+					if(dataflag){
+						infotextview.setText(infodata);
+					}
+
+
 					break;
 				case ROAD_TAB:
 					//////////////////////////////////////////////////////////////////////
