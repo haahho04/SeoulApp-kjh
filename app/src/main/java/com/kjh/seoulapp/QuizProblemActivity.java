@@ -10,16 +10,14 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.ProblemData;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
+import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_CORRECT_CNT;
+import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
 
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
@@ -136,7 +134,7 @@ public class QuizProblemActivity extends AppCompatActivity
     {
 		nowProb = probList.get(probNum);
 		probNum++;
-        probView.setText("Q" + (probNum) + ". " + nowProb.description);
+        probView.setText("Q" + probNum + ". " + nowProb.description);
 
         if (probNum == LAST_PROB_NUM - 1)
             btnNext.setText("최종 제출");
@@ -145,7 +143,8 @@ public class QuizProblemActivity extends AppCompatActivity
     void endQuiz()
     {
         Intent intent = new Intent(QuizProblemActivity.this, PopupActivity.class);
-        intent.putExtra("POPUP_TYPE", POPUP_TYPE.END_QUIZ);
+        intent.putExtra(EXTRA_POPUP_TYPE, POPUP_TYPE.END_QUIZ);
+        intent.putExtra(EXTRA_CORRECT_CNT, correctCnt);
         startActivityForResult(intent, END_QUIZ);
     }
 

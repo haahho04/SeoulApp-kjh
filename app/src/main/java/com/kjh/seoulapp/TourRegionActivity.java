@@ -367,5 +367,5 @@ public class TourRegionActivity extends AppCompatActivity
 				default: return null;
 			}
 		}
-	}
-}
+	} // SectionPagerAdapter
+} // TourRegionActivity
