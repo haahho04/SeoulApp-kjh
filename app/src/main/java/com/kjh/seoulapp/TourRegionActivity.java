@@ -25,9 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseReference;
-
 import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
@@ -41,8 +38,6 @@ import com.kjh.seoulapp.data.ProblemData;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
-
-import org.w3c.dom.Text;
 
 public class TourRegionActivity extends AuthActivity
 		implements View.OnClickListener
@@ -64,8 +59,7 @@ public class TourRegionActivity extends AuthActivity
 	String inputData;
 
 
-	static String infodata;
-	static boolean dataflag = false;
+	static String infoData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -144,7 +138,7 @@ public class TourRegionActivity extends AuthActivity
 
                 CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
 
-				infodata = cultural.content;
+				infoData = cultural.content;
 
 				while(infotextview == null);
 				infotextview.setText(cultural.content);
@@ -256,11 +250,6 @@ public class TourRegionActivity extends AuthActivity
 					flipper = rootView.findViewById(R.id.ViewFlipperID);
 					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
 					infotextview = (TextView) rootView.findViewById(R.id.infotext);
-
-					if(dataflag){
-						infotextview.setText(infodata);
-					}
-
 
 					break;
 				case ROAD_TAB:
