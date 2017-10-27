@@ -1,9 +1,9 @@
 package com.kjh.seoulapp;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -25,17 +25,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseReference;
-
 import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
 import com.kjh.seoulapp.data.ProblemData;
+
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -64,11 +63,15 @@ public class TourRegionActivity extends AuthActivity
 		/* auto-generated code */
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tour_region);
+
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
+
 		SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+
 		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 		tabLayout.setupWithViewPager(mViewPager);
 
@@ -353,14 +356,10 @@ public class TourRegionActivity extends AuthActivity
 		{
 			switch (position + 1)
 			{
-				case INFO_TAB:
-					return "유적지 설명";
-				case ROAD_TAB:
-					return "가는 길";
-				case QUIZ_START_TAB:
-					return "문제풀이 & 스탬프 얻기";
-				default:
-					return null;
+				case INFO_TAB: return "유적지 설명";
+				case ROAD_TAB: return "가는 길";
+				case QUIZ_START_TAB: return "문제풀이 & 스탬프 얻기";
+				default: return null;
 			}
 		}
 	}
