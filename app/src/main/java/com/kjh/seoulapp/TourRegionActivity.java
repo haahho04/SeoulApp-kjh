@@ -44,6 +44,7 @@ import net.daum.mf.map.api.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static com.kjh.seoulapp.data.GlobalVariables.database;
 
@@ -63,6 +64,7 @@ public class TourRegionActivity extends AppCompatActivity
 	static ToggleButton toggleFlipping;
 	static TextView infotextview;
 	static String infoData;
+	static ReentrantLock lock;
 	String inputData;
 
 	@Override
@@ -72,6 +74,11 @@ public class TourRegionActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tour_region);
 
+		/* init members */
+		inputData = TourMainActivity.regionFlag;
+		infoData = "infoContent";
+		lock = new ReentrantLock();
+		lock.lock();
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -107,10 +114,6 @@ public class TourRegionActivity extends AppCompatActivity
             }
         });
 */
-
-		/* init members */
-		inputData = TourMainActivity.regionFlag;
-		infoData = "infoContent";
 
 		/* check gps permissions */
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
@@ -158,8 +161,12 @@ public class TourRegionActivity extends AppCompatActivity
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
                 Log.d(TAG, "Value is: " + cultural);
 				Log.d(TAG, "probList: " + QuizProblemActivity.probList);
+
+				lock.lock();
+				Log.d(TAG, "Notice Unlocked");
 				quizStart.setText("퀴즈 시작");
 				quizStart.setEnabled(true);
+				lock.unlock();
             }
 
             @Override
@@ -312,6 +319,8 @@ public class TourRegionActivity extends AppCompatActivity
 				case QUIZ_START_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 					quizStart = rootView.findViewById(R.id.quiz_start);
+					lock.unlock();
+					Log.d(TAG, "unlocked");
 					int size = QuizProblemActivity.probList.size();
 					if(size == 0)
 					{
