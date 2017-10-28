@@ -249,9 +249,14 @@ public class TourRegionActivity extends AppCompatActivity
 			{
 				case INFO_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
-					Button flipperPrev = rootView.findViewById(R.id.flipper_pre);
-					flipperPrev.setOnClickListener(this);
+
 					flipper = rootView.findViewById(R.id.ViewFlipperID);
+					Button flipperPrev = rootView.findViewById(R.id.flipper_pre);
+					Button flipperNext = rootView.findViewById(R.id.flipper_next);
+
+					flipperPrev.setOnClickListener(this);
+					flipperNext.setOnClickListener(this);
+
 //					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
 					final TextView infotextview = rootView.findViewById(R.id.infotext);
 
@@ -426,10 +431,12 @@ public class TourRegionActivity extends AppCompatActivity
 					break;
 				case R.id.flipper_pre:
 					flipper.showPrevious();
-					break;
+					Log.d("flipper onClick", "showPrev()");
+					return;
 				case R.id.flipper_next:
 					flipper.showNext();
-					break;
+					Log.d("flipper onClick", "showNext()");
+					return;
 			}
 
 			try

@@ -198,6 +198,11 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
 				map_2.setVisibility(View.VISIBLE);
+				break;
+			case R.id.cam_test:
+				Intent testIntent = new Intent(TourMainActivity.this, QuizProblemEndActivity.class);
+				startActivity(testIntent);
+				break;
 		}
 	} // onClick()
 

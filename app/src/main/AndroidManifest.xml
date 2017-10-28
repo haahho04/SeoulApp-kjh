@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- dont work on virtual machine -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- detail location -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -46,6 +49,10 @@
         <activity
             android:name=".PopupActivity"
             android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".QuizProblemEndActivity"
+            android:label="@string/quiz_problem_end_activity_label"
+            />
     </application>
 
 </manifest>
