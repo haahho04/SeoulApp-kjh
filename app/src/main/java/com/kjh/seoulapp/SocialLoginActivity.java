@@ -22,9 +22,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static com.kjh.seoulapp.data.GlobalVariables.auth;
 import static com.kjh.seoulapp.data.GlobalVariables.database;
-import static com.kjh.seoulapp.data.GlobalVariables.mAuth;
-import static com.kjh.seoulapp.data.GlobalVariables.uid;
+import static com.kjh.seoulapp.data.GlobalVariables.readUserData;
 
 public class SocialLoginActivity extends GoogleApiClientActivity implements View.OnClickListener
 {
@@ -40,7 +40,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-		mAuth = FirebaseAuth.getInstance();
+		auth = FirebaseAuth.getInstance();
 		database = FirebaseDatabase.getInstance();
 	}
 
@@ -50,7 +50,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	{
 		super.onStart();
 		// Check if currentUser is signed in (non-null) and update UI accordingly.
-		FirebaseUser currentUser = mAuth.getCurrentUser();
+		FirebaseUser currentUser = auth.getCurrentUser();
 		updateUI(currentUser);
 	}
 	// [END on_start_check_user]
@@ -99,7 +99,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 		// [END_EXCLUDE]
 
 		AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-		mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
+		auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
 		{
 			@Override
 			public void onComplete(@NonNull Task<AuthResult> task)
@@ -109,7 +109,9 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 					// Sign in success, update UI with the signed-in currentUser's information
 					Log.d(TAG, "signInWithCredential:success");
 					Toast.makeText(SocialLoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
-					FirebaseUser currentUser = mAuth.getCurrentUser();
+
+					FirebaseUser currentUser = auth.getCurrentUser();
+					readUserData();
 					updateUI(currentUser);
 				} else
 				{
@@ -133,7 +135,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 
 		if (user != null)
 		{
-			uid = user.getUid();
+			String uid = user.getUid();
 			Log.d(TAG, user.getEmail() + ", " + uid);
 
 			// change activity
@@ -143,6 +145,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 		} else
 		{
 			Log.d(TAG, "non auth state");
+			// TODO: 네트워크 등의 이유로 인증 실패
 		}
 	}
 
@@ -170,7 +173,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	private void revokeAccess()
 	{
 		// Firebase sign out
-		mAuth.signOut();
+		auth.signOut();
 
 		// Google revoke access
 		Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()

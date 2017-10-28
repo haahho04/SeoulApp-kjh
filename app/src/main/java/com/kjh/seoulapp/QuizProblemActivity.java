@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.kjh.seoulapp.data.ProblemData;
@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
+import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_CORRECT_CNT;
+import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
 
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
@@ -25,12 +27,12 @@ public class QuizProblemActivity extends AppCompatActivity
     static final int END_QUIZ = 1234;
     static List<ProblemData> probList = new ArrayList<>();
     TextView probView;
-    RadioGroup answerGroup;
-    Button btnPrev, btnAnswer, btnNext;
+    Button btnPrev, btnNext;
     ImageView resultImage;
     int probNum;
     int correctCnt;
 	ProblemData nowProb;
+	ImageButton answerX, answerO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +40,11 @@ public class QuizProblemActivity extends AppCompatActivity
         setContentView(R.layout.activity_quiz_problem);
 
         probView = (TextView) findViewById(R.id.prob_desc);
-        answerGroup = (RadioGroup) findViewById(R.id.answer_group);
         btnPrev = (Button) findViewById(R.id.btn_prev);
-        btnAnswer = (Button) findViewById(R.id.btn_answer);
         btnNext = (Button) findViewById(R.id.btn_next);
         resultImage = (ImageView) findViewById(R.id.result_image);
+		answerX = (ImageButton) findViewById(R.id.answer_x);
+		answerO = (ImageButton) findViewById(R.id.answer_o);
         probNum = 0;
         correctCnt = 0;
 
@@ -61,13 +63,19 @@ public class QuizProblemActivity extends AppCompatActivity
             case R.id.btn_prev:
                 prevProb();
                 break;
-            case R.id.btn_answer:
-                answerProb();
-                break;
             case R.id.btn_next:
-                if (probNum <= LAST_PROB_NUM - 1) nextProb();
+                if (probNum < LAST_PROB_NUM) updateNextProb();
                 else endQuiz();
                 break;
+            case R.id.answer_x:
+                answerProb(false);
+                break;
+            case R.id.answer_o:
+                answerProb(true);
+                break;
+			case R.id.result_image:
+				updateNextProb();
+				break;
         }
     } // onClick()
 
@@ -76,72 +84,50 @@ public class QuizProblemActivity extends AppCompatActivity
         // TODO
     }
 
-    void answerProb()
+    void answerProb(boolean answer)
     {
-        int btn_checked = answerGroup.getCheckedRadioButtonId();
-
 		boolean correct = nowProb.answer;
 
-        if (btn_checked == -1)
-        {
-            Log.d (TAG, "눌린 버튼이 없습니다");
-            // TODO: UI Update
-        }
-        else if ((correct && btn_checked == R.id.answer_o) || // 정답 O를 맞췄을 경우 또는
-                (!correct && btn_checked == R.id.answer_x)) // 정답 X를 맞췄을 경우
+        if (answer == correct)
         {
             Log.d(TAG, "정답입니다");
             // TODO: UI Update
             // resultImage.setimage (O)
             correctCnt++;
-            enableBtnNext(true);
+            //enableBtnNext(true); // resultImage 클릭 시 next
         }
         else
         {
             Log.d(TAG, "오답입니다");
             // TODO: UI Update
             // resultImage.setimage (X)
-            enableBtnNext(true);
+            //enableBtnNext(true);  // resultImage 클릭 시 next
         }
-    }
 
-    void nextProb()
-    {
-        updateNextProb();
-        enableBtnNext(false);
-    }
-
-    void enableBtnNext(boolean enable)
-    {
-        if (enable)
-        {
-            answerGroup.clearCheck();
-            btnAnswer.setEnabled(false);
-            btnNext.setEnabled(true);
-            resultImage.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            btnAnswer.setEnabled(true);
-            btnNext.setEnabled(false);
-            resultImage.setVisibility(View.GONE);
-        }
+		resultImage.setVisibility(View.VISIBLE);
     }
 
     void updateNextProb()
     {
-		nowProb = probList.get(probNum);
-		probNum++;
-        probView.setText("Q" + (probNum) + ". " + nowProb.description);
+		if (probNum == LAST_PROB_NUM)
+		{
+			endQuiz();
+		}
+		else
+		{
+			nowProb = probList.get(probNum);
+			probNum++;
+			probView.setText("Q" + probNum + ". " + nowProb.description);
 
-        if (probNum == LAST_PROB_NUM)
-            btnNext.setText("최종 제출");
+			resultImage.setVisibility(View.GONE);
+		}
     }
 
     void endQuiz()
     {
         Intent intent = new Intent(QuizProblemActivity.this, PopupActivity.class);
-        intent.putExtra("POPUP_TYPE", POPUP_TYPE.END_QUIZ);
+        intent.putExtra(EXTRA_POPUP_TYPE, POPUP_TYPE.END_QUIZ);
+        intent.putExtra(EXTRA_CORRECT_CNT, correctCnt);
         startActivityForResult(intent, END_QUIZ);
     }
 

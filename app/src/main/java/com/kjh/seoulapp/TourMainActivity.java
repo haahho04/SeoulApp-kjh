@@ -23,23 +23,14 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.kjh.seoulapp.data.UserData;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
-import static com.kjh.seoulapp.data.GlobalVariables.database;
-import static com.kjh.seoulapp.data.GlobalVariables.mAuth;
-import static com.kjh.seoulapp.data.GlobalVariables.uid;
-import static com.kjh.seoulapp.data.GlobalVariables.userData;
+import static com.kjh.seoulapp.data.GlobalVariables.auth;
 
 public class TourMainActivity extends GoogleApiClientActivity
 		implements NavigationView.OnNavigationItemSelectedListener
 {
 	private static final String TAG = "TourMainActivity";
-	static final String USER_REF = "currentUser";
 	static String regionFlag = "0";
 
 	@Override
@@ -58,7 +49,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 
-		FirebaseUser user = mAuth.getCurrentUser();
+		FirebaseUser user = auth.getCurrentUser();
 		if (user != null)
 		{
 			View nav_header = navigationView.getHeaderView(0);
@@ -78,8 +69,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 //            }
 			if (user_name  != null && strName  != null) user_name.setText(strName);
 			if (user_email != null && strEmail != null) user_email.setText(strEmail);
-
-			readUserData();
 		}
 	} // onCreate()
 
@@ -182,7 +171,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 				startActivity(intent);
 				break;
 			case R.id.btn_test:
-				readUserData();
 				break;
 			case R.id.icon_indepen:
 				regionFlag = "3";
@@ -203,33 +191,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 		}
 	} // onClick()
 
-	void readUserData()
-	{
-		DatabaseReference ref = database.getReference(USER_REF).child(uid);
-		Log.d(TAG, ref.toString());
-		ref.addListenerForSingleValueEvent(new ValueEventListener()
-		{
-			@Override
-			public void onDataChange(DataSnapshot dataSnapshot)
-			{
-				userData = dataSnapshot.getValue(UserData.class);
-				Log.d(TAG, "Value is: " + userData);
-				// TODO
-			}
-
-			@Override
-			public void onCancelled(DatabaseError e)
-			{
-				Log.w(TAG, "Failed to read value.", e.toException());
-				// TODO
-			}
-		});
-	}
-
 	private void signOut()
 	{
 		// Firebase sign out
-		mAuth.signOut();
+		auth.signOut();
 
 		// Google sign out
 		while(mGoogleApiClient.isConnecting());
