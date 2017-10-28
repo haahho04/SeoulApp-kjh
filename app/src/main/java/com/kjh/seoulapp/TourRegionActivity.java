@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -28,12 +29,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import android.widget.ViewFlipper;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
 import com.kjh.seoulapp.data.ProblemData;
@@ -42,29 +43,19 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
-
-import static com.kjh.seoulapp.data.GlobalVariables.database;
-
 public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
 {
-    static final String TAG = "TourRegionActivity";
-	static final String CULTURAL_REF = "cultural";
-    static final int GPS_PERMISSION_REQUEST = 1235;
+    final String TAG = "TourRegionActivity";
+	final String CULTURAL_REF = "cultural";
+    final int GPS_PERMISSION_REQUEST = 1235;
 	static final int INFO_TAB = 1;
 	static final int ROAD_TAB = 2;
 	static final int QUIZ_START_TAB = 3;
 
 	// static PlaceholderFragment class에서 access하기 위하여 static declaration
-	static Button quizStart;
-	static ViewFlipper flipper;
-	static ToggleButton toggleFlipping;
-	static TextView infotextview;
-	static String infoData;
-	static ReentrantLock lock;
+	static CulturalData cultural;
+	static Handler handler;
 	String inputData;
 
 	@Override
@@ -75,10 +66,8 @@ public class TourRegionActivity extends AppCompatActivity
 		setContentView(R.layout.activity_tour_region);
 
 		/* init members */
+		handler = new Handler();
 		inputData = TourMainActivity.regionFlag;
-		infoData = "infoContent";
-		lock = new ReentrantLock();
-		lock.lock();
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -137,23 +126,26 @@ public class TourRegionActivity extends AppCompatActivity
     public void onStart()
     {
         super.onStart();
+
         readCulturalData();
+
+		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
     } // onStart()
 
     void readCulturalData()
     {
+		final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 		DatabaseReference ref = database.getReference(CULTURAL_REF).child(inputData);
         Log.v(TAG, ref.toString());
-		ref.addValueEventListener(new ValueEventListener() {
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
-
-				infoData = cultural.content;
-
-				while(infotextview == null);
-				infotextview.setText(cultural.content);
+				cultural = dataSnapshot.getValue(CulturalData.class);
 
 				QuizProblemActivity.probList.clear();
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro1, cultural.ans1));
@@ -161,12 +153,6 @@ public class TourRegionActivity extends AppCompatActivity
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
                 Log.d(TAG, "Value is: " + cultural);
 				Log.d(TAG, "probList: " + QuizProblemActivity.probList);
-
-				lock.lock();
-				Log.d(TAG, "Notice Unlocked");
-				quizStart.setText("퀴즈 시작");
-				quizStart.setEnabled(true);
-				lock.unlock();
             }
 
             @Override
@@ -231,12 +217,6 @@ public class TourRegionActivity extends AppCompatActivity
 				// TODO:
                 startActivity(intent);
                 break;
-            case R.id.flipper_pre:
-                flipper.showPrevious();
-                break;
-            case R.id.flipper_next:
-                flipper.showNext();
-                break;
         }
     }
 
@@ -244,6 +224,7 @@ public class TourRegionActivity extends AppCompatActivity
 			implements View.OnClickListener, MapView.OpenAPIKeyAuthenticationResultListener
 	{
 		private static final String ARG_SECTION_NUMBER = "section_number";
+		ViewFlipper flipper;
 
 		public static PlaceholderFragment newInstance(int sectionNumber)
 		{
@@ -262,14 +243,39 @@ public class TourRegionActivity extends AppCompatActivity
 			View rootView = null;
 			LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
+			Log.d("log", "onCreateView" + sectionNumber);
+
 			switch (sectionNumber)
 			{
 				case INFO_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_info, container, false);
+					Button flipperPrev = rootView.findViewById(R.id.flipper_pre);
+					flipperPrev.setOnClickListener(this);
 					flipper = rootView.findViewById(R.id.ViewFlipperID);
-					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
-					infotextview = (TextView) rootView.findViewById(R.id.infotext);
-					infotextview.setText(infoData);
+//					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
+					final TextView infotextview = rootView.findViewById(R.id.infotext);
+
+					new Thread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							while(cultural == null)
+							{
+								try { Thread.sleep(1000); }
+								catch(Exception e) { e.printStackTrace(); }
+							}
+
+							handler.post(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									infotextview.setText(cultural.content);
+								}
+							});
+						}
+					}).start();
 
 					break;
 				case ROAD_TAB:
@@ -287,7 +293,7 @@ public class TourRegionActivity extends AppCompatActivity
 					Location myLoc = new Location("myLoc");
 					myLoc.setLatitude(37.586577);
 					myLoc.setLongitude(126.989258);
-					Log.d(TAG, "distance: " + myLoc.distanceTo(region)); // 611.0321
+//					Log.d(TAG, "distance: " + myLoc.distanceTo(region)); // 611.0321
 
 					MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(region.getLatitude(), region.getLongitude());
 					mapView.setMapCenterPointAndZoomLevel(mapPoint, 2, true);
@@ -318,9 +324,9 @@ public class TourRegionActivity extends AppCompatActivity
 
 				case QUIZ_START_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
-					quizStart = rootView.findViewById(R.id.quiz_start);
-					lock.unlock();
-					Log.d(TAG, "unlocked");
+
+					final Button quizStart = rootView.findViewById(R.id.quiz_start);
+
 					int size = QuizProblemActivity.probList.size();
 					if(size == 0)
 					{
@@ -332,6 +338,29 @@ public class TourRegionActivity extends AppCompatActivity
 						quizStart.setText("퀴즈 시작");
 						quizStart.setEnabled(true);
 					}
+
+					new Thread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							while(QuizProblemActivity.probList.size() < 3)
+							{
+								try { Thread.sleep(1000); }
+								catch(Exception e) { e.printStackTrace(); }
+							}
+
+							handler.post(new Runnable()
+							{
+								@Override
+								public void run()
+								{
+									quizStart.setText("퀴즈 시작");
+									quizStart.setEnabled(true);
+								}
+							});
+						}
+					}).start();
 
 					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
 					logView.setText("GPS 가 잡혀야 좌표가 구해짐");
@@ -373,7 +402,10 @@ public class TourRegionActivity extends AppCompatActivity
 		} // onCreateView()
 
 		@Override
-		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) { Log.d(TAG, "Daum Map API Auth: " + s); }
+		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s)
+		{
+//			Log.d(TAG, "Daum Map API Auth: " + s);
+		}
 
 		@Override
 		public void onClick(View v)
@@ -391,6 +423,12 @@ public class TourRegionActivity extends AppCompatActivity
 					break;
 				case R.id.walkLink:
 					strUri += "FOOT";
+					break;
+				case R.id.flipper_pre:
+					flipper.showPrevious();
+					break;
+				case R.id.flipper_next:
+					flipper.showNext();
 					break;
 			}
 
@@ -410,22 +448,15 @@ public class TourRegionActivity extends AppCompatActivity
 	public class SectionsPagerAdapter extends FragmentStatePagerAdapter
 	{
 		final int COUNT = 3;
-		List<PlaceholderFragment> fragmentList;
 
-		public SectionsPagerAdapter(FragmentManager fm)
-		{
-			super(fm);
-			fragmentList = new ArrayList<>();
-			for(int i=1;i<=COUNT;i++)
-				fragmentList.add(PlaceholderFragment.newInstance(i));
-		}
+		public SectionsPagerAdapter(FragmentManager fm) { super(fm); }
 
 		// getItem() -> newInstance() -> onCreateView()
 		@Override
 		public Fragment getItem(int position)
 		{
 			Log.d(TAG, "getItem() " + (position + 1));
-			return fragmentList.get(position);
+			return PlaceholderFragment.newInstance(position + 1);
 		}
 
 		@Override

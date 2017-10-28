@@ -20,17 +20,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.FirebaseDatabase;
 
-import static com.kjh.seoulapp.data.GlobalVariables.auth;
-import static com.kjh.seoulapp.data.GlobalVariables.database;
 import static com.kjh.seoulapp.data.GlobalVariables.readUserData;
 
 public class SocialLoginActivity extends GoogleApiClientActivity implements View.OnClickListener
 {
-	private static final String TAG = "SocialLoginActivity";
-	private static final int RC_SIGN_IN = 9001;
-	private ProgressBar progressBar;
+	final String TAG = "SocialLoginActivity";
+	final int RC_SIGN_IN = 9001;
+	ProgressBar progressBar;
+
+	FirebaseAuth auth;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -39,9 +38,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 		setContentView(R.layout.activity_social_login);
 
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
 		auth = FirebaseAuth.getInstance();
-		database = FirebaseDatabase.getInstance();
 	}
 
 	// [START on_start_check_user]
@@ -49,6 +46,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	public void onStart()
 	{
 		super.onStart();
+
 		// Check if currentUser is signed in (non-null) and update UI accordingly.
 		FirebaseUser currentUser = auth.getCurrentUser();
 		updateUI(currentUser);

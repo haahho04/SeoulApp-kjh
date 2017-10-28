@@ -22,9 +22,9 @@ import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
 {
-    static final String TAG = "QuizProblemActivity";
-    static final int LAST_PROB_NUM = 3;
-    static final int END_QUIZ = 1234;
+    final String TAG = "QuizProblemActivity";
+    final int LAST_PROB_NUM = 3;
+    final int END_QUIZ = 1234;
     static List<ProblemData> probList = new ArrayList<>();
     TextView probView;
     Button btnPrev, btnNext;

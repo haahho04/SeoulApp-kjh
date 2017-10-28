@@ -12,7 +12,7 @@ import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
 
 public class PopupActivity extends AppCompatActivity implements View.OnClickListener
 {
-	static final String TAG = "PopupActivity";
+	final String TAG = "PopupActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

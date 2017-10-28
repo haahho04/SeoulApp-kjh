@@ -16,12 +16,13 @@ public class GlobalVariables
 	public static final String EXTRA_POPUP_TYPE = "POPUP_TYPE";
 	public static final String EXTRA_CORRECT_CNT = "correctCnt";
 	public static final String USER_REF = "user";
-	public static FirebaseAuth auth;
-	public static FirebaseDatabase database;
 	public static UserData userData;
 
 	public static void readUserData()
 	{
+		final FirebaseAuth auth = FirebaseAuth.getInstance();
+		final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 		FirebaseUser currentUser = auth.getCurrentUser();
 		String uid = currentUser.getUid();
 
