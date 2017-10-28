@@ -51,13 +51,40 @@
                 android:background="#00ff0000"/>
             <Button
                 android:id="@+id/map_east_button"
+                android:layout_marginLeft="220dp"
+                android:layout_marginTop="110dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/map_west_button"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="155dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/map_south_button"
+                android:layout_marginLeft="190dp"
+                android:layout_marginTop="180dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/map_north_button"
                 android:layout_marginLeft="190dp"
                 android:layout_marginTop="40dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:visibility="visible"
-                android:onClick="onClick"
-                android:background="#00ff0000"/>
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
 
 
             <ImageView
@@ -74,7 +101,7 @@
                 android:padding="0dp"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="150dp"
-                android:src="@drawable/icon_indepen"
+                android:src="@drawable/icon_indepen_temp"
                 android:onClick="onClick"
                 android:visibility="gone"/>
 

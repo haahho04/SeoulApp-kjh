@@ -36,6 +36,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		android.util.Log.d("TAG","TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d("TAG","MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d("TAG","FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d("TAG","ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tour_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -161,8 +165,14 @@ public class TourMainActivity extends GoogleApiClientActivity
 		ImageView map_full = (ImageView) findViewById(R.id.map_full);
 		ImageView map_1 = (ImageView) findViewById(R.id.map_1);
 		ImageView map_2 = (ImageView) findViewById(R.id.map_2);
+		ImageView map_3 = (ImageView) findViewById(R.id.map_3);
+		ImageView map_4 = (ImageView) findViewById(R.id.map_4);
+		ImageView map_5 = (ImageView) findViewById(R.id.map_5);
 		Button map_mid_button = (Button) findViewById(R.id.map_mid_button);
 		Button map_east_button = (Button) findViewById(R.id.map_east_button);
+		Button map_west_button = (Button) findViewById(R.id.map_west_button);
+		Button map_south_button = (Button) findViewById(R.id.map_south_button);
+		Button map_north_button = (Button) findViewById(R.id.map_north_button);
 		ImageButton icon_indepen = (ImageButton) findViewById(R.id.icon_indepen);
 		switch (id)
 		{
@@ -180,6 +190,9 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
 				map_1.setVisibility(View.VISIBLE);
 				icon_indepen.setVisibility(View.VISIBLE);
 				break;
@@ -187,7 +200,39 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
 				map_2.setVisibility(View.VISIBLE);
+				break;
+			case R.id.map_west_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
+				map_3.setVisibility(View.VISIBLE);
+				break;
+			case R.id.map_south_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
+				map_4.setVisibility(View.VISIBLE);
+				break;
+			case R.id.map_north_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
+				map_5.setVisibility(View.VISIBLE);
+				break;
+
 		}
 	} // onClick()
 
