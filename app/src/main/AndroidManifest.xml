@@ -38,7 +38,9 @@
             android:name=".TourRegionActivity"
             android:label="@string/region_activity_label"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".QuizProblemActivity" />
+        <activity android:name=".QuizProblemActivity"
+            android:label="@string/quiz_problem_activity_label"
+            />
         <activity
             android:name=".PopupActivity"
             android:theme="@style/PopupTheme" />

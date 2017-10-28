@@ -42,6 +42,9 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.kjh.seoulapp.data.GlobalVariables.database;
 
 public class TourRegionActivity extends AppCompatActivity
@@ -58,7 +61,7 @@ public class TourRegionActivity extends AppCompatActivity
 	static Button quizStart;
 	static ViewFlipper flipper;
 	static ToggleButton toggleFlipping;
-	static TextView infotextview = null;
+	static TextView infotextview;
 	static String infoData;
 	String inputData;
 
@@ -155,7 +158,8 @@ public class TourRegionActivity extends AppCompatActivity
 				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
                 Log.d(TAG, "Value is: " + cultural);
 				Log.d(TAG, "probList: " + QuizProblemActivity.probList);
-                // TODO
+				quizStart.setText("퀴즈 시작");
+				quizStart.setEnabled(true);
             }
 
             @Override
@@ -310,9 +314,15 @@ public class TourRegionActivity extends AppCompatActivity
 					quizStart = rootView.findViewById(R.id.quiz_start);
 					int size = QuizProblemActivity.probList.size();
 					if(size == 0)
+					{
+						quizStart.setText("네트워크 상태가 좋지않습니다.");
 						quizStart.setEnabled(false);
+					}
 					else
+					{
+						quizStart.setText("퀴즈 시작");
 						quizStart.setEnabled(true);
+					}
 
 					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
 					logView.setText("GPS 가 잡혀야 좌표가 구해짐");
@@ -390,18 +400,27 @@ public class TourRegionActivity extends AppCompatActivity
 
 	public class SectionsPagerAdapter extends FragmentStatePagerAdapter
 	{
-		public SectionsPagerAdapter(FragmentManager fm) { super(fm); }
+		final int COUNT = 3;
+		List<PlaceholderFragment> fragmentList;
+
+		public SectionsPagerAdapter(FragmentManager fm)
+		{
+			super(fm);
+			fragmentList = new ArrayList<>();
+			for(int i=1;i<=COUNT;i++)
+				fragmentList.add(PlaceholderFragment.newInstance(i));
+		}
 
 		// getItem() -> newInstance() -> onCreateView()
 		@Override
 		public Fragment getItem(int position)
 		{
 			Log.d(TAG, "getItem() " + (position + 1));
-			return PlaceholderFragment.newInstance(position + 1);
+			return fragmentList.get(position);
 		}
 
 		@Override
-		public int getCount() { return 3; }
+		public int getCount() { return COUNT; }
 
 		@Override
 		public CharSequence getPageTitle(int position)
