@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,16 +21,17 @@ import android.widget.TextView;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
-import static com.kjh.seoulapp.data.GlobalVariables.auth;
 
 public class TourMainActivity extends GoogleApiClientActivity
 		implements NavigationView.OnNavigationItemSelectedListener
 {
-	private static final String TAG = "TourMainActivity";
+	final String TAG = "TourMainActivity";
 	static String regionFlag = "0";
+	FirebaseAuth auth;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -48,6 +48,8 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
+
+		auth = FirebaseAuth.getInstance();
 
 		FirebaseUser user = auth.getCurrentUser();
 		if (user != null)
@@ -73,7 +75,15 @@ public class TourMainActivity extends GoogleApiClientActivity
 	} // onCreate()
 
 	@Override
-	public void onStart() { super.onStart(); }
+	public void onStart() 
+	{
+		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
+
+		super.onStart(); 
+	}
 
 	@Override // button event: open drawer
 	public void onBackPressed()
@@ -197,8 +207,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 		auth.signOut();
 
 		// Google sign out
-		while(mGoogleApiClient.isConnecting());
-		Log.d(TAG, "isConnected(): " + mGoogleApiClient.isConnected());
 		Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>()
 		{
 			@Override

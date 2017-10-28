@@ -15,7 +15,7 @@ import java.security.MessageDigest;
 public class SplashActivity extends AppCompatActivity
 {
     /** 스플래쉬시간(ms)  **/
-    private final int SPLASH_DISPLAY_LENGTH = 1500;
+    final int SPLASH_DISPLAY_LENGTH = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -14,7 +14,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 public abstract class GoogleApiClientActivity extends AppCompatActivity
 	implements GoogleApiClient.OnConnectionFailedListener
 {
-	static GoogleSignInOptions gso;
 	GoogleApiClient mGoogleApiClient;
 
 	@Override
@@ -22,8 +21,7 @@ public abstract class GoogleApiClientActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		if (gso == null)
-			gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
 
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
