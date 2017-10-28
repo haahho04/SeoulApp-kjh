@@ -2,12 +2,14 @@ package com.kjh.seoulapp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -103,15 +105,26 @@ public class TourRegionActivity extends AppCompatActivity
         });
 */
 
+		/* init members */
+		inputData = TourMainActivity.regionFlag;
+		infoData = "infoContent";
+
 		/* check gps permissions */
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED)
 			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, GPS_PERMISSION_REQUEST);
 		if (ContextCompat.checkSelfPermission(TourRegionActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED)
 			ActivityCompat.requestPermissions(TourRegionActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, GPS_PERMISSION_REQUEST);
 
-		/* init members */
-		inputData = TourMainActivity.regionFlag;
-		infoData = "infoContent";
+		// Acquire a reference to the system Location Manager
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		// GPS 프로바이더 사용가능여부
+		boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		// 네트워크 프로바이더 사용가능여부
+		boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+		Log.d(TAG, "isGPSEnabled=" + isGPSEnabled);
+		Log.d(TAG, "isNetworkEnabled=" + isNetworkEnabled);
 	}
 
     @Override
@@ -216,7 +229,8 @@ public class TourRegionActivity extends AppCompatActivity
         }
     }
 
-	public static class PlaceholderFragment extends Fragment implements MapView.OpenAPIKeyAuthenticationResultListener
+	public static class PlaceholderFragment extends Fragment
+			implements View.OnClickListener, MapView.OpenAPIKeyAuthenticationResultListener
 	{
 		private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -235,6 +249,8 @@ public class TourRegionActivity extends AppCompatActivity
 			Activity activity = getActivity();
 			int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
 			View rootView = null;
+			LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+
 			switch (sectionNumber)
 			{
 				case INFO_TAB:
@@ -242,6 +258,7 @@ public class TourRegionActivity extends AppCompatActivity
 					flipper = rootView.findViewById(R.id.ViewFlipperID);
 					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
 					infotextview = (TextView) rootView.findViewById(R.id.infotext);
+					infotextview.setText(infoData);
 
 					break;
 				case ROAD_TAB:
@@ -274,6 +291,15 @@ public class TourRegionActivity extends AppCompatActivity
 
 					ViewGroup mapViewContainer = rootView.findViewById(R.id.map_view);
 					mapViewContainer.addView(mapView);
+
+					TextView carLink = rootView.findViewById(R.id.carLink);
+					TextView transitLink = rootView.findViewById(R.id.transitLink);
+					TextView walkLink = rootView.findViewById(R.id.walkLink);
+
+					carLink.setOnClickListener(this);
+					transitLink.setOnClickListener(this);
+					walkLink.setOnClickListener(this);
+
 					break;
 					//////////////////////////////////////////////////////////////////////
 					//					Road Tab with Daum Map API end					//
@@ -291,18 +317,7 @@ public class TourRegionActivity extends AppCompatActivity
 					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
 					logView.setText("GPS 가 잡혀야 좌표가 구해짐");
 
-					// Acquire a reference to the system Location Manager
-					LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
-
-					// GPS 프로바이더 사용가능여부
-					boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-					// 네트워크 프로바이더 사용가능여부
-					boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-					Log.d(TAG, "isGPSEnabled=" + isGPSEnabled);
-					Log.d(TAG, "isNetworkEnabled=" + isNetworkEnabled);
-
-					LocationListener locationListener = new LocationListener()
+					final LocationListener locationListener = new LocationListener()
 					{
 						public void onLocationChanged(Location location)
 						{
@@ -316,21 +331,22 @@ public class TourRegionActivity extends AppCompatActivity
 						public void onProviderDisabled(String provider) { logView.setText("onProviderDisabled"); }
 					};
 
-					if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+					if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+							ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
 					{
 						// Register the listener with the Location Manager to receive location updates
 						locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 						locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
-						// 수동으로 위치 구하기
-						String locationProvider = LocationManager.GPS_PROVIDER;
-						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-						if (lastKnownLocation != null)
-						{
-							double lng = lastKnownLocation.getLatitude();
-							double lat = lastKnownLocation.getLatitude();
-							Log.d(TAG, "longtitude=" + lng + ", latitude=" + lat);
-						}
+//						// 수동으로 위치 구하기
+//						String locationProvider = LocationManager.GPS_PROVIDER;
+//						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+//						if (lastKnownLocation != null)
+//						{
+//							double lng = lastKnownLocation.getLatitude();
+//							double lat = lastKnownLocation.getLatitude();
+//							Log.d(TAG, "longtitude=" + lng + ", latitude=" + lat);
+//						}
 					}
 					break;
 			}
@@ -339,6 +355,37 @@ public class TourRegionActivity extends AppCompatActivity
 
 		@Override
 		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s) { Log.d(TAG, "Daum Map API Auth: " + s); }
+
+		@Override
+		public void onClick(View v)
+		{
+			int id = v.getId();
+			String strUri = "daummaps://route?sp=" + 37.537229 + "," + 127.005515 + "&ep=" + 37.4979502 + "," + "127.0276368&by=";
+
+			switch(id)
+			{
+				case R.id.carLink:
+					strUri +=  "CAR";
+					break;
+				case R.id.transitLink:
+					strUri += "PUBLICTRANSIT";
+					break;
+				case R.id.walkLink:
+					strUri += "FOOT";
+					break;
+			}
+
+			try
+			{
+				Uri uri = Uri.parse(strUri);
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			} catch (ActivityNotFoundException e) {
+				Uri uri = Uri.parse("market://details?id=net.daum.android.map");
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+		}
 	}
 
 	public class SectionsPagerAdapter extends FragmentStatePagerAdapter
