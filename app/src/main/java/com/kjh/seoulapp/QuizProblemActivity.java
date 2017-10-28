@@ -10,10 +10,6 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.ProblemData;
 
 import java.util.ArrayList;
@@ -138,7 +134,7 @@ public class QuizProblemActivity extends AppCompatActivity
 		probNum++;
         probView.setText("Q" + (probNum) + ". " + nowProb.description);
 
-        if (probNum == LAST_PROB_NUM - 1)
+        if (probNum == LAST_PROB_NUM)
             btnNext.setText("최종 제출");
     }
 

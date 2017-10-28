@@ -34,11 +34,80 @@
             tools:layout_editor_absoluteY="0dp">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/map_full"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/side_nav_bar"/>
+                app:srcCompat="@drawable/seoul_map"
+                android:visibility="visible">
+            </ImageView>
+            <Button
+                android:id="@+id/map_mid_button"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="95dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:onClick="onClick"
+                android:background="#00ff0000"/>
+            <Button
+                android:id="@+id/map_east_button"
+                android:layout_marginLeft="190dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:onClick="onClick"
+                android:background="#00ff0000"/>
 
+
+            <ImageView
+                android:id="@+id/map_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/seoul_mid"
+                android:visibility="gone">
+            </ImageView>
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/icon_indepen"
+                android:padding="0dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="150dp"
+                android:src="@drawable/icon_indepen"
+                android:onClick="onClick"
+                android:visibility="gone"/>
+
+
+            <ImageView
+                android:id="@+id/map_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/seoul_east"
+                android:visibility="gone">
+             </ImageView>
+
+            <ImageView
+                android:id="@+id/map_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/seoul_west"
+                android:visibility="gone">
+            </ImageView>
+            <ImageView
+                android:id="@+id/map_4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/seoul_south"
+                android:visibility="gone">
+            </ImageView>
+            <ImageView
+                android:id="@+id/map_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/seoul_north"
+                android:visibility="gone">
+            </ImageView>
         </FrameLayout>
 
         <!--스크롤뷰 스크롤 none-->

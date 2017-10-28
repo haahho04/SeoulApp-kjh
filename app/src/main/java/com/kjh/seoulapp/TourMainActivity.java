@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -166,16 +168,38 @@ public class TourMainActivity extends GoogleApiClientActivity
 	{
 		int id = v.getId();
 
+		Intent intent = new Intent(this, TourRegionActivity.class);
+		ImageView map_full = (ImageView) findViewById(R.id.map_full);
+		ImageView map_1 = (ImageView) findViewById(R.id.map_1);
+		ImageView map_2 = (ImageView) findViewById(R.id.map_2);
+		Button map_mid_button = (Button) findViewById(R.id.map_mid_button);
+		Button map_east_button = (Button) findViewById(R.id.map_east_button);
+		ImageButton icon_indepen = (ImageButton) findViewById(R.id.icon_indepen);
 		switch (id)
 		{
 			case R.id.btn_next:
 				regionFlag = "1";
-				Intent intent = new Intent(this, TourRegionActivity.class);
 				startActivity(intent);
 				break;
 			case R.id.btn_test:
 				readUserData();
 				break;
+			case R.id.icon_indepen:
+				regionFlag = "3";
+				startActivity(intent);
+				break;
+			case R.id.map_mid_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_1.setVisibility(View.VISIBLE);
+				icon_indepen.setVisibility(View.VISIBLE);
+				break;
+			case R.id.map_east_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_2.setVisibility(View.VISIBLE);
 		}
 	} // onClick()
 
