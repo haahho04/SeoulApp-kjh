@@ -10,12 +10,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
@@ -23,14 +25,23 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kjh.seoulapp.data.CulturalData;
+import com.kjh.seoulapp.data.ProblemData;
 
-import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.CULTURAL_REF;
+import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.probList;
+import static com.kjh.seoulapp.data.SharedData.regionIndex;
 
 public class TourMainActivity extends GoogleApiClientActivity
 		implements NavigationView.OnNavigationItemSelectedListener
 {
 	final String TAG = "TourMainActivity";
-	static String regionFlag = "0";
 	FirebaseAuth auth;
 
 	@Override
@@ -50,6 +61,9 @@ public class TourMainActivity extends GoogleApiClientActivity
 		navigationView.setNavigationItemSelectedListener(this);
 
 		auth = FirebaseAuth.getInstance();
+		regionIndex = -1;
+		progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
+		hideProgressDialog();
 
 		FirebaseUser user = auth.getCurrentUser();
 		if (user != null)
@@ -75,14 +89,14 @@ public class TourMainActivity extends GoogleApiClientActivity
 	} // onCreate()
 
 	@Override
-	public void onStart() 
+	public void onStart()
 	{
 		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
 
-		super.onStart(); 
+		super.onStart();
 	}
 
 	@Override // button event: open drawer
@@ -167,7 +181,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 	{
 		int id = v.getId();
 
-		Intent intent = new Intent(this, TourRegionActivity.class);
 		ImageView map_full = (ImageView) findViewById(R.id.map_full);
 		ImageView map_1 = (ImageView) findViewById(R.id.map_1);
 		ImageView map_2 = (ImageView) findViewById(R.id.map_2);
@@ -177,14 +190,16 @@ public class TourMainActivity extends GoogleApiClientActivity
 		switch (id)
 		{
 			case R.id.btn_next:
-				regionFlag = "1";
-				startActivity(intent);
+				regionIndex = 1;
+				showProgressDialog();
+				startRegionActivity();
 				break;
 			case R.id.btn_test:
 				break;
 			case R.id.icon_indepen:
-				regionFlag = "3";
-				startActivity(intent);
+				regionIndex = 3;
+				showProgressDialog();
+				startRegionActivity();
 				break;
 			case R.id.map_mid_button:
 				map_full.setVisibility(View.GONE);
@@ -200,7 +215,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_2.setVisibility(View.VISIBLE);
 				break;
 			case R.id.cam_test:
-				Intent testIntent = new Intent(TourMainActivity.this, QuizProblemEndActivity.class);
+				Intent testIntent = new Intent(TourMainActivity.this, ARActivity.class);
 				startActivity(testIntent);
 				break;
 		}
@@ -231,4 +246,37 @@ public class TourMainActivity extends GoogleApiClientActivity
 		startActivity(intent);
 	}
 
+	void startRegionActivity()
+	{
+		if (regionIndex == -1)
+			Log.d(TAG, "regionIndex is not initialized");
+
+		DatabaseReference ref = FirebaseDatabase.getInstance().getReference(CULTURAL_REF).child(""+regionIndex);
+		Log.v(TAG, ref.toString());
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot) {
+				CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
+				Log.d(TAG, "Value is: " + cultural);
+
+				probList.clear();
+				probList.add(new ProblemData(cultural.pro1, cultural.ans1));
+				probList.add(new ProblemData(cultural.pro2, cultural.ans2));
+				probList.add(new ProblemData(cultural.pro3, cultural.ans3));
+				Log.d(TAG, "probList: " + probList);
+
+				TourRegionActivity.cultural = cultural;
+				hideProgressDialog();
+
+				Intent intent = new Intent(TourMainActivity.this, TourRegionActivity.class);
+				startActivity(intent);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError e) {
+				Log.w(TAG, "Failed to read value.", e.toException());
+				// TODO: 네트워크가 불안정하여 퀴즈진행이 불가능합니다.
+			}
+		});
+	} // startRegionActivity()
 } // class

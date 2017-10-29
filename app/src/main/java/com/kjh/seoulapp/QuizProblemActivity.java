@@ -5,19 +5,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kjh.seoulapp.data.ProblemData;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
-import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_CORRECT_CNT;
-import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.EXTRA_CORRECT_CNT;
+import static com.kjh.seoulapp.data.SharedData.EXTRA_POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.correctCnt;
+import static com.kjh.seoulapp.data.SharedData.probList;
 
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
@@ -25,13 +23,10 @@ public class QuizProblemActivity extends AppCompatActivity
     final String TAG = "QuizProblemActivity";
     final int LAST_PROB_NUM = 3;
     final int END_QUIZ = 1234;
-    static List<ProblemData> probList = new ArrayList<>();
+	int probNum;
     TextView probView;
-    Button btnPrev, btnNext;
-    ImageView resultImage;
-    int probNum;
-    int correctCnt;
 	ProblemData nowProb;
+	ImageView resultImage;
 	ImageButton answerX, answerO;
 
     @Override
@@ -40,15 +35,11 @@ public class QuizProblemActivity extends AppCompatActivity
         setContentView(R.layout.activity_quiz_problem);
 
         probView = (TextView) findViewById(R.id.prob_desc);
-        btnPrev = (Button) findViewById(R.id.btn_prev);
-        btnNext = (Button) findViewById(R.id.btn_next);
         resultImage = (ImageView) findViewById(R.id.result_image);
 		answerX = (ImageButton) findViewById(R.id.answer_x);
 		answerO = (ImageButton) findViewById(R.id.answer_o);
         probNum = 0;
         correctCnt = 0;
-
-        btnPrev.setEnabled(false);
 
 		updateNextProb();
     }
@@ -60,13 +51,6 @@ public class QuizProblemActivity extends AppCompatActivity
 
         switch (id)
         {
-            case R.id.btn_prev:
-                prevProb();
-                break;
-            case R.id.btn_next:
-                if (probNum < LAST_PROB_NUM) updateNextProb();
-                else endQuiz();
-                break;
             case R.id.answer_x:
                 answerProb(false);
                 break;
@@ -110,9 +94,7 @@ public class QuizProblemActivity extends AppCompatActivity
     void updateNextProb()
     {
 		if (probNum == LAST_PROB_NUM)
-		{
 			endQuiz();
-		}
 		else
 		{
 			nowProb = probList.get(probNum);
@@ -138,7 +120,9 @@ public class QuizProblemActivity extends AppCompatActivity
 
         if (requestCode == END_QUIZ)
         {
-            // TODO: go to AR Activity with finish()
+            Intent intent = new Intent(QuizProblemActivity.this, ARActivity.class);
+			startActivity(intent);
+			finish();
         }
     }
 }

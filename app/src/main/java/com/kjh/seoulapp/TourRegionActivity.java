@@ -11,7 +11,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -31,13 +30,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
-import com.kjh.seoulapp.data.ProblemData;
 
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
@@ -47,16 +40,13 @@ public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
 {
     final String TAG = "TourRegionActivity";
-	final String CULTURAL_REF = "cultural";
     final int GPS_PERMISSION_REQUEST = 1235;
 	static final int INFO_TAB = 1;
 	static final int ROAD_TAB = 2;
 	static final int QUIZ_START_TAB = 3;
 
-	// static PlaceholderFragment class에서 access하기 위하여 static declaration
+	// static inner class에서 access하기 위하여 static declaration
 	static CulturalData cultural;
-	static Handler handler;
-	String inputData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -66,8 +56,6 @@ public class TourRegionActivity extends AppCompatActivity
 		setContentView(R.layout.activity_tour_region);
 
 		/* init members */
-		handler = new Handler();
-		inputData = TourMainActivity.regionFlag;
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -127,41 +115,11 @@ public class TourRegionActivity extends AppCompatActivity
     {
         super.onStart();
 
-        readCulturalData();
-
 		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
     } // onStart()
-
-    void readCulturalData()
-    {
-		final FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-		DatabaseReference ref = database.getReference(CULTURAL_REF).child(inputData);
-        Log.v(TAG, ref.toString());
-		ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-				cultural = dataSnapshot.getValue(CulturalData.class);
-
-				QuizProblemActivity.probList.clear();
-				QuizProblemActivity.probList.add(new ProblemData(cultural.pro1, cultural.ans1));
-				QuizProblemActivity.probList.add(new ProblemData(cultural.pro2, cultural.ans2));
-				QuizProblemActivity.probList.add(new ProblemData(cultural.pro3, cultural.ans3));
-                Log.d(TAG, "Value is: " + cultural);
-				Log.d(TAG, "probList: " + QuizProblemActivity.probList);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError e) {
-                Log.w(TAG, "Failed to read value.", e.toException());
-                // TODO: 네트워크가 불안정하여 퀴즈진행이 불가능합니다.
-            }
-        });
-    } // readCulturalData()
 
 	@Override
 	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
@@ -260,27 +218,7 @@ public class TourRegionActivity extends AppCompatActivity
 //					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
 					final TextView infotextview = rootView.findViewById(R.id.infotext);
 
-					new Thread(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							while(cultural == null)
-							{
-								try { Thread.sleep(1000); }
-								catch(Exception e) { e.printStackTrace(); }
-							}
-
-							handler.post(new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									infotextview.setText(cultural.content);
-								}
-							});
-						}
-					}).start();
+					infotextview.setText(cultural.content);
 
 					break;
 				case ROAD_TAB:
@@ -331,44 +269,11 @@ public class TourRegionActivity extends AppCompatActivity
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 
 					final Button quizStart = rootView.findViewById(R.id.quiz_start);
-
-					int size = QuizProblemActivity.probList.size();
-					if(size == 0)
-					{
-						quizStart.setText("네트워크 상태가 좋지않습니다.");
-						quizStart.setEnabled(false);
-					}
-					else
-					{
-						quizStart.setText("퀴즈 시작");
-						quizStart.setEnabled(true);
-					}
-
-					new Thread(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							while(QuizProblemActivity.probList.size() < 3)
-							{
-								try { Thread.sleep(1000); }
-								catch(Exception e) { e.printStackTrace(); }
-							}
-
-							handler.post(new Runnable()
-							{
-								@Override
-								public void run()
-								{
-									quizStart.setText("퀴즈 시작");
-									quizStart.setEnabled(true);
-								}
-							});
-						}
-					}).start();
+					quizStart.setText("퀴즈 시작");
+					quizStart.setEnabled(true);
 
 					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
-					logView.setText("GPS 가 잡혀야 좌표가 구해짐");
+					logView.setText("GPS 정보 수신 중...");
 
 					final LocationListener locationListener = new LocationListener()
 					{

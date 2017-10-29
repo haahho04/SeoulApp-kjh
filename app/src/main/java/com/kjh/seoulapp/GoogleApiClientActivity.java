@@ -2,7 +2,6 @@ package com.kjh.seoulapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,7 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-public abstract class GoogleApiClientActivity extends AppCompatActivity
+public abstract class GoogleApiClientActivity extends ProgressActivity
 	implements GoogleApiClient.OnConnectionFailedListener
 {
 	GoogleApiClient mGoogleApiClient;

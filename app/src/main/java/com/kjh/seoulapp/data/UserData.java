@@ -5,6 +5,7 @@ import java.util.List;
 
 public class UserData
 {
+    final int CULTURAL_CNT = 5;
     public String name;
     public List<Integer> stampList;
 
@@ -13,7 +14,7 @@ public class UserData
     {
         name = _name;
         stampList = new ArrayList<>();
-		for(int i=0;i<5;i++)
+		for(int i=0;i<CULTURAL_CNT;i++)
 			stampList.add(0);
     }
 
@@ -22,7 +23,7 @@ public class UserData
     {
         String result = "name: " + name + " / stampList: ";
         final int size = stampList.size();
-        for(int i=1;i<size;i++)
+        for(int i=0;i<size;i++)
         {
             int stamp = stampList.get(i);
             result += stamp + ", ";

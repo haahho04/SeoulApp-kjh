@@ -50,7 +50,7 @@
             android:name=".PopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".QuizProblemEndActivity"
+            android:name=".ARActivity"
             android:label="@string/quiz_problem_end_activity_label"
             />
     </application>

@@ -1,48 +1,45 @@
 package com.kjh.seoulapp;
 
-import android.*;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.kjh.seoulapp.data.ProblemData;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.kjh.seoulapp.data.SharedData.USER_REF;
+import static com.kjh.seoulapp.data.SharedData.regionIndex;
+import static com.kjh.seoulapp.data.SharedData.stampLevel;
+import static com.kjh.seoulapp.data.SharedData.userData;
 
-import static com.kjh.seoulapp.PopupActivity.POPUP_TYPE;
-import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_CORRECT_CNT;
-import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
-
-public class QuizProblemEndActivity extends AppCompatActivity
+public class ARActivity extends ProgressActivity
     implements View.OnClickListener
 {
-    final String TAG = "QuizProblemEndActivity";
+    final String TAG = "ARActivity";
 	final int CAM_PERMISSION_REQUEST = 1236;
-	private Camera mCamera;
-	private CameraPreview mPreview;
+	Camera mCamera;
+	CameraPreview mPreview;
+	Button btnGetStamp;
+	FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_problem_end);
 
-		Log.d(TAG, ""+checkCameraHardware(getApplicationContext()));
+		btnGetStamp = (Button) findViewById(R.id.btn_get_stamp);
+		btnGetStamp.setOnClickListener(this);
+		database = FirebaseDatabase.getInstance();
 
-		if (ContextCompat.checkSelfPermission(QuizProblemEndActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED)
-			ActivityCompat.requestPermissions(QuizProblemEndActivity.this, new String[]{android.Manifest.permission.CAMERA}, CAM_PERMISSION_REQUEST);
+		if (ContextCompat.checkSelfPermission(ARActivity.this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED)
+			ActivityCompat.requestPermissions(ARActivity.this, new String[]{android.Manifest.permission.CAMERA}, CAM_PERMISSION_REQUEST);
 		else
 			openCam();
     }
@@ -92,17 +89,26 @@ public class QuizProblemEndActivity extends AppCompatActivity
 
         switch (id)
         {
+			case R.id.btn_get_stamp:
+				sendStampInfo();
+				Intent intent = new Intent(ARActivity.this, TourRegionActivity.class);
+				startActivity(intent);
+				finish();
+				break;
         }
     } // onClick()
 
-	/** Check if this device has a camera */
-	private boolean checkCameraHardware(Context context) {
-		if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-			// this device has a camera
-			return true;
-		} else {
-			// no camera on this device
-			return false;
-		}
+	void sendStampInfo()
+	{
+		FirebaseAuth auth = FirebaseAuth.getInstance();
+		FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+		String uid = auth.getCurrentUser().getUid();
+
+		Log.d(TAG, "before: "+userData);
+		userData.stampList.set(regionIndex, stampLevel);
+		Log.d(TAG, "after: "+userData);
+
+		database.getReference(USER_REF).child(uid).setValue(userData);
 	}
 }

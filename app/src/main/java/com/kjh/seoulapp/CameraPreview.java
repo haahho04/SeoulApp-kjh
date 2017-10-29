@@ -14,8 +14,8 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /** A basic Camera preview class */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-	private SurfaceHolder mHolder;
-	private Camera mCamera;
+	SurfaceHolder mHolder;
+	Camera mCamera;
 
 	public CameraPreview(Context context, Camera camera) {
 		super(context);

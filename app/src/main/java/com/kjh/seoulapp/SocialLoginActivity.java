@@ -20,31 +20,40 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kjh.seoulapp.data.UserData;
 
-import static com.kjh.seoulapp.data.GlobalVariables.readUserData;
+import static com.kjh.seoulapp.data.SharedData.USER_REF;
+import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class SocialLoginActivity extends GoogleApiClientActivity implements View.OnClickListener
 {
 	final String TAG = "SocialLoginActivity";
 	final int RC_SIGN_IN = 9001;
-	ProgressBar progressBar;
-
 	FirebaseAuth auth;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		Log.d(TAG, "onCreate()");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social_login);
 
-		progressBar = (ProgressBar) findViewById(R.id.progressBar);
 		auth = FirebaseAuth.getInstance();
+		progressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
+		hideProgressDialog();
+		Log.d(TAG, "progressBar: " + progressBar);
 	}
 
 	// [START on_start_check_user]
 	@Override
 	public void onStart()
 	{
+		Log.d(TAG, "onStart()");
 		super.onStart();
 
 		// Check if currentUser is signed in (non-null) and update UI accordingly.
@@ -109,7 +118,6 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 					Toast.makeText(SocialLoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
 
 					FirebaseUser currentUser = auth.getCurrentUser();
-					readUserData();
 					updateUI(currentUser);
 				} else
 				{
@@ -127,20 +135,62 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	}
 	// [END auth_with_google]
 
+	public void startMainActivity()
+	{
+		FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+		FirebaseUser currentUser = auth.getCurrentUser();
+		String uid = currentUser.getUid();
+
+		Log.d(TAG, currentUser.getEmail() + ", " + uid);
+
+		DatabaseReference ref = database.getReference(USER_REF).child(uid);
+		Log.d(TAG, ref.toString());
+		ref.addListenerForSingleValueEvent(new ValueEventListener()
+		{
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot)
+			{
+				UserData _userData = dataSnapshot.getValue(UserData.class);
+				if (_userData == null)
+				{
+					// 새로운 유저 데이터 Insert
+					FirebaseUser currentUser = auth.getCurrentUser();
+					_userData = new UserData(currentUser.getDisplayName());
+
+					String uid = currentUser.getUid();
+
+					FirebaseDatabase database = FirebaseDatabase.getInstance();
+					database.getReference(USER_REF).child(uid).setValue(_userData);
+				}
+				Log.d(TAG, "Value is: " + _userData);
+
+				userData = _userData;
+
+				// change activity
+				Intent intent = new Intent(SocialLoginActivity.this, TourMainActivity.class);
+				startActivity(intent);
+				finish();
+
+				// TODO 스탬프 리스트 UI 업데이트
+			}
+
+			@Override
+			public void onCancelled(DatabaseError e)
+			{
+				Log.w(TAG, "Failed to read value.", e.toException());
+				// TODO
+			}
+		});
+	} // startMainActivity()
+
 	private void updateUI(FirebaseUser user)
 	{
 		hideProgressDialog();
 
 		if (user != null)
-		{
-			String uid = user.getUid();
-			Log.d(TAG, user.getEmail() + ", " + uid);
-
-			// change activity
-			Intent intent = new Intent(this, TourMainActivity.class);
-			startActivity(intent);
-			finish();
-		} else
+			startMainActivity();
+		else
 		{
 			Log.d(TAG, "non auth state");
 			// TODO: 네트워크 등의 이유로 인증 실패
@@ -158,17 +208,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 		}
 	}
 
-	void showProgressDialog()
-	{
-		progressBar.setVisibility(View.VISIBLE);
-	}
-
-	void hideProgressDialog()
-	{
-		progressBar.setVisibility(View.GONE);
-	}
-
-	private void revokeAccess()
+	void revokeAccess()
 	{
 		// Firebase sign out
 		auth.signOut();

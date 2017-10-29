@@ -7,8 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_CORRECT_CNT;
-import static com.kjh.seoulapp.data.GlobalVariables.EXTRA_POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.EXTRA_CORRECT_CNT;
+import static com.kjh.seoulapp.data.SharedData.EXTRA_POPUP_TYPE;
+import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
 
 public class PopupActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -80,10 +81,5 @@ public class PopupActivity extends AppCompatActivity implements View.OnClickList
 				finish();
 				break;
 		}
-	}
-
-	enum POPUP_TYPE
-	{
-		APP_INFO, CONTACT, DONATE, END_QUIZ
 	}
 }
