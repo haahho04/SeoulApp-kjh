@@ -47,6 +47,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		android.util.Log.d("TAG","TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d("TAG","MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d("TAG","FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d("TAG","ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tour_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -184,9 +188,27 @@ public class TourMainActivity extends GoogleApiClientActivity
 		ImageView map_full = (ImageView) findViewById(R.id.map_full);
 		ImageView map_1 = (ImageView) findViewById(R.id.map_1);
 		ImageView map_2 = (ImageView) findViewById(R.id.map_2);
+		ImageView map_3 = (ImageView) findViewById(R.id.map_3);
+		ImageView map_4 = (ImageView) findViewById(R.id.map_4);
+		ImageView map_5 = (ImageView) findViewById(R.id.map_5);
 		Button map_mid_button = (Button) findViewById(R.id.map_mid_button);
 		Button map_east_button = (Button) findViewById(R.id.map_east_button);
+		Button map_west_button = (Button) findViewById(R.id.map_west_button);
+		Button map_south_button = (Button) findViewById(R.id.map_south_button);
+		Button map_north_button = (Button) findViewById(R.id.map_north_button);
+		ImageButton icon_jongmyo = (ImageButton) findViewById(R.id.icon_jongmyo);
+		ImageButton icon_nakjungdae = (ImageButton) findViewById(R.id.icon_nakjungdae);
 		ImageButton icon_indepen = (ImageButton) findViewById(R.id.icon_indepen);
+		ImageButton icon_gyungbok = (ImageButton) findViewById(R.id.icon_gyungbok);
+		ImageButton icon_changduck = (ImageButton) findViewById(R.id.icon_changduck);
+		ImageButton icon_changgyung = (ImageButton) findViewById(R.id.icon_changgyung);
+		ImageButton icon_gyunghee = (ImageButton) findViewById(R.id.icon_gyunghee);
+		ImageButton icon_ducksu = (ImageButton) findViewById(R.id.icon_ducksu);
+		ImageButton icon_busin = (ImageButton) findViewById(R.id.icon_busin);
+		ImageButton icon_dongdaemun = (ImageButton) findViewById(R.id.icon_dongdaemun);
+		ImageButton icon_namdaemun = (ImageButton) findViewById(R.id.icon_namdaemun);
+		ImageButton icon_bukdaemun = (ImageButton) findViewById(R.id.icon_bukdaemun);
+
 		switch (id)
 		{
 			case R.id.btn_next:
@@ -196,28 +218,97 @@ public class TourMainActivity extends GoogleApiClientActivity
 				break;
 			case R.id.btn_test:
 				break;
+			case R.id.icon_jongmyo:
+				regionFlag = "1";
+				startActivity(intent);
+				break;
+			case R.id.icon_nakjungdae:
+				regionFlag = "2";
+				startActivity(intent);
+				break;
 			case R.id.icon_indepen:
 				regionIndex = 3;
 				showProgressDialog();
 				startRegionActivity();
 				break;
+			case R.id.icon_gyungbok:
+				regionFlag = "4";
+				startActivity(intent);
+				break;
+			case R.id.icon_changduck:
+				regionFlag = "5";
+				startActivity(intent);
+				break;
+			case R.id.icon_changgyung:
+				regionFlag = "6";
+				startActivity(intent);
+				break;
+			case R.id.icon_gyunghee:
+				regionFlag = "7";
+				startActivity(intent);
+				break;
+			case R.id.icon_ducksu:
+				regionFlag = "8";
+				startActivity(intent);
+				break;
 			case R.id.map_mid_button:
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
 				map_1.setVisibility(View.VISIBLE);
+				icon_jongmyo.setVisibility(View.VISIBLE);
 				icon_indepen.setVisibility(View.VISIBLE);
+				icon_gyungbok.setVisibility(View.VISIBLE);
+				icon_changduck.setVisibility(View.VISIBLE);
+				icon_changgyung.setVisibility(View.VISIBLE);
+				icon_gyunghee.setVisibility(View.VISIBLE);
+				icon_ducksu.setVisibility(View.VISIBLE);
+				icon_busin.setVisibility(View.VISIBLE);
+				icon_dongdaemun.setVisibility(View.VISIBLE);
+				icon_namdaemun.setVisibility(View.VISIBLE);
+				icon_bukdaemun.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_east_button:
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
 				map_2.setVisibility(View.VISIBLE);
 				break;
-			case R.id.cam_test:
-				Intent testIntent = new Intent(TourMainActivity.this, ARActivity.class);
-				startActivity(testIntent);
+			case R.id.map_west_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
+				map_3.setVisibility(View.VISIBLE);
 				break;
+			case R.id.map_south_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
+				map_4.setVisibility(View.VISIBLE);
+				icon_nakjungdae.setVisibility(View.VISIBLE);
+				break;
+			case R.id.map_north_button:
+				map_full.setVisibility(View.GONE);
+				map_mid_button.setVisibility(View.GONE);
+				map_east_button.setVisibility(View.GONE);
+				map_west_button.setVisibility(View.GONE);
+				map_south_button.setVisibility(View.GONE);
+				map_north_button.setVisibility(View.GONE);
+				map_5.setVisibility(View.VISIBLE);
+				break;
+
 		}
 	} // onClick()
 

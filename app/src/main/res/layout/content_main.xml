@@ -53,13 +53,40 @@
 
             <Button
                 android:id="@+id/map_east_button"
+                android:layout_marginLeft="220dp"
+                android:layout_marginTop="110dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:visibility="visible"
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/map_west_button"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="155dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/map_south_button"
+                android:layout_marginLeft="190dp"
+                android:layout_marginTop="180dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                android:background="#00ff0000"
+                android:onClick="onClick"/>
+            <Button
+                android:id="@+id/map_north_button"
                 android:layout_marginLeft="190dp"
                 android:layout_marginTop="40dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:visibility="visible"
                 android:background="#00ff0000"
-                android:onClick="onClick"
-                android:visibility="visible"/>
+                android:onClick="onClick"/>
 
 
             <ImageView
@@ -76,11 +103,111 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="150dp"
+                android:src="@drawable/icon_indepen_temp"
                 android:onClick="onClick"
                 android:padding="0dp"
                 android:src="@drawable/icon_indepen"
                 android:visibility="gone"/>
-
+            <ImageButton
+                android:id="@+id/icon_jongmyo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="135dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_gyungbok"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="185dp"
+                android:layout_marginTop="95dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_changgyung"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="245dp"
+                android:layout_marginTop="105dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_changduck"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="215dp"
+                android:layout_marginTop="100dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_gyunghee"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="125dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_ducksu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="205dp"
+                android:layout_marginTop="160dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_busin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="210dp"
+                android:layout_marginTop="130dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_dongdaemun"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="165dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_namdaemun"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="205dp"
+                android:layout_marginTop="190dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_bukdaemun"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="90dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/map_2"
@@ -90,6 +217,7 @@
                 app:srcCompat="@drawable/seoul_east">
             </ImageView>
 
+
             <ImageView
                 android:id="@+id/map_3"
                 android:layout_width="match_parent"
@@ -98,6 +226,7 @@
                 app:srcCompat="@drawable/seoul_west">
             </ImageView>
 
+
             <ImageView
                 android:id="@+id/map_4"
                 android:layout_width="match_parent"
@@ -105,6 +234,16 @@
                 android:visibility="gone"
                 app:srcCompat="@drawable/seoul_south">
             </ImageView>
+            <ImageButton
+                android:id="@+id/icon_nakjungdae"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginTop="155dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:src="@drawable/icon_indepen_temp"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/map_5"
@@ -113,6 +252,7 @@
                 android:visibility="gone"
                 app:srcCompat="@drawable/seoul_north">
             </ImageView>
+
         </FrameLayout>
 
         <!--스크롤뷰 스크롤 none-->
@@ -127,15 +267,23 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/maintext1"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="서울중앙"
+                    android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
-
                         <Button
                             android:id="@+id/btn_next"
                             android:layout_width="1200dp"
@@ -148,15 +296,23 @@
                     </LinearLayout>
                 </HorizontalScrollView>
 
+                <TextView
+                    android:id="@+id/maintext2"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="서울동부"
+                    android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
-
                         <Button
                             android:id="@+id/btn_test"
                             android:layout_width="130dp"
@@ -186,22 +342,30 @@
                     </LinearLayout>
                 </HorizontalScrollView>
 
+                <TextView
+                    android:id="@+id/maintext3"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="서울서부"
+                    android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
-
                         <Button
                             android:id="@+id/btn_test2"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/btn_next"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="558dp"
+                            android:layout_marginTop="200dp"
                             android:onClick="onClick"
                             android:text="test2"
                             app:layout_constraintLeft_toLeftOf="parent"
@@ -209,6 +373,74 @@
                             app:layout_constraintTop_toTopOf="parent"/>
                     </LinearLayout>
                 </HorizontalScrollView>
+
+
+                <TextView
+                    android:id="@+id/maintext4"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="서울남부"
+                    android:textSize="60px"/>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/btn_test3"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/btn_next"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="200dp"
+                            android:onClick="onClick"
+                            android:text="test2"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
+                <TextView
+                    android:id="@+id/maintext5"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:text="서울북부"
+                    android:textSize="60px"/>
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/btn_test4"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/btn_next"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="200dp"
+                            android:onClick="onClick"
+                            android:text="test2"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"/>
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+
 
             </LinearLayout>
         </ScrollView>
