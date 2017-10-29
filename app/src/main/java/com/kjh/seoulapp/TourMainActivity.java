@@ -183,7 +183,19 @@ public class TourMainActivity extends GoogleApiClientActivity
 		Button map_west_button = (Button) findViewById(R.id.map_west_button);
 		Button map_south_button = (Button) findViewById(R.id.map_south_button);
 		Button map_north_button = (Button) findViewById(R.id.map_north_button);
+		ImageButton icon_jongmyo = (ImageButton) findViewById(R.id.icon_jongmyo);
+		ImageButton icon_nakjungdae = (ImageButton) findViewById(R.id.icon_nakjungdae);
 		ImageButton icon_indepen = (ImageButton) findViewById(R.id.icon_indepen);
+		ImageButton icon_gyungbok = (ImageButton) findViewById(R.id.icon_gyungbok);
+		ImageButton icon_changduck = (ImageButton) findViewById(R.id.icon_changduck);
+		ImageButton icon_changgyung = (ImageButton) findViewById(R.id.icon_changgyung);
+		ImageButton icon_gyunghee = (ImageButton) findViewById(R.id.icon_gyunghee);
+		ImageButton icon_ducksu = (ImageButton) findViewById(R.id.icon_ducksu);
+		ImageButton icon_busin = (ImageButton) findViewById(R.id.icon_busin);
+		ImageButton icon_dongdaemun = (ImageButton) findViewById(R.id.icon_dongdaemun);
+		ImageButton icon_namdaemun = (ImageButton) findViewById(R.id.icon_namdaemun);
+		ImageButton icon_bukdaemun = (ImageButton) findViewById(R.id.icon_bukdaemun);
+
 		switch (id)
 		{
 			case R.id.btn_next:
@@ -192,8 +204,36 @@ public class TourMainActivity extends GoogleApiClientActivity
 				break;
 			case R.id.btn_test:
 				break;
+			case R.id.icon_jongmyo:
+				regionFlag = "1";
+				startActivity(intent);
+				break;
+			case R.id.icon_nakjungdae:
+				regionFlag = "2";
+				startActivity(intent);
+				break;
 			case R.id.icon_indepen:
 				regionFlag = "3";
+				startActivity(intent);
+				break;
+			case R.id.icon_gyungbok:
+				regionFlag = "4";
+				startActivity(intent);
+				break;
+			case R.id.icon_changduck:
+				regionFlag = "5";
+				startActivity(intent);
+				break;
+			case R.id.icon_changgyung:
+				regionFlag = "6";
+				startActivity(intent);
+				break;
+			case R.id.icon_gyunghee:
+				regionFlag = "7";
+				startActivity(intent);
+				break;
+			case R.id.icon_ducksu:
+				regionFlag = "8";
 				startActivity(intent);
 				break;
 			case R.id.map_mid_button:
@@ -204,7 +244,17 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_south_button.setVisibility(View.GONE);
 				map_north_button.setVisibility(View.GONE);
 				map_1.setVisibility(View.VISIBLE);
+				icon_jongmyo.setVisibility(View.VISIBLE);
 				icon_indepen.setVisibility(View.VISIBLE);
+				icon_gyungbok.setVisibility(View.VISIBLE);
+				icon_changduck.setVisibility(View.VISIBLE);
+				icon_changgyung.setVisibility(View.VISIBLE);
+				icon_gyunghee.setVisibility(View.VISIBLE);
+				icon_ducksu.setVisibility(View.VISIBLE);
+				icon_busin.setVisibility(View.VISIBLE);
+				icon_dongdaemun.setVisibility(View.VISIBLE);
+				icon_namdaemun.setVisibility(View.VISIBLE);
+				icon_bukdaemun.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_east_button:
 				map_full.setVisibility(View.GONE);
@@ -232,6 +282,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_south_button.setVisibility(View.GONE);
 				map_north_button.setVisibility(View.GONE);
 				map_4.setVisibility(View.VISIBLE);
+				icon_nakjungdae.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_north_button:
 				map_full.setVisibility(View.GONE);
