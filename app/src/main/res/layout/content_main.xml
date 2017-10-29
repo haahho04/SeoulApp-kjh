@@ -106,7 +106,6 @@
                 android:src="@drawable/icon_indepen_temp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen"
                 android:visibility="gone"/>
             <ImageButton
                 android:id="@+id/icon_jongmyo"
@@ -313,18 +312,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
-                        <Button
-                            android:id="@+id/btn_test"
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/btn_next"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="48dp"
-                            android:onClick="onClick"
-                            android:text="test"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
 
                         <Button
                             android:id="@+id/cam_test"

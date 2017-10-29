@@ -211,20 +211,21 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		switch (id)
 		{
+			case R.id.cam_test:
+				Intent camIntent = new Intent(TourMainActivity.this, ARActivity.class);
+				startActivity(camIntent);
+				break;
 			case R.id.btn_next:
 				regionIndex = 1;
-				showProgressDialog();
 				startRegionActivity();
 				break;
-			case R.id.btn_test:
-				break;
 			case R.id.icon_jongmyo:
-				regionFlag = "1";
-				startActivity(intent);
+				regionIndex = 1;
+				startRegionActivity();
 				break;
 			case R.id.icon_nakjungdae:
-				regionFlag = "2";
-				startActivity(intent);
+				regionIndex = 2;
+				startRegionActivity();
 				break;
 			case R.id.icon_indepen:
 				regionIndex = 3;
@@ -232,24 +233,24 @@ public class TourMainActivity extends GoogleApiClientActivity
 				startRegionActivity();
 				break;
 			case R.id.icon_gyungbok:
-				regionFlag = "4";
-				startActivity(intent);
+				regionIndex = 4;
+				startRegionActivity();
 				break;
 			case R.id.icon_changduck:
-				regionFlag = "5";
-				startActivity(intent);
+				regionIndex = 5;
+				startRegionActivity();
 				break;
 			case R.id.icon_changgyung:
-				regionFlag = "6";
-				startActivity(intent);
+				regionIndex = 6;
+				startRegionActivity();
 				break;
 			case R.id.icon_gyunghee:
-				regionFlag = "7";
-				startActivity(intent);
+				regionIndex = 7;
+				startRegionActivity();
 				break;
 			case R.id.icon_ducksu:
-				regionFlag = "8";
-				startActivity(intent);
+				regionIndex = 8;
+				startRegionActivity();
 				break;
 			case R.id.map_mid_button:
 				map_full.setVisibility(View.GONE);
@@ -342,6 +343,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 		if (regionIndex == -1)
 			Log.d(TAG, "regionIndex is not initialized");
 
+		showProgressDialog();
 		DatabaseReference ref = FirebaseDatabase.getInstance().getReference(CULTURAL_REF).child(""+regionIndex);
 		Log.v(TAG, ref.toString());
 		ref.addListenerForSingleValueEvent(new ValueEventListener() {
