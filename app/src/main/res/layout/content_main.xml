@@ -16,6 +16,7 @@
         android:id="@+id/linear_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -38,8 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"
-                app:srcCompat="@drawable/seoul_map">
-            </ImageView>
+                app:srcCompat="@drawable/seoul_map"></ImageView>
+
             <Button
                 android:id="@+id/map_mid_button"
                 android:layout_width="60dp"
@@ -48,43 +49,47 @@
                 android:layout_marginTop="95dp"
                 android:background="#00ff0000"
                 android:onClick="onClick"
-                android:visibility="visible"/>
+                android:visibility="visible" />
+
             <Button
                 android:id="@+id/map_east_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="220dp"
                 android:layout_marginTop="110dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:visibility="visible"
                 android:background="#00ff0000"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:visibility="visible" />
+
             <Button
                 android:id="@+id/map_west_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="155dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:visibility="visible"
                 android:background="#00ff0000"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:visibility="visible" />
+
             <Button
                 android:id="@+id/map_south_button"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="190dp"
                 android:layout_marginTop="180dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:visibility="visible"
                 android:background="#00ff0000"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:visibility="visible" />
+
             <Button
                 android:id="@+id/map_north_button"
-                android:layout_marginLeft="190dp"
-                android:layout_marginTop="40dp"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:visibility="visible"
+                android:layout_marginLeft="190dp"
+                android:layout_marginTop="40dp"
                 android:background="#00ff0000"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:visibility="visible" />
 
 
             <ImageView
@@ -92,8 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:srcCompat="@drawable/seoul_mid">
-            </ImageView>
+                app:srcCompat="@drawable/seoul_mid"></ImageView>
 
             <ImageButton
                 android:id="@+id/icon_indepen"
@@ -106,124 +110,134 @@
                 android:padding="0dp"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                app:srcCompat="@drawable/icon_indepen"/>
+                app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_jongmyo"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="240dp"
                 android:layout_marginTop="135dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_gyungbok"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="185dp"
                 android:layout_marginTop="95dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_gyeongbok" />
+
             <ImageButton
                 android:id="@+id/icon_changgyung"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="245dp"
                 android:layout_marginTop="105dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_changduck"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="215dp"
                 android:layout_marginTop="100dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_gyunghee"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="180dp"
                 android:layout_marginTop="125dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_gyeonghui" />
+
             <ImageButton
                 android:id="@+id/icon_ducksu"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="205dp"
                 android:layout_marginTop="160dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_busin"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="210dp"
                 android:layout_marginTop="130dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_dongdaemun"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="250dp"
                 android:layout_marginTop="165dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_namdaemun"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="205dp"
                 android:layout_marginTop="190dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
+
             <ImageButton
                 android:id="@+id/icon_bukdaemun"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="90dp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
                 app:srcCompat="@drawable/icon_indepen" />
@@ -233,8 +247,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:srcCompat="@drawable/seoul_east">
-            </ImageView>
+                app:srcCompat="@drawable/seoul_east"></ImageView>
+
             <ImageButton
                 android:id="@+id/icon_amsadong"
                 android:layout_width="30dp"
@@ -252,8 +266,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:srcCompat="@drawable/seoul_west">
-            </ImageView>
+                app:srcCompat="@drawable/seoul_west"></ImageView>
+
             <ImageButton
                 android:id="@+id/icon_yangchun"
                 android:layout_width="30dp"
@@ -272,8 +286,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:srcCompat="@drawable/seoul_south">
-            </ImageView>
+                app:srcCompat="@drawable/seoul_south"></ImageView>
+
             <ImageButton
                 android:id="@+id/icon_nakjungdae"
                 android:layout_width="30dp"
@@ -285,6 +299,7 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/icon_nakseong"
                 android:visibility="gone" />
+
             <ImageButton
                 android:id="@+id/icon_huninreung"
                 android:layout_width="30dp"
@@ -303,8 +318,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
-                app:srcCompat="@drawable/seoul_north">
-            </ImageView>
+                app:srcCompat="@drawable/seoul_north"></ImageView>
+
             <ImageButton
                 android:id="@+id/icon_taereung"
                 android:layout_width="30dp"
@@ -340,14 +355,17 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:text="서울의 5대궁"
-                    android:textSize="60px"/>
+                    android:textSize="60px" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_next"
                             android:layout_width="1200dp"
@@ -356,7 +374,7 @@
                             android:text="next"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
 
@@ -369,10 +387,12 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:text="서울의 4대문"
-                    android:textSize="60px"/>
+                    android:textSize="60px" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -390,7 +410,7 @@
                             android:text="cam_test"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
 
@@ -403,14 +423,17 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:text="서울의 왕릉"
-                    android:textSize="60px"/>
+                    android:textSize="60px" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_test2"
                             android:layout_width="130dp"
@@ -422,7 +445,7 @@
                             android:text="test2"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
 
@@ -436,14 +459,17 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:text="TEMP"
-                    android:textSize="60px"/>
+                    android:textSize="60px" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_test3"
                             android:layout_width="130dp"
@@ -455,7 +481,7 @@
                             android:text="test2"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
 
@@ -469,14 +495,17 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:text="TEMP"
-                    android:textSize="60px"/>
+                    android:textSize="60px" />
+
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_test4"
                             android:layout_width="130dp"
@@ -488,10 +517,9 @@
                             android:text="test2"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"/>
+                            app:layout_constraintTop_toTopOf="parent" />
                     </LinearLayout>
                 </HorizontalScrollView>
-
 
 
             </LinearLayout>

@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -69,6 +70,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 		setContentView(R.layout.activity_tour_main);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 		setSupportActionBar(toolbar);
+
+		ActionBar actionBar = getSupportActionBar();
+		Log.d(TAG, "ActionBar: " + actionBar);
+//		actionBar.setElevation(0);
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
