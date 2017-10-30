@@ -1,20 +1,121 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.kjh.seoulapp.TourRegionActivity$PlaceholderFragment">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="com.kjh.seoulapp.TourRegionActivity$PlaceholderFragment"
+                                             tools:layout_editor_absoluteY="81dp"
+                                             tools:layout_editor_absoluteX="0dp">
+
+    <ViewFlipper
+        android:id="@+id/ViewFlipperID"
+        android:layout_width="0dp"
+        android:layout_height="240dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="50"
+        android:flipInterval="1500"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="0dp"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/t1"/>
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/t2"/>
+
+        <ImageView
+            android:id="@+id/img3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/t3"/>
+
+    </ViewFlipper>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/constraintLayout"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/ViewFlipperID">
+
+        <Button
+            android:id="@+id/flipper_pre"
+            android:layout_width="130dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="0dp"
+            android:background="@drawable/main_2_blueline"
+            android:text="PRE"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+
+        <ToggleButton
+            android:id="@+id/toggle_auto"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/main_2_blueline"
+            android:text="AUTO"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/flipper_pre"
+            app:layout_constraintRight_toLeftOf="@+id/flipper_next"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"/>
+
+        <Button
+            android:id="@+id/flipper_next"
+            android:layout_width="130dp"
+            android:layout_height="0dp"
+            android:layout_marginRight="0dp"
+            android:background="@drawable/main_2_blueline"
+            android:text="NEXT"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_constraintRight_creator="1"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/infotext"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:layout_weight="50"
+        android:text="설며 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintVertical_bias="0.0">
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp">
 <!--
 
         <ImageView
@@ -28,70 +129,6 @@
             tools:layout_editor_absoluteY="0dp" />
 -->
 
-        <ViewFlipper
-            android:id="@+id/ViewFlipperID"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:flipInterval="1500">
-            <ImageView
-                android:id="@+id/img1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/t1"/>
-            <ImageView
-                android:id="@+id/img2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/t2"/>
-            <ImageView
-                android:id="@+id/img3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/t3"/>
-
-        </ViewFlipper>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <Button
-                android:id="@+id/flipper_pre"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:text="PRE" />
-
-            <ToggleButton
-                android:id="@+id/toggle_auto"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:text="AUTO" />
-
-            <Button
-                android:id="@+id/flipper_next"
-                android:layout_width="120dp"
-                android:layout_height="40dp"
-                android:text="NEXT" />
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/infotext"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_weight="50"
-            android:text="유적지 설명이 들어갈 자리입니다아아아아아아아아아아아아아."
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            tools:layout_constraintBottom_creator="1"
-            tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1" />
 
     </LinearLayout>
 
