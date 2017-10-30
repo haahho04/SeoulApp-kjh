@@ -40,7 +40,6 @@
                 android:visibility="visible"
                 app:srcCompat="@drawable/seoul_map">
             </ImageView>
-
             <Button
                 android:id="@+id/map_mid_button"
                 android:layout_width="60dp"
@@ -50,7 +49,6 @@
                 android:background="#00ff0000"
                 android:onClick="onClick"
                 android:visibility="visible"/>
-
             <Button
                 android:id="@+id/map_east_button"
                 android:layout_marginLeft="220dp"
@@ -132,7 +130,7 @@
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                app:srcCompat="@drawable/icon_indepen" />
+                app:srcCompat="@drawable/icon_gyeongbok" />
             <ImageButton
                 android:id="@+id/icon_changgyung"
                 android:layout_width="30dp"
@@ -168,7 +166,7 @@
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:visibility="gone"
-                app:srcCompat="@drawable/icon_indepen" />
+                app:srcCompat="@drawable/icon_gyeonghui" />
             <ImageButton
                 android:id="@+id/icon_ducksu"
                 android:layout_width="30dp"
@@ -237,7 +235,17 @@
                 android:visibility="gone"
                 app:srcCompat="@drawable/seoul_east">
             </ImageView>
-
+            <ImageButton
+                android:id="@+id/icon_amsadong"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="220dp"
+                android:layout_marginTop="145dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_nakseong"
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/map_3"
@@ -246,6 +254,17 @@
                 android:visibility="gone"
                 app:srcCompat="@drawable/seoul_west">
             </ImageView>
+            <ImageButton
+                android:id="@+id/icon_yangchun"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="75dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_nakseong"
+                android:visibility="gone" />
 
 
             <ImageView
@@ -263,8 +282,21 @@
                 android:layout_marginTop="155dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_nakseong"
                 android:visibility="gone" />
+            <ImageButton
+                android:id="@+id/icon_huninreung"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="165dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_nakseong"
+                android:visibility="gone" />
+
 
             <ImageView
                 android:id="@+id/map_5"
@@ -273,6 +305,17 @@
                 android:visibility="gone"
                 app:srcCompat="@drawable/seoul_north">
             </ImageView>
+            <ImageButton
+                android:id="@+id/icon_taereung"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="220dp"
+                android:layout_marginTop="125dp"
+                android:onClick="onClick"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_nakseong"
+                android:visibility="gone" />
 
         </FrameLayout>
 
@@ -296,7 +339,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="서울중앙"
+                    android:text="서울의 5대궁"
                     android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -325,7 +368,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="서울동부"
+                    android:text="서울의 4대문"
                     android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -359,7 +402,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="서울서부"
+                    android:text="서울의 왕릉"
                     android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -392,7 +435,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="서울남부"
+                    android:text="TEMP"
                     android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -425,7 +468,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:text="서울북부"
+                    android:text="TEMP"
                     android:textSize="60px"/>
                 <HorizontalScrollView
                     android:layout_width="match_parent"

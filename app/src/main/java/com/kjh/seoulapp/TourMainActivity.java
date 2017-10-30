@@ -126,8 +126,20 @@ public class TourMainActivity extends GoogleApiClientActivity
 		tempList.add((ImageButton) findViewById(R.id.icon_namdaemun));
 		tempList.add((ImageButton) findViewById(R.id.icon_bukdaemun));
 
+
+		tempList = mapRegion.get(MAP_TYPE.EAST);
+		tempList.add((ImageButton) findViewById(R.id.icon_amsadong));
+
+		tempList = mapRegion.get(MAP_TYPE.WEST);
+		tempList.add((ImageButton) findViewById(R.id.icon_yangchun));
+
 		tempList = mapRegion.get(MAP_TYPE.SOUTH);
 		tempList.add((ImageButton) findViewById(R.id.icon_nakjungdae));
+		tempList.add((ImageButton) findViewById(R.id.icon_huninreung));
+
+
+		tempList = mapRegion.get(MAP_TYPE.NORTH);
+		tempList.add((ImageButton) findViewById(R.id.icon_taereung));
 
 		FirebaseUser user = auth.getCurrentUser();
 		if (user != null)
@@ -204,6 +216,17 @@ public class TourMainActivity extends GoogleApiClientActivity
 			case R.id.icon_changgyung: startRegionActivity(6); break;
 			case R.id.icon_gyunghee: startRegionActivity(7); break;
 			case R.id.icon_ducksu: startRegionActivity(8); break;
+			case R.id.icon_busin: startRegionActivity(9); break;
+			case R.id.icon_dongdaemun: startRegionActivity(10); break;
+			case R.id.icon_namdaemun: startRegionActivity(12); break;
+			case R.id.icon_bukdaemun: startRegionActivity(13); break;
+			case R.id.icon_taereung: startRegionActivity(14); break;
+			case R.id.icon_huninreung: startRegionActivity(15); break;
+			case R.id.icon_yangchun: startRegionActivity(16); break;
+			case R.id.icon_amsadong: startRegionActivity(17); break;
+
+
+
 			case R.id.map_mid_button: goInMap(MAP_TYPE.MID); break;
 			case R.id.map_east_button: goInMap(MAP_TYPE.EAST); break;
 			case R.id.map_west_button: goInMap(MAP_TYPE.WEST); break;
