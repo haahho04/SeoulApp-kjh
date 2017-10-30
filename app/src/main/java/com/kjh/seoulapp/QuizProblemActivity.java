@@ -19,6 +19,7 @@ import static com.kjh.seoulapp.data.SharedData.EXTRA_POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.correctCnt;
 import static com.kjh.seoulapp.data.SharedData.cultural;
+import static com.kjh.seoulapp.data.SharedData.stampLevel;
 
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
@@ -132,6 +133,12 @@ public class QuizProblemActivity extends AppCompatActivity
 
         if (requestCode == END_QUIZ)
         {
+			stampLevel = 1;
+			if (0 < correctCnt)
+				stampLevel = 2;
+			else if (correctCnt == 3)
+				stampLevel = 3;
+
             Intent intent = new Intent(QuizProblemActivity.this, ARActivity.class);
 			startActivity(intent);
 			finish();

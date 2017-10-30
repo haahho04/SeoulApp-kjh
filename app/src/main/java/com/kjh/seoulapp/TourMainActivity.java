@@ -6,10 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -42,7 +40,6 @@ import java.util.Map;
 import static com.kjh.seoulapp.data.SharedData.CULTURAL_REF;
 import static com.kjh.seoulapp.data.SharedData.DATA_NAME;
 import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
-import static com.kjh.seoulapp.data.SharedData.addListenerWithTimeout;
 import static com.kjh.seoulapp.data.SharedData.regionIndex;
 
 public class TourMainActivity extends GoogleApiClientActivity
@@ -154,17 +151,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 			if (user_email != null && strEmail != null) user_email.setText(strEmail);
 		}
 	} // onCreate()
-
-	@Override
-	protected void onStart()
-	{
-		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
-
-		super.onStart();
-	}
 
 	@Override // button event: open drawer
 	public void onBackPressed()
@@ -300,38 +286,17 @@ public class TourMainActivity extends GoogleApiClientActivity
 		};
 
 		showProgressDialog();
-		addListenerWithTimeout(this, ref, listener, DATA_NAME.CULTURAL);
+		addListenerWithTimeout(ref, listener, DATA_NAME.CULTURAL);
 	} // startRegionActivity()
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_search, menu);
+		//getMenuInflater().inflate(R.menu.menu_search, menu);
 
-		return initSearch(menu);
-	}
-
-	public static boolean initSearch(Menu menu)
-	{
-		MenuItem searchItem = menu.findItem(R.id.action_search);
-		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
-		{
-			@Override
-			public boolean onQueryTextSubmit(String s)
-			{
-				return false;
-			}
-
-			@Override
-			public boolean onQueryTextChange(String s)
-			{
-				System.out.println(s);
-				return false;
-			}
-		});
-		return true;
+		//return initSearch(menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

@@ -1,16 +1,11 @@
 package com.kjh.seoulapp.data;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
-import com.kjh.seoulapp.ProgressActivity;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import com.kjh.seoulapp.R;
 
 public class SharedData
 {
@@ -28,42 +23,26 @@ public class SharedData
 	public static int correctCnt;
 	public static int regionIndex;
 	public static int stampLevel;
-	static long TIMEOUT = 3000L;
 
-	public static void addListenerWithTimeout(final ProgressActivity activity, final DatabaseReference ref, final ValueEventListener listener, final DATA_NAME dataName)
+	public static boolean initSearch(Menu menu)
 	{
-		ref.addListenerForSingleValueEvent(listener);
-
-		final Timer timer = new Timer();
-		TimerTask timerTask = new TimerTask() {
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+		{
 			@Override
-			public void run() {
-				timer.cancel();
-				boolean timeoutFlag = false;
-
-				if (dataName == DATA_NAME.USER_DATA)
-					timeoutFlag = userData == null;
-				else if (dataName == DATA_NAME.CULTURAL)
-					timeoutFlag = cultural == null;
-
-				if (timeoutFlag) //  Timeout
-				{
-					ref.removeEventListener(listener);
-					Log.d("Timeout", ref.toString());
-
-					new Handler(Looper.getMainLooper()).post(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							Toast.makeText(activity, "데이터 읽기 실패", Toast.LENGTH_SHORT).show();
-							activity.hideProgressDialog();
-						}
-					});
-				}
+			public boolean onQueryTextSubmit(String s)
+			{
+				return false;
 			}
-		};
-		// Setting timeout of 10 sec to the request
-		timer.schedule(timerTask, TIMEOUT);
+
+			@Override
+			public boolean onQueryTextChange(String s)
+			{
+				System.out.println(s);
+				return false;
+			}
+		});
+		return true;
 	}
 }

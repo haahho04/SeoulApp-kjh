@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -30,14 +30,13 @@ import com.kjh.seoulapp.data.UserData;
 
 import static com.kjh.seoulapp.data.SharedData.DATA_NAME;
 import static com.kjh.seoulapp.data.SharedData.USER_REF;
-import static com.kjh.seoulapp.data.SharedData.addListenerWithTimeout;
 import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class SocialLoginActivity extends GoogleApiClientActivity implements View.OnClickListener
 {
 	final String TAG = "SocialLoginActivity";
 	final int RC_SIGN_IN = 9001;
-	Button btnLogin;
+	ImageButton btnLogin;
 	FirebaseAuth auth;
 
 	@Override
@@ -50,10 +49,16 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 		progressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
 		hideProgressDialog();
 
-		btnLogin = (Button) findViewById(R.id.btn_login);
+		btnLogin = (ImageButton) findViewById(R.id.btn_login);
+		btnLogin.setOnClickListener(this);
 
 		auth = FirebaseAuth.getInstance();
 		Log.d(TAG, "progressBar: " + progressBar);
+
+		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
+		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
 	}
 
 	// [START on_start_check_user]
@@ -87,7 +92,6 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	private void signIn()
 	{
 		Log.d(TAG, "signIn");
-		btnLogin.setEnabled(false);
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -124,7 +128,6 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	{
 		Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 		// [START_EXCLUDE silent]
-		btnLogin.setEnabled(false);
 		showProgressDialog();
 		// [END_EXCLUDE]
 
@@ -151,7 +154,6 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 				}
 
 				// [START_EXCLUDE]
-				btnLogin.setEnabled(true);
 				hideProgressDialog();
 				// [END_EXCLUDE]
 			}
@@ -161,6 +163,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 
 	public void startMainActivity()
 	{
+		Log.d(TAG, "startMainActivity");
 		FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 		FirebaseUser currentUser = auth.getCurrentUser();
@@ -210,9 +213,8 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 			}
 		};
 
-		btnLogin.setEnabled(false);
 		showProgressDialog();
-		addListenerWithTimeout(this, ref, listener, DATA_NAME.USER_DATA);
+		addListenerWithTimeout(ref, listener, DATA_NAME.USER_DATA);
 	} // startMainActivity()
 
 	private void updateUI(FirebaseUser user)
@@ -221,7 +223,6 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 			startMainActivity();
 		else
 		{
-			btnLogin.setEnabled(true);
 			Log.d(TAG, "non auth state");
 			// TODO: 네트워크 등의 이유로 인증 실패
 		}

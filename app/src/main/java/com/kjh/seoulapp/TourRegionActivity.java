@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -33,7 +34,13 @@ import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.kjh.seoulapp.data.SharedData.cultural;
+import static com.kjh.seoulapp.data.SharedData.initSearch;
+import static com.kjh.seoulapp.data.SharedData.regionIndex;
+import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
@@ -152,11 +159,6 @@ public class TourRegionActivity extends AppCompatActivity
     public void onStart()
     {
         super.onStart();
-
-		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d(TAG,"FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d(TAG,"ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
     } // onStart()
 
 	@Override
@@ -189,7 +191,7 @@ public class TourRegionActivity extends AppCompatActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		getMenuInflater().inflate(R.menu.menu_search, menu);
-		return true;
+		return initSearch(menu);
 	}
 
 	@Override
@@ -296,7 +298,17 @@ public class TourRegionActivity extends AppCompatActivity
 				case QUIZ_START_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 
-					final Button quizStart = rootView.findViewById(R.id.quiz_start);
+					List<ImageView> stampViewList = new ArrayList<>();
+					stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_1));
+					stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_2));
+					stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_3));
+
+					int stampCnt = userData.stampList.get(regionIndex);
+
+					for(int i=0;i<stampCnt;i++)
+						stampViewList.get(i).setImageResource(R.drawable.stamp_color);
+
+					Button quizStart = rootView.findViewById(R.id.quiz_start);
 					if (distance < DIST_LIMIT)
 					{
 						quizStart.setText("퀴즈 시작" + distance);

@@ -103,10 +103,12 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="150dp"
-                android:src="@drawable/icon_indepen_temp"
+                android:background="@android:color/transparent"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:visibility="gone"/>
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen"/>
             <ImageButton
                 android:id="@+id/icon_jongmyo"
                 android:layout_width="30dp"
@@ -115,8 +117,10 @@
                 android:layout_marginTop="135dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_gyungbok"
                 android:layout_width="30dp"
@@ -125,8 +129,10 @@
                 android:layout_marginTop="95dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_changgyung"
                 android:layout_width="30dp"
@@ -135,8 +141,10 @@
                 android:layout_marginTop="105dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_changduck"
                 android:layout_width="30dp"
@@ -145,8 +153,10 @@
                 android:layout_marginTop="100dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_gyunghee"
                 android:layout_width="30dp"
@@ -155,8 +165,10 @@
                 android:layout_marginTop="125dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_ducksu"
                 android:layout_width="30dp"
@@ -165,8 +177,10 @@
                 android:layout_marginTop="160dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_busin"
                 android:layout_width="30dp"
@@ -175,8 +189,10 @@
                 android:layout_marginTop="130dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_dongdaemun"
                 android:layout_width="30dp"
@@ -185,8 +201,10 @@
                 android:layout_marginTop="165dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_namdaemun"
                 android:layout_width="30dp"
@@ -195,8 +213,10 @@
                 android:layout_marginTop="190dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
             <ImageButton
                 android:id="@+id/icon_bukdaemun"
                 android:layout_width="30dp"
@@ -205,8 +225,10 @@
                 android:layout_marginTop="90dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
-                android:visibility="gone" />
+                android:background="@android:color/transparent"
+                android:scaleType="fitXY"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_indepen" />
 
             <ImageView
                 android:id="@+id/map_2"
@@ -241,7 +263,7 @@
                 android:layout_marginTop="155dp"
                 android:onClick="onClick"
                 android:padding="0dp"
-                android:src="@drawable/icon_indepen_temp"
+                android:src="@drawable/icon_indepen"
                 android:visibility="gone" />
 
             <ImageView

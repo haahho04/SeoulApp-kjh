@@ -3,111 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+     android:background="@color/colorGray"
     tools:context="com.kjh.seoulapp.TourRegionActivity$PlaceholderFragment">
 
     <RelativeLayout
         android:id="@+id/map_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/carTextView"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/carLink"/>
 
-    <TextView
-        android:id="@+id/carTextView"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="8dp"
-        android:text="자동차"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/transitTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
+    <Button
         android:id="@+id/carLink"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_height="65dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="카카오맵으로 연결"
-        android:textAllCaps="false"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="24sp"
+        android:background="@drawable/main_2_1_bus"
         app:layout_constraintBottom_toTopOf="@+id/transitLink"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/carTextView"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-    <TextView
-        android:id="@+id/transitTextView"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="8dp"
-        android:text="대중교통"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/walkTextView"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
+    <Button
         android:id="@+id/transitLink"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="카카오맵으로 연결"
-        android:textAllCaps="false"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/walkLink"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/transitTextView"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/walkTextView"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:text="도보"
-        android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginRight="8dp"
+        android:background="@drawable/main_2_1_car"
+        app:layout_constraintBottom_toTopOf="@+id/walkLink"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
-    <TextView
+    <Button
         android:id="@+id/walkLink"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="카카오맵으로 연결"
-        android:textAllCaps="false"
-        android:textColor="@android:color/holo_blue_light"
-        android:textSize="24sp"
+        android:background="@drawable/main_2_1_walk"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/walkTextView"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideline"
         app:layout_constraintGuide_percent="0.9"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="460dp"
+        tools:layout_editor_absoluteX="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

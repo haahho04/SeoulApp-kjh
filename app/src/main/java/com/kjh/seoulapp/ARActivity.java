@@ -1,6 +1,5 @@
 package com.kjh.seoulapp;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -59,9 +58,9 @@ public class ARActivity extends ProgressActivity
 						{
 							openCam();
 						}
-						else
+						else // permission denied
 						{
-							// permission denied
+
 						}
 					}
 				}
@@ -91,8 +90,6 @@ public class ARActivity extends ProgressActivity
         {
 			case R.id.btn_get_stamp:
 				sendStampInfo();
-				Intent intent = new Intent(ARActivity.this, TourRegionActivity.class);
-				startActivity(intent);
 				finish();
 				break;
         }
@@ -104,7 +101,6 @@ public class ARActivity extends ProgressActivity
 		FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 		String uid = auth.getCurrentUser().getUid();
-
 		Log.d(TAG, "before: "+userData);
 		userData.stampList.set(regionIndex, stampLevel);
 		Log.d(TAG, "after: "+userData);
