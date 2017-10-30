@@ -55,6 +55,10 @@ public class TourRegionActivity extends AppCompatActivity
 		setContentView(R.layout.activity_tour_region);
 
 		/* init members */
+		locRegion = new Location("locRegion");
+		locRegion.setLatitude(cultural.latitude);
+		locRegion.setLongitude(cultural.longitude);
+		locNow = new Location("locNow");
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -105,11 +109,6 @@ public class TourRegionActivity extends AppCompatActivity
 		boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 		Log.d(TAG, "isGPSEnabled=" + isGPSEnabled);
 		Log.d(TAG, "isNetworkEnabled=" + isNetworkEnabled);
-
-		locRegion = new Location("locRegion");
-		locRegion.setLatitude(cultural.latitude);
-		locRegion.setLongitude(cultural.longitude);
-		locNow = new Location("locNow");
 
 		final LocationListener locationListener = new LocationListener()
 		{
