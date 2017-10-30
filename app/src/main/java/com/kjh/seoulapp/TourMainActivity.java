@@ -43,6 +43,10 @@ import static com.kjh.seoulapp.data.SharedData.regionIndex;
 public class TourMainActivity extends GoogleApiClientActivity
 		implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener
 {
+	private final long FINISH_INTERVAL_TIME = 2000;
+	private long backPressedTime = 0;
+	private boolean backPressedcheck = false;
+
 	final String TAG = "TourMainActivity";
 	FirebaseAuth auth;
 
@@ -108,13 +112,25 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override // button event: open drawer
 	public void onBackPressed()
 	{
+		long tempTime = System.currentTimeMillis();
+		long intervalTime = tempTime - backPressedTime;
+
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START))
 		{
 			drawer.closeDrawer(GravityCompat.START);
 		} else
 		{
-			super.onBackPressed();
+			if(backPressedcheck) {
+			}
+			else{
+				if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+					super.onBackPressed();
+				} else {
+					backPressedTime = tempTime;
+					Toast.makeText(getApplicationContext(), "종료하시려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
+				}
+			}
 		}
 	}
 
@@ -258,6 +274,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				startRegionActivity();
 				break;
 			case R.id.map_mid_button:
+				backPressedcheck=true;
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
@@ -278,6 +295,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				icon_bukdaemun.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_east_button:
+				backPressedcheck=true;
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
@@ -287,6 +305,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_2.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_west_button:
+				backPressedcheck=true;
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
@@ -296,6 +315,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				map_3.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_south_button:
+				backPressedcheck=true;
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
@@ -306,6 +326,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 				icon_nakjungdae.setVisibility(View.VISIBLE);
 				break;
 			case R.id.map_north_button:
+				backPressedcheck=true;
 				map_full.setVisibility(View.GONE);
 				map_mid_button.setVisibility(View.GONE);
 				map_east_button.setVisibility(View.GONE);
