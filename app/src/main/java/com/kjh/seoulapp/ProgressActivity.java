@@ -11,7 +11,7 @@ public abstract class ProgressActivity extends AppCompatActivity
 	protected boolean isProgress;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 	}

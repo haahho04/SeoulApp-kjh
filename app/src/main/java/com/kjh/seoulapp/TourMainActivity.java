@@ -41,13 +41,13 @@ import static com.kjh.seoulapp.data.SharedData.addListenerWithTimeout;
 import static com.kjh.seoulapp.data.SharedData.regionIndex;
 
 public class TourMainActivity extends GoogleApiClientActivity
-		implements NavigationView.OnNavigationItemSelectedListener
+		implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener
 {
 	final String TAG = "TourMainActivity";
 	FirebaseAuth auth;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		android.util.Log.d("TAG","TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d("TAG","MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
@@ -95,7 +95,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 	} // onCreate()
 
 	@Override
-	public void onStart()
+	protected void onStart()
 	{
 		android.util.Log.d(TAG,"TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d(TAG,"MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
@@ -183,6 +183,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 		return true;
 	} // onNavigationItemSelected()
 
+	@Override
 	public void onClick(View v)
 	{
 		if (isProgress)

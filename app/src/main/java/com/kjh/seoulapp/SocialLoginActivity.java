@@ -41,7 +41,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	FirebaseAuth auth;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState)
 	{
 		Log.d(TAG, "onCreate()");
 		super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 
 	// [START on_start_check_user]
 	@Override
-	public void onStart()
+	protected void onStart()
 	{
 		Log.d(TAG, "onStart()");
 		super.onStart();
@@ -138,7 +138,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 				{
 					// Sign in success, update UI with the signed-in currentUser's information
 					Log.d(TAG, "signInWithCredential:success");
-					Toast.makeText(SocialLoginActivity.this, "Authentication success.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SocialLoginActivity.this, "인증 성공.", Toast.LENGTH_SHORT).show();
 
 					FirebaseUser currentUser = auth.getCurrentUser();
 					updateUI(currentUser);
@@ -146,7 +146,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 				{
 					// If sign in fails, display a message to the currentUser.
 					Log.w(TAG, "signInWithCredential:failure", task.getException());
-					Toast.makeText(SocialLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(SocialLoginActivity.this, "인증 실패.", Toast.LENGTH_SHORT).show();
 					updateUI(null);
 				}
 
