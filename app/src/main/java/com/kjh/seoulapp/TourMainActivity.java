@@ -282,7 +282,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				hideProgressDialog();
 				CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
-				Log.d(TAG, "Value is: " + cultural);
+				Log.d(TAG, "cultural: " + cultural);
 
 				SharedData.cultural = cultural;
 				hideProgressDialog();

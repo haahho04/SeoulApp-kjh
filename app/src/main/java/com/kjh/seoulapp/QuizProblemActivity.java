@@ -44,9 +44,9 @@ public class QuizProblemActivity extends AppCompatActivity
 		nowIndex = 0;
 		nowProb = null;
 		probList = new ArrayList<>();
-		probList.add(new ProblemData(cultural.pro1, cultural.ans1));
-		probList.add(new ProblemData(cultural.pro2, cultural.ans2));
-		probList.add(new ProblemData(cultural.pro3, cultural.ans3));
+		probList.add(new ProblemData(cultural.prob1, cultural.ans1));
+		probList.add(new ProblemData(cultural.prob2, cultural.ans2));
+		probList.add(new ProblemData(cultural.prob3, cultural.ans3));
         descTxtView = (TextView) findViewById(R.id.prob_desc);
         popupImgView = (ImageView) findViewById(R.id.result_image);
 		btnX = (ImageButton) findViewById(R.id.answer_x);

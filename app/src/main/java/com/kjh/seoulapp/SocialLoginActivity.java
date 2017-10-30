@@ -191,7 +191,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 					database.getReference(USER_REF).child(uid).setValue(_userData);
 				}
 				userData = _userData;
-				Log.d(TAG, "Value is: " + _userData);
+				Log.d(TAG, "userData: " + _userData);
 
 				// change activity
 				Intent intent = new Intent(SocialLoginActivity.this, TourMainActivity.class);
