@@ -256,8 +256,20 @@ public class TourRegionActivity extends AppCompatActivity
 					flipperNext.setOnClickListener(this);
 
 //					toggleFlipping = rootView.findViewById(R.id.toggle_auto);
-					final TextView infotextview = rootView.findViewById(R.id.infotext);
 
+					List<ImageView> imgViewList = new ArrayList<>();
+					imgViewList.add((ImageView)rootView.findViewById(R.id.img1));
+					imgViewList.add((ImageView)rootView.findViewById(R.id.img2));
+					imgViewList.add((ImageView)rootView.findViewById(R.id.img3));
+
+					for(ImageView imgView : imgViewList)
+					{
+						// TODO: 유적지 사진 업데이트
+						// imgView.setImageResource(R.drawable.);
+					}
+
+					// 설명 텍스트뷰
+					TextView infotextview = rootView.findViewById(R.id.infotext);
 					infotextview.setText(cultural.content);
 
 					break;
