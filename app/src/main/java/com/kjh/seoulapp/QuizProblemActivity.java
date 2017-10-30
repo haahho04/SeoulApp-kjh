@@ -89,16 +89,14 @@ public class QuizProblemActivity extends AppCompatActivity
         {
             Log.d(TAG, "정답입니다");
             // TODO: UI Update
-            // popupImgView.setimage (O)
+            popupImgView.setImageResource(R.drawable.main_3_1_o);
             correctCnt++;
-            //enableBtnNext(true); // popupImgView 클릭 시 next
         }
         else
         {
             Log.d(TAG, "오답입니다");
             // TODO: UI Update
-            // popupImgView.setimage (X)
-            //enableBtnNext(true);  // popupImgView 클릭 시 next
+            popupImgView.setImageResource(R.drawable.main_3_1_x);
         }
 
 		popupImgView.setVisibility(View.VISIBLE);
@@ -138,6 +136,8 @@ public class QuizProblemActivity extends AppCompatActivity
 				stampLevel = 2;
 			else if (correctCnt == 3)
 				stampLevel = 3;
+
+
 
             Intent intent = new Intent(QuizProblemActivity.this, ARActivity.class);
 			startActivity(intent);

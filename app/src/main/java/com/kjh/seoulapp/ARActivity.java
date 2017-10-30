@@ -1,5 +1,6 @@
 package com.kjh.seoulapp;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -90,6 +91,8 @@ public class ARActivity extends ProgressActivity
         {
 			case R.id.btn_get_stamp:
 				sendStampInfo();
+				Intent intent = new Intent(ARActivity.this, TourRegionActivity.class);
+				startActivity(intent);
 				finish();
 				break;
         }

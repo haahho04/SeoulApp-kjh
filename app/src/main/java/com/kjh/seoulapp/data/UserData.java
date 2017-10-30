@@ -5,7 +5,7 @@ import java.util.List;
 
 public class UserData
 {
-    final int CULTURAL_CNT = 17;
+    final int CULTURAL_CNT = 18;
     public String name;
     public List<Integer> stampList;
 

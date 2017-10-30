@@ -216,6 +216,7 @@ public class TourRegionActivity extends AppCompatActivity
                 Intent intent = new Intent(TourRegionActivity.this, QuizProblemActivity.class);
 				// TODO:
                 startActivity(intent);
+				finish();
                 break;
         }
     }
@@ -312,15 +313,7 @@ public class TourRegionActivity extends AppCompatActivity
 				case QUIZ_START_TAB:
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 
-					List<ImageView> stampViewList = new ArrayList<>();
-					stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_1));
-					stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_2));
-					stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_3));
-
-					int stampCnt = userData.stampList.get(regionIndex);
-
-					for(int i=0;i<stampCnt;i++)
-						stampViewList.get(i).setImageResource(R.drawable.stamp_color);
+					updateStampView(rootView);
 
 					Button quizStart = rootView.findViewById(R.id.quiz_start);
 					if (distance < DIST_LIMIT)
@@ -337,6 +330,19 @@ public class TourRegionActivity extends AppCompatActivity
 			}
 			return rootView;
 		} // onCreateView()
+
+		void updateStampView(View rootView)
+		{
+			List<ImageView> stampViewList = new ArrayList<>();
+			stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_1));
+			stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_2));
+			stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_3));
+
+			int stampCnt = userData.stampList.get(regionIndex);
+
+			for(int i=0;i<stampCnt;i++)
+				stampViewList.get(i).setImageResource(R.drawable.stamp_color);
+		}
 
 		@Override
 		public void onDaumMapOpenAPIKeyAuthenticationResult(MapView mapView, int i, String s)

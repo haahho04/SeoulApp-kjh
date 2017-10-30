@@ -345,10 +345,12 @@ public class TourMainActivity extends GoogleApiClientActivity
 		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
-		if (id == R.id.nav_sign_out) signOut();
-		else if (id == R.id.nav_app_info) popupActivity(POPUP_TYPE.APP_INFO);
-		else if (id == R.id.nav_contact) popupActivity(POPUP_TYPE.CONTACT);
-		else if (id == R.id.nav_donate) popupActivity(POPUP_TYPE.DONATE);
+		switch(id)
+		{
+			case R.id.nav_sign_out: signOut(); break;
+			case R.id.nav_app_info: popupActivity(POPUP_TYPE.APP_INFO); break;
+			case R.id.nav_contact: popupActivity(POPUP_TYPE.CONTACT); break;
+		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
