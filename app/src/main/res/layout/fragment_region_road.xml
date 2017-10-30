@@ -29,10 +29,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/main_2_1_bus"
+        android:background="@drawable/main_2_1_car"
         app:layout_constraintBottom_toTopOf="@+id/transitLink"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/transitLink"
@@ -41,10 +41,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/main_2_1_car"
+        android:background="@drawable/main_2_1_bus"
         app:layout_constraintBottom_toTopOf="@+id/walkLink"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/walkLink"

@@ -313,12 +313,12 @@ public class TourRegionActivity extends AppCompatActivity
 					Button quizStart = rootView.findViewById(R.id.quiz_start);
 					if (distance < DIST_LIMIT)
 					{
-						quizStart.setText("문제풀이");
+						//quizStart.setText("문제풀이");
 						quizStart.setEnabled(true);
 					}
 					else
 					{
-						quizStart.setText("유적지에서만 가능합니다!");
+						//quizStart.setText("유적지에서만 가능합니다!");
 						quizStart.setEnabled(false);
 					}
 					break;
