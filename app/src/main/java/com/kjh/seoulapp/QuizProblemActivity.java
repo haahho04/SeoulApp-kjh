@@ -11,11 +11,14 @@ import android.widget.TextView;
 
 import com.kjh.seoulapp.data.ProblemData;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.kjh.seoulapp.data.SharedData.EXTRA_CORRECT_CNT;
 import static com.kjh.seoulapp.data.SharedData.EXTRA_POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.correctCnt;
-import static com.kjh.seoulapp.data.SharedData.probList;
+import static com.kjh.seoulapp.data.SharedData.cultural;
 
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
@@ -23,23 +26,32 @@ public class QuizProblemActivity extends AppCompatActivity
     final String TAG = "QuizProblemActivity";
     final int LAST_PROB_NUM = 3;
     final int END_QUIZ = 1234;
-	int probNum;
-    TextView probView;
+	int nowIndex;
 	ProblemData nowProb;
-	ImageView resultImage;
-	ImageButton answerX, answerO;
+	List<ProblemData> probList;
+    TextView descTxtView;
+	ImageView popupImgView;
+	ImageButton btnX, btnO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_problem);
 
-        probView = (TextView) findViewById(R.id.prob_desc);
-        resultImage = (ImageView) findViewById(R.id.result_image);
-		answerX = (ImageButton) findViewById(R.id.answer_x);
-		answerO = (ImageButton) findViewById(R.id.answer_o);
-        probNum = 0;
-        correctCnt = 0;
+		// SharedData.members init
+		correctCnt = 0;
+
+		nowIndex = 0;
+		nowProb = null;
+		probList = new ArrayList<>();
+		probList.add(new ProblemData(cultural.pro1, cultural.ans1));
+		probList.add(new ProblemData(cultural.pro2, cultural.ans2));
+		probList.add(new ProblemData(cultural.pro3, cultural.ans3));
+        descTxtView = (TextView) findViewById(R.id.prob_desc);
+        popupImgView = (ImageView) findViewById(R.id.result_image);
+		btnX = (ImageButton) findViewById(R.id.answer_x);
+		btnO = (ImageButton) findViewById(R.id.answer_o);
+		Log.d(TAG, "probList: " + probList);
 
 		updateNextProb();
     }
@@ -76,32 +88,32 @@ public class QuizProblemActivity extends AppCompatActivity
         {
             Log.d(TAG, "정답입니다");
             // TODO: UI Update
-            // resultImage.setimage (O)
+            // popupImgView.setimage (O)
             correctCnt++;
-            //enableBtnNext(true); // resultImage 클릭 시 next
+            //enableBtnNext(true); // popupImgView 클릭 시 next
         }
         else
         {
             Log.d(TAG, "오답입니다");
             // TODO: UI Update
-            // resultImage.setimage (X)
-            //enableBtnNext(true);  // resultImage 클릭 시 next
+            // popupImgView.setimage (X)
+            //enableBtnNext(true);  // popupImgView 클릭 시 next
         }
 
-		resultImage.setVisibility(View.VISIBLE);
+		popupImgView.setVisibility(View.VISIBLE);
     }
 
     void updateNextProb()
     {
-		if (probNum == LAST_PROB_NUM)
+		if (nowIndex == LAST_PROB_NUM)
 			endQuiz();
 		else
 		{
-			nowProb = probList.get(probNum);
-			probNum++;
-			probView.setText("Q" + probNum + ". " + nowProb.description);
+			nowProb = probList.get(nowIndex);
+			nowIndex++;
+			descTxtView.setText("Q" + nowIndex + ". " + nowProb.description);
 
-			resultImage.setVisibility(View.GONE);
+			popupImgView.setVisibility(View.GONE);
 		}
     }
 

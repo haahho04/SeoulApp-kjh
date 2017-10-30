@@ -8,13 +8,14 @@ import android.widget.ProgressBar;
 public abstract class ProgressActivity extends AppCompatActivity
 {
 	protected ProgressBar progressBar;
+	protected boolean isProgress;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 	}
 
-	protected void showProgressDialog() { progressBar.setVisibility(View.VISIBLE); }
-	protected void hideProgressDialog() { progressBar.setVisibility(View.GONE); }
+	public void showProgressDialog() { progressBar.setVisibility(View.VISIBLE); isProgress = true; }
+	public void hideProgressDialog() { progressBar.setVisibility(View.GONE); isProgress = false; }
 }

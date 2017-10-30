@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
@@ -31,11 +32,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
-import com.kjh.seoulapp.data.ProblemData;
+import com.kjh.seoulapp.data.SharedData;
 
 import static com.kjh.seoulapp.data.SharedData.CULTURAL_REF;
+import static com.kjh.seoulapp.data.SharedData.DATA_NAME;
 import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
-import static com.kjh.seoulapp.data.SharedData.probList;
+import static com.kjh.seoulapp.data.SharedData.addListenerWithTimeout;
 import static com.kjh.seoulapp.data.SharedData.regionIndex;
 
 public class TourMainActivity extends GoogleApiClientActivity
@@ -45,7 +47,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 	FirebaseAuth auth;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		android.util.Log.d("TAG","TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
 		android.util.Log.d("TAG","MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
@@ -183,6 +185,9 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 	public void onClick(View v)
 	{
+		if (isProgress)
+			return;
+
 		int id = v.getId();
 
 		ImageView map_full = (ImageView) findViewById(R.id.map_full);
@@ -229,7 +234,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 				break;
 			case R.id.icon_indepen:
 				regionIndex = 3;
-				showProgressDialog();
 				startRegionActivity();
 				break;
 			case R.id.icon_gyungbok:
@@ -343,22 +347,17 @@ public class TourMainActivity extends GoogleApiClientActivity
 		if (regionIndex == -1)
 			Log.d(TAG, "regionIndex is not initialized");
 
-		showProgressDialog();
 		DatabaseReference ref = FirebaseDatabase.getInstance().getReference(CULTURAL_REF).child(""+regionIndex);
 		Log.v(TAG, ref.toString());
-		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+		ValueEventListener listener = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
+				hideProgressDialog();
 				CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
 				Log.d(TAG, "Value is: " + cultural);
 
-				probList.clear();
-				probList.add(new ProblemData(cultural.pro1, cultural.ans1));
-				probList.add(new ProblemData(cultural.pro2, cultural.ans2));
-				probList.add(new ProblemData(cultural.pro3, cultural.ans3));
-				Log.d(TAG, "probList: " + probList);
-
-				TourRegionActivity.cultural = cultural;
+				SharedData.cultural = cultural;
 				hideProgressDialog();
 
 				Intent intent = new Intent(TourMainActivity.this, TourRegionActivity.class);
@@ -367,9 +366,13 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 			@Override
 			public void onCancelled(DatabaseError e) {
+				hideProgressDialog();
 				Log.w(TAG, "Failed to read value.", e.toException());
-				// TODO: 네트워크가 불안정하여 퀴즈진행이 불가능합니다.
+				Toast.makeText(TourMainActivity.this, "데이터 가져오기 실패", Toast.LENGTH_SHORT).show();
 			}
-		});
+		};
+
+		showProgressDialog();
+		addListenerWithTimeout(this, ref, listener, DATA_NAME.CULTURAL);
 	} // startRegionActivity()
 } // class

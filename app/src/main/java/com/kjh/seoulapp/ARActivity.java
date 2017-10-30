@@ -30,7 +30,7 @@ public class ARActivity extends ProgressActivity
 	FirebaseDatabase database;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_problem_end);
 

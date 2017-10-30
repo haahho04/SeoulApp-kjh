@@ -10,10 +10,10 @@ import android.view.SurfaceView;
 
 import java.io.IOException;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-
 /** A basic Camera preview class */
-public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
+public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
+{
+	static final String TAG = "CameraPreview";
 	SurfaceHolder mHolder;
 	Camera mCamera;
 

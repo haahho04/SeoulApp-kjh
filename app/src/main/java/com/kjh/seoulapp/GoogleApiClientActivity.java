@@ -16,7 +16,7 @@ public abstract class GoogleApiClientActivity extends ProgressActivity
 	GoogleApiClient mGoogleApiClient;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 

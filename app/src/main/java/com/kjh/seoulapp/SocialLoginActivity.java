@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -27,25 +28,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.UserData;
 
+import static com.kjh.seoulapp.data.SharedData.DATA_NAME;
 import static com.kjh.seoulapp.data.SharedData.USER_REF;
+import static com.kjh.seoulapp.data.SharedData.addListenerWithTimeout;
 import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class SocialLoginActivity extends GoogleApiClientActivity implements View.OnClickListener
 {
 	final String TAG = "SocialLoginActivity";
 	final int RC_SIGN_IN = 9001;
+	Button btnLogin;
 	FirebaseAuth auth;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		Log.d(TAG, "onCreate()");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_social_login);
 
-		auth = FirebaseAuth.getInstance();
 		progressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
 		hideProgressDialog();
+
+		btnLogin = (Button) findViewById(R.id.btn_login);
+
+		auth = FirebaseAuth.getInstance();
 		Log.d(TAG, "progressBar: " + progressBar);
 	}
 
@@ -62,10 +69,25 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	}
 	// [END on_start_check_user]
 
+	@Override
+	public void onClick(View v)
+	{
+		if (isProgress)
+			return;
+
+		switch (v.getId())
+		{
+			case R.id.btn_login:
+				signIn();
+				break;
+		}
+	}
+
 	// [START signin]
 	private void signIn()
 	{
 		Log.d(TAG, "signIn");
+		btnLogin.setEnabled(false);
 		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
@@ -102,6 +124,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 	{
 		Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 		// [START_EXCLUDE silent]
+		btnLogin.setEnabled(false);
 		showProgressDialog();
 		// [END_EXCLUDE]
 
@@ -128,6 +151,7 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 				}
 
 				// [START_EXCLUDE]
+				btnLogin.setEnabled(true);
 				hideProgressDialog();
 				// [END_EXCLUDE]
 			}
@@ -146,13 +170,16 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 
 		DatabaseReference ref = database.getReference(USER_REF).child(uid);
 		Log.d(TAG, ref.toString());
-		ref.addListenerForSingleValueEvent(new ValueEventListener()
+
+		ValueEventListener listener = new ValueEventListener()
 		{
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot)
 			{
+				hideProgressDialog();
 				UserData _userData = dataSnapshot.getValue(UserData.class);
-				if (_userData == null)
+
+				if (_userData == null) // 네트워크는 성공했으나 read fail
 				{
 					// 새로운 유저 데이터 Insert
 					FirebaseUser currentUser = auth.getCurrentUser();
@@ -163,9 +190,8 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 					FirebaseDatabase database = FirebaseDatabase.getInstance();
 					database.getReference(USER_REF).child(uid).setValue(_userData);
 				}
-				Log.d(TAG, "Value is: " + _userData);
-
 				userData = _userData;
+				Log.d(TAG, "Value is: " + _userData);
 
 				// change activity
 				Intent intent = new Intent(SocialLoginActivity.this, TourMainActivity.class);
@@ -178,33 +204,26 @@ public class SocialLoginActivity extends GoogleApiClientActivity implements View
 			@Override
 			public void onCancelled(DatabaseError e)
 			{
+				hideProgressDialog();
 				Log.w(TAG, "Failed to read value.", e.toException());
-				// TODO
+				Toast.makeText(SocialLoginActivity.this, "데이터 가져오기 실패", Toast.LENGTH_SHORT).show();
 			}
-		});
+		};
+
+		btnLogin.setEnabled(false);
+		showProgressDialog();
+		addListenerWithTimeout(this, ref, listener, DATA_NAME.USER_DATA);
 	} // startMainActivity()
 
 	private void updateUI(FirebaseUser user)
 	{
-		hideProgressDialog();
-
 		if (user != null)
 			startMainActivity();
 		else
 		{
+			btnLogin.setEnabled(true);
 			Log.d(TAG, "non auth state");
 			// TODO: 네트워크 등의 이유로 인증 실패
-		}
-	}
-
-	@Override
-	public void onClick(View v)
-	{
-		switch (v.getId())
-		{
-			case R.id.GoogleLoginButton:
-				signIn();
-				break;
 		}
 	}
 

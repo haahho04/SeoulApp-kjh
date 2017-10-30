@@ -1,7 +1,6 @@
 package com.kjh.seoulapp;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -30,23 +29,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.kjh.seoulapp.data.CulturalData;
-
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
+
+import static com.kjh.seoulapp.data.SharedData.cultural;
 
 public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
 {
     final String TAG = "TourRegionActivity";
     final int GPS_PERMISSION_REQUEST = 1235;
-	static final int INFO_TAB = 1;
-	static final int ROAD_TAB = 2;
-	static final int QUIZ_START_TAB = 3;
-
-	// static inner class에서 access하기 위하여 static declaration
-	static CulturalData cultural;
+	static final int INFO_TAB = 0;
+	static final int ROAD_TAB = 1;
+	static final int QUIZ_START_TAB = 2;
+	static final float DIST_LIMIT = 10000;
+	static Location locRegion, locNow;
+	static float distance;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -101,13 +100,53 @@ public class TourRegionActivity extends AppCompatActivity
 		// Acquire a reference to the system Location Manager
 		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		// GPS 프로바이더 사용가능여부
+		// GPS, 네트워크 프로바이더 사용가능여부
 		boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-		// 네트워크 프로바이더 사용가능여부
 		boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
 		Log.d(TAG, "isGPSEnabled=" + isGPSEnabled);
 		Log.d(TAG, "isNetworkEnabled=" + isNetworkEnabled);
+
+		locRegion = new Location("locRegion");
+		locRegion.setLatitude(cultural.latitude);
+		locRegion.setLongitude(cultural.longitude);
+		locNow = new Location("locNow");
+
+		final LocationListener locationListener = new LocationListener()
+		{
+			public void onLocationChanged(Location location)
+			{
+				double nowLatitude = location.getLatitude();
+				double nowLongitude = location.getLongitude();
+				Log.d(TAG, "nowLatitude: " + nowLatitude + ", nowLongitude: " + nowLongitude);
+
+				locNow.setLatitude(nowLatitude);
+				locNow.setLongitude(nowLongitude);
+
+				distance = locNow.distanceTo(locRegion);
+				Log.d(TAG, "distance: " + distance);
+			}
+			public void onStatusChanged(String provider, int status, Bundle extras) { Log.d(TAG, "onStatusChanged"); }
+			public void onProviderEnabled(String provider) { Log.d(TAG, "onProviderEnabled"); }
+			public void onProviderDisabled(String provider) { Log.d(TAG, "onProviderDisabled"); }
+		};
+
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+				ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+		{
+			// Register the listener with the Location Manager to receive location updates
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+//						// 수동으로 위치 구하기
+//						String locationProvider = LocationManager.GPS_PROVIDER;
+//						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+//						if (lastKnownLocation != null)
+//						{
+//							double lng = lastKnownLocation.getLatitude();
+//							double lat = lastKnownLocation.getLatitude();
+//							Log.d(TAG, "longtitude=" + lng + ", latitude=" + lat);
+//						}
+		}
 	}
 
     @Override
@@ -196,10 +235,8 @@ public class TourRegionActivity extends AppCompatActivity
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-			Activity activity = getActivity();
 			int sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
 			View rootView = null;
-			LocationManager locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
 
 			Log.d("log", "onCreateView" + sectionNumber);
 
@@ -227,18 +264,10 @@ public class TourRegionActivity extends AppCompatActivity
 					//////////////////////////////////////////////////////////////////////
 					rootView = inflater.inflate(R.layout.fragment_region_road, container, false);
 
-					MapView mapView = new MapView(activity);
+					MapView mapView = new MapView(getActivity());
 					mapView.setOpenAPIKeyAuthenticationResultListener(this);
 
-					Location region = new Location("region");
-					region.setLatitude(37.581812);
-					region.setLongitude(126.992723);
-					Location myLoc = new Location("myLoc");
-					myLoc.setLatitude(37.586577);
-					myLoc.setLongitude(126.989258);
-//					Log.d(TAG, "distance: " + myLoc.distanceTo(region)); // 611.0321
-
-					MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(region.getLatitude(), region.getLongitude());
+					MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(locRegion.getLatitude(), locRegion.getLongitude());
 					mapView.setMapCenterPointAndZoomLevel(mapPoint, 2, true);
 					MapPOIItem marker = new MapPOIItem();
 					marker.setItemName("Default Marker");
@@ -269,43 +298,19 @@ public class TourRegionActivity extends AppCompatActivity
 					rootView = inflater.inflate(R.layout.fragment_region_quiz_start, container, false);
 
 					final Button quizStart = rootView.findViewById(R.id.quiz_start);
-					quizStart.setText("퀴즈 시작");
-					quizStart.setEnabled(true);
+					if (distance < DIST_LIMIT)
+					{
+						quizStart.setText("퀴즈 시작" + distance);
+						quizStart.setEnabled(true);
+					}
+					else
+					{
+						quizStart.setText("유적지에서만 가능합니다!" + distance);
+						quizStart.setEnabled(false);
+					}
 
 					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
 					logView.setText("GPS 정보 수신 중...");
-
-					final LocationListener locationListener = new LocationListener()
-					{
-						public void onLocationChanged(Location location)
-						{
-							double lat = location.getLatitude();
-							double lng = location.getLongitude();
-
-							logView.setText("latitude: " + lat + ", longitude: " + lng);
-						}
-						public void onStatusChanged(String provider, int status, Bundle extras) { logView.setText("onStatusChanged"); }
-						public void onProviderEnabled(String provider) { logView.setText("onProviderEnabled"); }
-						public void onProviderDisabled(String provider) { logView.setText("onProviderDisabled"); }
-					};
-
-					if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
-							ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-					{
-						// Register the listener with the Location Manager to receive location updates
-						locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-						locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-
-//						// 수동으로 위치 구하기
-//						String locationProvider = LocationManager.GPS_PROVIDER;
-//						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-//						if (lastKnownLocation != null)
-//						{
-//							double lng = lastKnownLocation.getLatitude();
-//							double lat = lastKnownLocation.getLatitude();
-//							Log.d(TAG, "longtitude=" + lng + ", latitude=" + lat);
-//						}
-					}
 					break;
 			}
 			return rootView;
@@ -367,8 +372,8 @@ public class TourRegionActivity extends AppCompatActivity
 		@Override
 		public Fragment getItem(int position)
 		{
-			Log.d(TAG, "getItem() " + (position + 1));
-			return PlaceholderFragment.newInstance(position + 1);
+			Log.d(TAG, "getItem() " + (position));
+			return PlaceholderFragment.newInstance(position);
 		}
 
 		@Override
@@ -377,7 +382,7 @@ public class TourRegionActivity extends AppCompatActivity
 		@Override
 		public CharSequence getPageTitle(int position)
 		{
-			switch (position + 1)
+			switch (position)
 			{
 				case INFO_TAB: return "유적지 설명";
 				case ROAD_TAB: return "가는 길";

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class UserData
 {
-    final int CULTURAL_CNT = 5; // TODO: size
+    final int CULTURAL_CNT = 17;
     public String name;
     public List<Integer> stampList;
 
