@@ -153,6 +153,8 @@ public class TourRegionActivity extends AppCompatActivity
 //							Log.d(TAG, "longtitude=" + lng + ", latitude=" + lat);
 //						}
 		}
+
+		setTitle(cultural.title);
 	}
 
     @Override
@@ -311,17 +313,14 @@ public class TourRegionActivity extends AppCompatActivity
 					Button quizStart = rootView.findViewById(R.id.quiz_start);
 					if (distance < DIST_LIMIT)
 					{
-						quizStart.setText("퀴즈 시작" + distance);
+						quizStart.setText("문제풀이");
 						quizStart.setEnabled(true);
 					}
 					else
 					{
-						quizStart.setText("유적지에서만 가능합니다!" + distance);
+						quizStart.setText("유적지에서만 가능합니다!");
 						quizStart.setEnabled(false);
 					}
-
-					final TextView logView = rootView.findViewById(R.id.my_stamp_desc);
-					logView.setText("GPS 정보 수신 중...");
 					break;
 			}
 			return rootView;
@@ -396,8 +395,8 @@ public class TourRegionActivity extends AppCompatActivity
 			switch (position)
 			{
 				case INFO_TAB: return "유적지 설명";
-				case ROAD_TAB: return "가는 길";
-				case QUIZ_START_TAB: return "문제풀이 & 스탬프 얻기";
+				case ROAD_TAB: return "가는길";
+				case QUIZ_START_TAB: return "문제풀이&도장";
 				default: return null;
 			}
 		}

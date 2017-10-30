@@ -74,11 +74,12 @@
             android:layout_marginRight="0dp"
             android:background="@drawable/main_2_blueline"
             android:text="AUTO"
+            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/flipper_pre"
             app:layout_constraintRight_toLeftOf="@+id/flipper_next"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/flipper_next"
@@ -109,27 +110,5 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp">
-<!--
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="50"
-            android:contentDescription="유적지 사진"
-            app:srcCompat="@drawable/side_nav_bar"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
--->
-
-
-    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
