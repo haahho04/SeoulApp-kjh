@@ -53,6 +53,10 @@
             android:name=".ARActivity"
             android:label="@string/quiz_problem_end_activity_label"
             />
+        <activity
+            android:name=".ARActivity_old"
+            android:label="@string/quiz_problem_end_activity_label"
+            />
     </application>
 
 </manifest>
