@@ -37,10 +37,7 @@ import net.daum.mf.map.api.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kjh.seoulapp.data.SharedData.cultural;
-import static com.kjh.seoulapp.data.SharedData.initSearch;
-import static com.kjh.seoulapp.data.SharedData.regionIndex;
-import static com.kjh.seoulapp.data.SharedData.userData;
+import static com.kjh.seoulapp.data.SharedData.*;
 
 public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
@@ -51,7 +48,6 @@ public class TourRegionActivity extends AppCompatActivity
 	static final int ROAD_TAB = 1;
 	static final int QUIZ_START_TAB = 2;
 	static final float DIST_LIMIT = 10000;
-	static Location locRegion, locNow;
 	static float distance;
 
 	@Override

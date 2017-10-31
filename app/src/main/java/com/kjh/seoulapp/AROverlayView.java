@@ -24,6 +24,8 @@ import com.kjh.seoulapp.helper.LocationHelper;
 import com.kjh.seoulapp.model.ARPoint;
 
 import static com.kjh.seoulapp.data.SharedData.USER_REF;
+import static com.kjh.seoulapp.data.SharedData.cultural;
+import static com.kjh.seoulapp.data.SharedData.locRegion;
 import static com.kjh.seoulapp.data.SharedData.regionIndex;
 import static com.kjh.seoulapp.data.SharedData.stampLevel;
 import static com.kjh.seoulapp.data.SharedData.userData;
@@ -50,8 +52,7 @@ public class AROverlayView extends View implements View.OnClickListener
 
         //Demo points
         arPoints = new ArrayList<ARPoint>() {{
-            add(new ARPoint("Sun Wheel", 16.0404856, 108.2262447, 0));
-            add(new ARPoint("Linh Ung Pagoda", 16.1072989, 108.2343984, 0));
+            add(new ARPoint(cultural.title, locRegion.getLatitude(), locRegion.getLongitude(), 0));
         }};
         nowStampLevel = 0;
         isEnd = false;

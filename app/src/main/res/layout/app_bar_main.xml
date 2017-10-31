@@ -42,7 +42,7 @@
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:background="@drawable/main_2_blueline"
-                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTint="@color/colorPressed"
                 android:text="지도"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"

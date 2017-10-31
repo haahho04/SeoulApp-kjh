@@ -1,5 +1,6 @@
 package com.kjh.seoulapp.data;
 
+import android.location.Location;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -23,6 +24,7 @@ public class SharedData
 	public static int correctCnt;
 	public static int regionIndex;
 	public static int stampLevel; // 획득한 도장갯수 (문제풀기 결과)
+	public static Location locRegion, locNow;
 
 	public static boolean initSearch(Menu menu)
 	{

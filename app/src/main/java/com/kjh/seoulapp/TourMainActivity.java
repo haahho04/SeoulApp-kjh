@@ -57,6 +57,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 	Map<MAP_TYPE, ImageView> mapMap;
 	List<Button> hiddenBtnList;
 	Map<MAP_TYPE, List<ImageButton>> mapRegion;
+	Button btnTabMap, btnTabStampAll;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -88,6 +89,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 		progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
 		hideProgressDialog();
 		regionIndex = 0;
+		btnTabMap = (Button) findViewById(R.id.tab_map);
+		btnTabStampAll = (Button) findViewById(R.id.tab_stamp_all);
+		btnTabMap.setOnClickListener(this);
+		btnTabStampAll.setOnClickListener(this);
 
 		backPressedTime = 0;
 		auth = FirebaseAuth.getInstance();
@@ -208,6 +213,8 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		switch (id)
 		{
+			case R.id.tab_map: break;
+			case R.id.tab_stamp_all: break;
 			case R.id.icon_jongmyo: startRegionActivity(1); break;
 			case R.id.icon_nakjungdae: startRegionActivity(2); break;
 			case R.id.icon_indepen: startRegionActivity(3); break;
@@ -224,8 +231,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 			case R.id.icon_huninreung: startRegionActivity(15); break;
 			case R.id.icon_yangchun: startRegionActivity(16); break;
 			case R.id.icon_amsadong: startRegionActivity(17); break;
-
-
 
 			case R.id.map_mid_button: goInMap(MAP_TYPE.MID); break;
 			case R.id.map_east_button: goInMap(MAP_TYPE.EAST); break;
