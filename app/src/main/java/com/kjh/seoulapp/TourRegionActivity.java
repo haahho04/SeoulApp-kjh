@@ -30,6 +30,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -50,6 +52,9 @@ public class TourRegionActivity extends AppCompatActivity
 	static final float DIST_LIMIT = 10000;
 	static float distance;
 
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{

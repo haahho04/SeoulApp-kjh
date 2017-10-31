@@ -347,9 +347,10 @@
                 <TextView
                     android:id="@+id/maintext1"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp"
+                    android:layout_height="27dp"
                     android:background="?attr/colorPrimary"
                     android:text="서울의 5대궁"
+                    android:gravity="center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="60px" />
 
@@ -434,6 +435,7 @@
                     android:layout_height="25dp"
                     android:background="?attr/colorPrimary"
                     android:text="서울의 4대문"
+                    android:gravity="center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="60px" />
 
@@ -492,6 +494,7 @@
                     android:layout_height="25dp"
                     android:background="?attr/colorPrimary"
                     android:text="서울의 왕릉"
+                    android:gravity="center_vertical"
                     android:textColor="@android:color/white"
                     android:textSize="60px" />
 

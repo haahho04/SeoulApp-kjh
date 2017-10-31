@@ -22,7 +22,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.Context;
+import com.tsengvn.typekit.TypekitContextWrapper;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -61,6 +62,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 	Map<MAP_TYPE, List<ImageButton>> mapRegion;
 	Button btnTabMap, btnTabStampAll;
 	ViewGroup tabMap, tabStampAll;
+
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

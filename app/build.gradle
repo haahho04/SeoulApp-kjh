@@ -54,6 +54,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile files('libs/libDaumMapAndroid.jar')
+    compile 'com.tsengvn:Typekit:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

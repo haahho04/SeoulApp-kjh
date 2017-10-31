@@ -43,7 +43,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_marginRight="0dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="0dp"
@@ -55,7 +55,7 @@
 
         <Button
             android:id="@+id/flipper_pre"
-            android:layout_width="130dp"
+            android:layout_width="180dp"
             android:layout_height="0dp"
             android:layout_marginLeft="0dp"
             android:background="@drawable/main_2_blueline"
@@ -64,26 +64,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"/>
-
-        <ToggleButton
-            android:id="@+id/toggle_auto"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:background="@drawable/main_2_blueline"
-            android:text="AUTO"
-            android:textColor="@android:color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/flipper_pre"
-            app:layout_constraintRight_toLeftOf="@+id/flipper_next"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/flipper_next"
-            android:layout_width="130dp"
+            android:layout_width="180dp"
             android:layout_height="0dp"
             android:layout_marginRight="0dp"
             android:background="@drawable/main_2_blueline"
@@ -93,7 +78,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:layout_constraintRight_creator="1"/>
+            tools:layout_constraintRight_creator="1" />
     </android.support.constraint.ConstraintLayout>
 
     <TextView
@@ -103,7 +88,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="50"
         android:text="설며 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어 어어어"
         app:layout_constraintBottom_toBottomOf="parent"
