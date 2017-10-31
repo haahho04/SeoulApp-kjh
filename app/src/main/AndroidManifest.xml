@@ -3,7 +3,11 @@
     package="com.kjh.seoulapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- dont work on virtual machine -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- detail location -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -11,9 +15,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="@string/daum_api_key" />
+        android:theme="@style/AppTheme"
+        android:largeHeap="true"
+        android:name=".ApplicationFont"
+        >
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/daum_api_key" />
 
         <activity
             android:name=".SplashActivity"
@@ -28,17 +36,24 @@
         </activity>
         <activity
             android:name=".SocialLoginActivity"
-            android:label="@string/title_activity_social_login"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TourMainActivity"
-            android:label="@string/title_activity_tour_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TourRegionActivity"
-            android:label="@string/title_activity_tour_region"
+            android:label="@string/region_activity_label"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".QuizProblemActivity"></activity>
+        <activity android:name=".QuizProblemActivity"
+            android:label="@string/quiz_problem_activity_label"
+            />
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".ARActivity"
+            android:label="@string/quiz_problem_end_activity_label"
+            />
     </application>
 
 </manifest>
