@@ -1,6 +1,7 @@
 package com.kjh.seoulapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -17,12 +18,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ARActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
+
+import static com.kjh.seoulapp.data.SharedData.USER_REF;
+import static com.kjh.seoulapp.data.SharedData.regionIndex;
+import static com.kjh.seoulapp.data.SharedData.stampLevel;
+import static com.kjh.seoulapp.data.SharedData.userData;
+
+public class ARActivity extends AppCompatActivity implements SensorEventListener, LocationListener
+{
 
     final static String TAG = "ARActivity";
     private SurfaceView surfaceView;

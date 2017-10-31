@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kjh.seoulapp.data.ProblemData;
 
@@ -33,6 +34,7 @@ public class QuizProblemActivity extends AppCompatActivity
     TextView descTxtView;
 	ImageView popupImgView;
 	ImageButton btnX, btnO;
+    boolean waitNextProb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class QuizProblemActivity extends AppCompatActivity
 		btnO = (ImageButton) findViewById(R.id.answer_o);
 		Log.d(TAG, "probList: " + probList);
 
+        waitNextProb = false;
 		updateNextProb();
     }
 
@@ -61,6 +64,9 @@ public class QuizProblemActivity extends AppCompatActivity
     public void onClick(View view)
     {
         int id = view.getId();
+
+        if (waitNextProb && id != R.id.result_image)
+            return;
 
         switch (id)
         {
@@ -76,11 +82,6 @@ public class QuizProblemActivity extends AppCompatActivity
         }
     } // onClick()
 
-    void prevProb()
-    {
-        // TODO
-    }
-
     void answerProb(boolean answer)
     {
 		boolean correct = nowProb.answer;
@@ -88,17 +89,22 @@ public class QuizProblemActivity extends AppCompatActivity
         if (answer == correct)
         {
             Log.d(TAG, "정답입니다");
-            // TODO: UI Update
+            Toast.makeText(this, "정답입니다!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "팝업된 O를 누르세요!", Toast.LENGTH_LONG).show();
+
             popupImgView.setImageResource(R.drawable.main_3_1_o);
+
             correctCnt++;
         }
         else
         {
             Log.d(TAG, "오답입니다");
-            // TODO: UI Update
+            Toast.makeText(this, "오답입니다!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "팝업된 X를 누르세요!", Toast.LENGTH_LONG).show();
             popupImgView.setImageResource(R.drawable.main_3_1_x);
         }
 
+        waitNextProb = true;
 		popupImgView.setVisibility(View.VISIBLE);
     }
 
@@ -112,6 +118,7 @@ public class QuizProblemActivity extends AppCompatActivity
 			nowIndex++;
 			descTxtView.setText("Q" + nowIndex + ". " + nowProb.description);
 
+            waitNextProb = false;
 			popupImgView.setVisibility(View.GONE);
 		}
     }
@@ -134,10 +141,8 @@ public class QuizProblemActivity extends AppCompatActivity
 			stampLevel = 1;
 			if (0 < correctCnt)
 				stampLevel = 2;
-			else if (correctCnt == 3)
+			if (correctCnt == 3)
 				stampLevel = 3;
-
-
 
             Intent intent = new Intent(QuizProblemActivity.this, ARActivity.class);
 			startActivity(intent);

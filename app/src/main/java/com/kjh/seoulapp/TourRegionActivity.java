@@ -123,7 +123,7 @@ public class TourRegionActivity extends AppCompatActivity
 			{
 				double nowLatitude = location.getLatitude();
 				double nowLongitude = location.getLongitude();
-				Log.d(TAG, "nowLatitude: " + nowLatitude + ", nowLongitude: " + nowLongitude);
+				//Log.d(TAG, "nowLatitude: " + nowLatitude + ", nowLongitude: " + nowLongitude);
 
 				locNow.setLatitude(nowLatitude);
 				locNow.setLongitude(nowLongitude);

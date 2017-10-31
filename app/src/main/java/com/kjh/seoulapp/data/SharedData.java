@@ -22,7 +22,7 @@ public class SharedData
 	public static CulturalData cultural;
 	public static int correctCnt;
 	public static int regionIndex;
-	public static int stampLevel;
+	public static int stampLevel; // 획득한 도장갯수 (문제풀기 결과)
 
 	public static boolean initSearch(Menu menu)
 	{

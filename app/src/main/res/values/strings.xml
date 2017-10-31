@@ -3,7 +3,7 @@
 
     <string name="region_activity_label">유적지 정보</string>
     <string name="quiz_problem_activity_label">문제풀이</string>
-    <string name="quiz_problem_end_activity_label">스탬프 받기</string>
+    <string name="quiz_problem_end_activity_label">도장찍기</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
