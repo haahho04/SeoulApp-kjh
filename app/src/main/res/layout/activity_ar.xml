@@ -28,5 +28,5 @@
         android:layout_margin="20dp"
         android:text="GPS is loading..."
         android:textColor="@android:color/white"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 </FrameLayout>

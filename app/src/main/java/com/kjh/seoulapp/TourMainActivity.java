@@ -1,16 +1,17 @@
 package com.kjh.seoulapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
 import com.kjh.seoulapp.data.SharedData;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +46,7 @@ import static com.kjh.seoulapp.data.SharedData.CULTURAL_REF;
 import static com.kjh.seoulapp.data.SharedData.DATA_NAME;
 import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.regionIndex;
+import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class TourMainActivity extends GoogleApiClientActivity
 		implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener
@@ -61,6 +64,11 @@ public class TourMainActivity extends GoogleApiClientActivity
 	Map<MAP_TYPE, List<ImageButton>> mapRegion;
 	Button btnTabMap, btnTabStampAll;
 	ViewGroup tabMap, tabStampAll;
+	List<Pair<Integer, Integer>> bottomList;
+
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -185,6 +193,59 @@ public class TourMainActivity extends GoogleApiClientActivity
 			if (user_email != null && strEmail != null) user_email.setText(strEmail);
 		}
 
+		List<Button> stampAllList = new ArrayList<>();
+        stampAllList.add((Button)findViewById(R.id.stamp1));
+        stampAllList.add((Button)findViewById(R.id.stamp2));
+        stampAllList.add((Button)findViewById(R.id.stamp3));
+        stampAllList.add((Button)findViewById(R.id.stamp4));
+        stampAllList.add((Button)findViewById(R.id.stamp5));
+        stampAllList.add((Button)findViewById(R.id.stamp6));
+        stampAllList.add((Button)findViewById(R.id.stamp7));
+        stampAllList.add((Button)findViewById(R.id.stamp8));
+        stampAllList.add((Button)findViewById(R.id.stamp9));
+        stampAllList.add((Button)findViewById(R.id.stamp10));
+        stampAllList.add((Button)findViewById(R.id.stamp12));
+        stampAllList.add((Button)findViewById(R.id.stamp13));
+        stampAllList.add((Button)findViewById(R.id.stamp14));
+        stampAllList.add((Button)findViewById(R.id.stamp15));
+        stampAllList.add((Button)findViewById(R.id.stamp16));
+        stampAllList.add((Button)findViewById(R.id.stamp17));
+
+        int i=1;
+        for(Button stamp : stampAllList)
+        {
+			if (i == 11)
+				i++;
+
+			int stampLevel = userData.stampList.get(i);
+			Log.d(TAG, "stampLevel:" + stampLevel);
+
+            if (stampLevel == 0)
+                stamp.setBackgroundResource(R.drawable.main_1_2_graybox);
+            else
+				stamp.setBackgroundResource(R.drawable.main_1_2_box);
+
+            i++;
+        }
+
+		bottomList = new ArrayList<Pair<Integer, Integer>>();
+        bottomList.add(new Pair<>(R.id.btn_gyeonbok, 4));
+		bottomList.add(new Pair<>(R.id.btn_changduk, 5));
+		bottomList.add(new Pair<>(R.id.btn_changgyung, 6));
+		bottomList.add(new Pair<>(R.id.btn_gyunghee, 7));
+		bottomList.add(new Pair<>(R.id.btn_duksu, 8));
+		bottomList.add(new Pair<>(R.id.btn_dongdae, 10));
+		bottomList.add(new Pair<>(R.id.btn_namdae, 12));
+		bottomList.add(new Pair<>(R.id.btn_bukdae, 13));
+		bottomList.add(new Pair<>(R.id.btn_taereung, 14));
+		bottomList.add(new Pair<>(R.id.btn_hyuninreung, 15));
+
+		for(Pair<Integer, Integer> pair : bottomList)
+		{
+			Button btn = (Button)findViewById(pair.first);
+			btn.setOnClickListener(this);
+		}
+
 		changeTabTo(0);
 	} // onCreate()
 
@@ -251,6 +312,15 @@ public class TourMainActivity extends GoogleApiClientActivity
 			case R.id.map_west_button: goInMap(MAP_TYPE.WEST); break;
 			case R.id.map_south_button: goInMap(MAP_TYPE.SOUTH); break;
 			case R.id.map_north_button: goInMap(MAP_TYPE.NORTH); break;
+			default:
+				for(Pair<Integer, Integer> pair : bottomList)
+				{
+					if (id == pair.first)
+					{
+						startRegionActivity(pair.second);
+						break;
+					}
+				}
 		}
 	} // onClick()
 

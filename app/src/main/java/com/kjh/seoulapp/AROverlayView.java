@@ -15,13 +15,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kjh.seoulapp.helper.LocationHelper;
 import com.kjh.seoulapp.model.ARPoint;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.kjh.seoulapp.data.SharedData.USER_REF;
 import static com.kjh.seoulapp.data.SharedData.cultural;
@@ -61,6 +61,7 @@ public class AROverlayView extends View implements View.OnClickListener
         hiddenBtn.setVisibility(View.GONE);
         hiddenBtn.setOnClickListener(this);
 
+		Log.d(TAG, arPoints.get(0).getName());
         Toast.makeText(activity, "카메라로 도장을 찾아 클릭하세요!", Toast.LENGTH_LONG).show();
     }
 
@@ -77,6 +78,7 @@ public class AROverlayView extends View implements View.OnClickListener
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+//		Log.d(TAG, "onDraw()");
 
         if (currentLocation == null) {
             return;
@@ -88,6 +90,8 @@ public class AROverlayView extends View implements View.OnClickListener
         paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
         paint.setTextSize(60);
 
+//		Log.d(TAG, "" + arPoints.size());
+
         for (int i = 0; i < arPoints.size(); i ++) {
             float[] currentLocationInECEF = LocationHelper.WSG84toECEF(currentLocation);
             float[] pointInECEF = LocationHelper.WSG84toECEF(arPoints.get(i).getLocation());
@@ -98,9 +102,10 @@ public class AROverlayView extends View implements View.OnClickListener
 
             // cameraCoordinateVector[2] is z, that always less than 0 to display on right position
             // if z > 0, the point will display on the opposite
+
             if (cameraCoordinateVector[2] < 0)
             {
-                float x  = (0.5f + cameraCoordinateVector[0]/cameraCoordinateVector[3]) * canvas.getWidth();
+                float x = (0.5f + cameraCoordinateVector[0]/cameraCoordinateVector[3]) * canvas.getWidth();
                 float y = (0.5f - cameraCoordinateVector[1]/cameraCoordinateVector[3]) * canvas.getHeight();
 
                 BitmapFactory.Options opt = new BitmapFactory.Options();

@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -37,7 +40,11 @@ import net.daum.mf.map.api.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kjh.seoulapp.data.SharedData.*;
+import static com.kjh.seoulapp.data.SharedData.cultural;
+import static com.kjh.seoulapp.data.SharedData.locNow;
+import static com.kjh.seoulapp.data.SharedData.locRegion;
+import static com.kjh.seoulapp.data.SharedData.regionIndex;
+import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class TourRegionActivity extends AppCompatActivity
 		implements View.OnClickListener
@@ -47,9 +54,12 @@ public class TourRegionActivity extends AppCompatActivity
 	static final int INFO_TAB = 0;
 	static final int ROAD_TAB = 1;
 	static final int QUIZ_START_TAB = 2;
-	static final float DIST_LIMIT = 10000;
+	static final float DIST_LIMIT = 1000;
 	static float distance;
 
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -188,8 +198,9 @@ public class TourRegionActivity extends AppCompatActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		getMenuInflater().inflate(R.menu.menu_search, menu);
-		return initSearch(menu);
+//		getMenuInflater().inflate(R.menu.menu_search, menu);
+//		return initSearch(menu);
+        return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
@@ -259,10 +270,14 @@ public class TourRegionActivity extends AppCompatActivity
 					imgViewList.add((ImageView)rootView.findViewById(R.id.img2));
 					imgViewList.add((ImageView)rootView.findViewById(R.id.img3));
 
+					int i=1;
 					for(ImageView imgView : imgViewList)
 					{
-						// TODO: 유적지 사진 업데이트
-						// imgView.setImageResource(R.drawable.);
+						Resources res = getResources();
+						final int resourceId = res.getIdentifier("regpic_"+regionIndex+"_"+i, "drawable",
+								getContext().getPackageName());
+						imgView.setImageDrawable(res.getDrawable(resourceId));
+						i++;
 					}
 
 					// 설명 텍스트뷰
@@ -312,16 +327,16 @@ public class TourRegionActivity extends AppCompatActivity
 					updateStampView(rootView);
 
 					Button quizStart = rootView.findViewById(R.id.quiz_start);
-					if (distance < DIST_LIMIT)
-					{
-						//quizStart.setText("문제풀이");
-						quizStart.setEnabled(true);
-					}
-					else
-					{
-						//quizStart.setText("유적지에서만 가능합니다!");
-						quizStart.setEnabled(false);
-					}
+//					if (distance < DIST_LIMIT)
+//					{
+//						//quizStart.setText("문제풀이");
+//						quizStart.setEnabled(true);
+//					}
+//					else
+//					{
+//						//quizStart.setText("유적지에서만 가능합니다!");
+//						quizStart.setEnabled(false);
+//					}
 					break;
 			}
 			return rootView;

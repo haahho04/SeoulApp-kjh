@@ -1,7 +1,6 @@
 package com.kjh.seoulapp;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -13,24 +12,15 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.opengl.Matrix;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-
-import static com.kjh.seoulapp.data.SharedData.USER_REF;
-import static com.kjh.seoulapp.data.SharedData.regionIndex;
-import static com.kjh.seoulapp.data.SharedData.stampLevel;
-import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class ARActivity extends AppCompatActivity implements SensorEventListener, LocationListener
 {
@@ -198,10 +188,14 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
             if (!isNetworkEnabled && !isGPSEnabled)    {
                 // cannot get location
+				Toast.makeText(this, "위치정보 얻기실패", Toast.LENGTH_LONG).show();
                 this.locationServiceAvailable = false;
             }
 
             this.locationServiceAvailable = true;
+
+			Log.d(TAG, "isNetworkEnabled: " + isNetworkEnabled);
+			Log.d(TAG, "isGPSEnabled: " + isGPSEnabled);
 
             if (isNetworkEnabled) {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
@@ -230,6 +224,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     }
 
     private void updateLatestLocation() {
+//        Log.d(TAG, "updateLatestLocation()" + (arOverlayView != null) + (location != null));
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
             tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
