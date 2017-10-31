@@ -10,10 +10,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -58,6 +60,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 	List<Button> hiddenBtnList;
 	Map<MAP_TYPE, List<ImageButton>> mapRegion;
 	Button btnTabMap, btnTabStampAll;
+	ViewGroup tabMap, tabStampAll;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -100,6 +103,8 @@ public class TourMainActivity extends GoogleApiClientActivity
 		btnTabStampAll = (Button) findViewById(R.id.tab_stamp_all);
 		btnTabMap.setOnClickListener(this);
 		btnTabStampAll.setOnClickListener(this);
+		tabMap = (ViewGroup) findViewById(R.id.main_map_tab);
+		tabStampAll = (ViewGroup) findViewById(R.id.main_stampall_tab);
 
 		backPressedTime = 0;
 		auth = FirebaseAuth.getInstance();
@@ -256,13 +261,14 @@ public class TourMainActivity extends GoogleApiClientActivity
 			case 0:
 				btnTabMap.setBackgroundColor(getResources().getColor(R.color.colorPressed));
 				btnTabStampAll.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+				tabMap.setVisibility(View.VISIBLE);
+				tabStampAll.setVisibility(View.GONE);
 				break;
 			case 1:
 				btnTabMap.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 				btnTabStampAll.setBackgroundColor(getResources().getColor(R.color.colorPressed));
-
-				if (nowMap != MAP_TYPE.FULL)
-					onBackPressed();
+				tabMap.setVisibility(View.GONE);
+				tabStampAll.setVisibility(View.VISIBLE);
 				break;
 		}
 	}

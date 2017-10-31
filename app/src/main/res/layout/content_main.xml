@@ -13,10 +13,9 @@
     >
 
     <LinearLayout
-        android:id="@+id/linear_layout"
+        android:id="@+id/main_map_tab"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -334,7 +333,6 @@
 
         </FrameLayout>
 
-        <!--스크롤뷰 스크롤 none-->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -350,11 +348,10 @@
                     android:id="@+id/maintext1"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
+                    android:background="?attr/colorPrimary"
                     android:text="서울의 5대궁"
                     android:textColor="@android:color/white"
-                    android:textSize="60px"
-                    android:background="?attr/colorPrimary"
-                    />
+                    android:textSize="60px" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -369,58 +366,62 @@
                             android:id="@+id/btn_gyeonbok"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_gyenbok"
                             android:onClick="onClick"
                             android:text="경복궁"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_gyenbok"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_changduk"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_changduk"
                             android:onClick="onClick"
                             android:text="창덕궁"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_changduk"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_changgyung"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_changgyung"
                             android:onClick="onClick"
                             android:text="창경궁"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_changgyung"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_gyunghee"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_gyunghee"
                             android:onClick="onClick"
                             android:text="경희궁"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_gyunghee"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_duksu"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/btn_duksu"
                             android:onClick="onClick"
                             android:text="덕수궁"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/btn_duksu"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -431,10 +432,10 @@
                     android:id="@+id/maintext2"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
+                    android:background="?attr/colorPrimary"
                     android:text="서울의 4대문"
-                    android:textSize="60px"
                     android:textColor="@android:color/white"
-                    android:background="?attr/colorPrimary"/>
+                    android:textSize="60px" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -449,34 +450,36 @@
                             android:id="@+id/btn_dongdae"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_dongdae"
                             android:onClick="onClick"
                             android:text="흥인지문"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_dongdae"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_namdae"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_namdae"
                             android:onClick="onClick"
                             android:text="숭례문"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_namdae"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_bukdae"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/btn_bukdae"
                             android:onClick="onClick"
                             android:text="숙정문"
                             android:textColor="@android:color/white"
-                            android:background="@drawable/btn_bukdae"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -487,10 +490,10 @@
                     android:id="@+id/maintext3"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
+                    android:background="?attr/colorPrimary"
                     android:text="서울의 왕릉"
-                    android:textSize="60px"
                     android:textColor="@android:color/white"
-                    android:background="?attr/colorPrimary"/>
+                    android:textSize="60px" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -500,27 +503,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:orientation="horizontal">
+
                         <Button
                             android:id="@+id/btn_taereung"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_taereung"
                             android:onClick="onClick"
                             android:text="태릉"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_taereung"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
                         <Button
                             android:id="@+id/btn_hyuninreung"
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="3dp"
+                            android:background="@drawable/btn_hyuninreung"
                             android:onClick="onClick"
                             android:text="현인릉"
                             android:textColor="@android:color/white"
-                            android:layout_marginRight="3dp"
-                            android:background="@drawable/btn_hyuninreung"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -530,16 +535,270 @@
 
             </LinearLayout>
         </ScrollView>
+
     </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/main_stampall_tab"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/stamp1"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp2"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp2"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp1"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp3"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp3"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp2"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/stamp4"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp5"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp5"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp4"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp6"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp6"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp5"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/stamp7"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp8"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp8"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp7"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp9"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp9"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp8"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/stamp10"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp12"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp12"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp10"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp13"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp13"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp12"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/stamp14"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp15"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp15"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp14"
+                    app:layout_constraintRight_toLeftOf="@+id/stamp16"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/stamp16"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/stamp15"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp">
+
+                <Button
+                    android:id="@+id/stamp17"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/stamp_gray"
+                    android:scaleType="fitXY"
+                    android:text="무슨궁"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+        </TableLayout>
+    </ScrollView>
 
     <ProgressBar
         android:id="@+id/progressBarMain"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
 </android.support.constraint.ConstraintLayout>
