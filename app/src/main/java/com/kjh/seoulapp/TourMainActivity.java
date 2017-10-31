@@ -208,11 +208,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		switch (id)
 		{
-			case R.id.cam_test:
-				Intent camIntent = new Intent(TourMainActivity.this, ARActivity.class);
-				startActivity(camIntent);
-				break;
-			case R.id.btn_next: startRegionActivity(1); break;
 			case R.id.icon_jongmyo: startRegionActivity(1); break;
 			case R.id.icon_nakjungdae: startRegionActivity(2); break;
 			case R.id.icon_indepen: startRegionActivity(3); break;
