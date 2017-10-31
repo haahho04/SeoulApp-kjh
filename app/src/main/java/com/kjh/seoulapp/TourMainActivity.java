@@ -68,7 +68,14 @@ public class TourMainActivity extends GoogleApiClientActivity
 		android.util.Log.d("TAG","ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_tour_main);
+		try {
+			setContentView(R.layout.activity_tour_main);
+		}
+		catch(OutOfMemoryError e)
+		{
+			Toast.makeText(this, "메모리가 부족합니다", Toast.LENGTH_LONG).show();
+			finish();
+		}
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 		setSupportActionBar(toolbar);
 
@@ -172,6 +179,8 @@ public class TourMainActivity extends GoogleApiClientActivity
 			if (user_name  != null && strName  != null) user_name.setText(strName);
 			if (user_email != null && strEmail != null) user_email.setText(strEmail);
 		}
+
+		changeTabTo(0);
 	} // onCreate()
 
 	@Override // button event: open drawer
@@ -213,8 +222,8 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		switch (id)
 		{
-			case R.id.tab_map: break;
-			case R.id.tab_stamp_all: break;
+			case R.id.tab_map: changeTabTo(0); break;
+			case R.id.tab_stamp_all: changeTabTo(1); break;
 			case R.id.icon_jongmyo: startRegionActivity(1); break;
 			case R.id.icon_nakjungdae: startRegionActivity(2); break;
 			case R.id.icon_indepen: startRegionActivity(3); break;
@@ -239,6 +248,24 @@ public class TourMainActivity extends GoogleApiClientActivity
 			case R.id.map_north_button: goInMap(MAP_TYPE.NORTH); break;
 		}
 	} // onClick()
+
+	void changeTabTo(int targetIdx)
+	{
+		switch(targetIdx)
+		{
+			case 0:
+				btnTabMap.setBackgroundColor(getResources().getColor(R.color.colorPressed));
+				btnTabStampAll.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+				break;
+			case 1:
+				btnTabMap.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+				btnTabStampAll.setBackgroundColor(getResources().getColor(R.color.colorPressed));
+
+				if (nowMap != MAP_TYPE.FULL)
+					onBackPressed();
+				break;
+		}
+	}
 
 	void goInMap(MAP_TYPE map)
 	{

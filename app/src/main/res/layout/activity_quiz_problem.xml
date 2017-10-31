@@ -17,7 +17,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center_horizontal"
         android:text="Q1. 문제"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
