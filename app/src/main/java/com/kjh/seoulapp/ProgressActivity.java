@@ -11,13 +11,11 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.kjh.seoulapp.data.SharedData;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.kjh.seoulapp.data.SharedData.cultural;
-import static com.kjh.seoulapp.data.SharedData.userData;
+import static com.kjh.seoulapp.data.SharedData.*;
 
 public abstract class ProgressActivity extends AppCompatActivity
 {
@@ -35,7 +33,7 @@ public abstract class ProgressActivity extends AppCompatActivity
 	public void hideProgressDialog() { progressBar.setVisibility(View.GONE); isProgress = false; }
 
 
-	public void addListenerWithTimeout(final DatabaseReference ref, final ValueEventListener listener, final SharedData.DATA_NAME dataName)
+	public void addListenerWithTimeout(final DatabaseReference ref, final ValueEventListener listener, final DATA_NAME dataName)
 	{
 		ref.addListenerForSingleValueEvent(listener);
 
@@ -46,10 +44,10 @@ public abstract class ProgressActivity extends AppCompatActivity
 				timer.cancel();
 				boolean timeoutFlag = false;
 
-				if (dataName == SharedData.DATA_NAME.USER_DATA)
+				if (dataName == DATA_NAME.USER_DATA)
 					timeoutFlag = userData == null;
-				else if (dataName == SharedData.DATA_NAME.CULTURAL)
-					timeoutFlag = cultural == null;
+				else if (dataName == DATA_NAME.CULTURAL_DATA)
+					timeoutFlag = culturalData == null;
 
 				if (timeoutFlag) //  Timeout
 				{

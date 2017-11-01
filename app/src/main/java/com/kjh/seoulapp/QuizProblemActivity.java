@@ -19,7 +19,7 @@ import static com.kjh.seoulapp.data.SharedData.EXTRA_CORRECT_CNT;
 import static com.kjh.seoulapp.data.SharedData.EXTRA_POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
 import static com.kjh.seoulapp.data.SharedData.correctCnt;
-import static com.kjh.seoulapp.data.SharedData.cultural;
+import static com.kjh.seoulapp.data.SharedData.culturalData;
 import static com.kjh.seoulapp.data.SharedData.stampLevel;
 
 public class QuizProblemActivity extends AppCompatActivity
@@ -47,9 +47,9 @@ public class QuizProblemActivity extends AppCompatActivity
 		nowIndex = 0;
 		nowProb = null;
 		probList = new ArrayList<>();
-		probList.add(new ProblemData(cultural.prob1, cultural.ans1));
-		probList.add(new ProblemData(cultural.prob2, cultural.ans2));
-		probList.add(new ProblemData(cultural.prob3, cultural.ans3));
+		probList.add(new ProblemData(culturalData.prob1, culturalData.ans1));
+		probList.add(new ProblemData(culturalData.prob2, culturalData.ans2));
+		probList.add(new ProblemData(culturalData.prob3, culturalData.ans3));
         descTxtView = (TextView) findViewById(R.id.prob_desc);
         popupImgView = (ImageView) findViewById(R.id.result_image);
 		btnX = (ImageButton) findViewById(R.id.answer_x);

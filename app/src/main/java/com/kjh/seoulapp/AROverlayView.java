@@ -23,12 +23,7 @@ import com.kjh.seoulapp.model.ARPoint;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kjh.seoulapp.data.SharedData.USER_REF;
-import static com.kjh.seoulapp.data.SharedData.cultural;
-import static com.kjh.seoulapp.data.SharedData.locRegion;
-import static com.kjh.seoulapp.data.SharedData.regionIndex;
-import static com.kjh.seoulapp.data.SharedData.stampLevel;
-import static com.kjh.seoulapp.data.SharedData.userData;
+import static com.kjh.seoulapp.data.SharedData.*;
 
 /**
  * Created by ntdat on 1/13/17.
@@ -38,9 +33,9 @@ public class AROverlayView extends View implements View.OnClickListener
 {
     static final String TAG = "AROverlayView";
     Activity activity;
-    private float[] rotatedProjectionMatrix = new float[16];
-    private Location currentLocation;
-    private List<ARPoint> arPoints;
+    float[] rotatedProjectionMatrix = new float[16];
+    Location currentLocation;
+    List<ARPoint> arPoints;
     int nowStampLevel;
     boolean isEnd;
     Button hiddenBtn;
@@ -52,7 +47,7 @@ public class AROverlayView extends View implements View.OnClickListener
 
         //Demo points
         arPoints = new ArrayList<ARPoint>() {{
-            add(new ARPoint(cultural.title, locRegion.getLatitude(), locRegion.getLongitude(), 0));
+            add(new ARPoint(culturalData.title, locRegion.getLatitude(), locRegion.getLongitude(), 0));
         }};
         nowStampLevel = 0;
         isEnd = false;
@@ -159,7 +154,7 @@ public class AROverlayView extends View implements View.OnClickListener
 
         String uid = auth.getCurrentUser().getUid();
         Log.d(TAG, "before: "+userData);
-        userData.stampList.set(regionIndex, stampLevel);
+        userData.stampList.set(culturalIndex(cultural), stampLevel);
         Log.d(TAG, "after: "+userData);
 
         database.getReference(USER_REF).child(uid).setValue(userData);

@@ -9,7 +9,6 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -35,22 +34,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kjh.seoulapp.data.CulturalData;
-import com.kjh.seoulapp.data.SharedData;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.kjh.seoulapp.data.SharedData.CULTURAL_REF;
-import static com.kjh.seoulapp.data.SharedData.DATA_NAME;
-import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
-import static com.kjh.seoulapp.data.SharedData.regionIndex;
-import static com.kjh.seoulapp.data.SharedData.userData;
+import static com.kjh.seoulapp.data.SharedData.*;
 
 public class TourMainActivity extends GoogleApiClientActivity
 		implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener
 {
+	enum MAIN_TAB { MAP, STAMP_ALL }
 	enum MAP_TYPE { FULL, MID, EAST, WEST, SOUTH, NORTH}
 	final long FINISH_INTERVAL_TIME = 2000;
 	final String TAG = "TourMainActivity";
@@ -64,7 +59,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 	Map<MAP_TYPE, List<ImageButton>> mapRegion;
 	Button btnTabMap, btnTabStampAll;
 	ViewGroup tabMap, tabStampAll;
-	List<Pair<Integer, Integer>> bottomList;
+	List<Pair<Integer, CULTURAL>> bottomList;
 
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
@@ -73,13 +68,14 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		android.util.Log.d("TAG","TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d("TAG","MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d("TAG","FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
-		android.util.Log.d("TAG","ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
+		Log.d("performance","TOTAL MEMORY : "+(Runtime.getRuntime().totalMemory() / (1024 * 1024)) + "MB");
+		Log.d("performance","MAX MEMORY : "+(Runtime.getRuntime().maxMemory() / (1024 * 1024)) + "MB");
+		Log.d("performance","FREE MEMORY : "+(Runtime.getRuntime().freeMemory() / (1024 * 1024)) + "MB");
+		Log.d("performance","ALLOCATION MEMORY : "+((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "MB");
 
 		super.onCreate(savedInstanceState);
-		try {
+		try
+		{
 			setContentView(R.layout.activity_tour_main);
 		}
 		catch(OutOfMemoryError e)
@@ -90,10 +86,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
 		setSupportActionBar(toolbar);
 
-		ActionBar actionBar = getSupportActionBar();
-		Log.d(TAG, "ActionBar: " + actionBar);
-//		actionBar.setElevation(0);
-
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.setDrawerListener(toggle);
@@ -102,11 +94,10 @@ public class TourMainActivity extends GoogleApiClientActivity
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 
-
 		/* init members */
 		progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
 		hideProgressDialog();
-		regionIndex = 0;
+		cultural = CULTURAL.NONE;
 		btnTabMap = (Button) findViewById(R.id.tab_map);
 		btnTabStampAll = (Button) findViewById(R.id.tab_stamp_all);
 		btnTabMap.setOnClickListener(this);
@@ -156,7 +147,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 		tempList.add((ImageButton) findViewById(R.id.icon_namdaemun));
 		tempList.add((ImageButton) findViewById(R.id.icon_bukdaemun));
 
-
 		tempList = mapRegion.get(MAP_TYPE.EAST);
 		tempList.add((ImageButton) findViewById(R.id.icon_amsadong));
 
@@ -166,7 +156,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 		tempList = mapRegion.get(MAP_TYPE.SOUTH);
 		tempList.add((ImageButton) findViewById(R.id.icon_nakjungdae));
 		tempList.add((ImageButton) findViewById(R.id.icon_huninreung));
-
 
 		tempList = mapRegion.get(MAP_TYPE.NORTH);
 		tempList.add((ImageButton) findViewById(R.id.icon_taereung));
@@ -228,25 +217,25 @@ public class TourMainActivity extends GoogleApiClientActivity
             i++;
         }
 
-		bottomList = new ArrayList<Pair<Integer, Integer>>();
-        bottomList.add(new Pair<>(R.id.btn_gyeonbok, 4));
-		bottomList.add(new Pair<>(R.id.btn_changduk, 5));
-		bottomList.add(new Pair<>(R.id.btn_changgyung, 6));
-		bottomList.add(new Pair<>(R.id.btn_gyunghee, 7));
-		bottomList.add(new Pair<>(R.id.btn_duksu, 8));
-		bottomList.add(new Pair<>(R.id.btn_dongdae, 10));
-		bottomList.add(new Pair<>(R.id.btn_namdae, 12));
-		bottomList.add(new Pair<>(R.id.btn_bukdae, 13));
-		bottomList.add(new Pair<>(R.id.btn_taereung, 14));
-		bottomList.add(new Pair<>(R.id.btn_hyuninreung, 15));
+		bottomList = new ArrayList<Pair<Integer, CULTURAL>>();
+        bottomList.add(new Pair<>(R.id.btn_gyeonbok, CULTURAL.GYUNGBOK));
+		bottomList.add(new Pair<>(R.id.btn_changduk, CULTURAL.CHANGDUCK));
+		bottomList.add(new Pair<>(R.id.btn_changgyung, CULTURAL.CHANGGYUNG));
+		bottomList.add(new Pair<>(R.id.btn_gyunghee, CULTURAL.GYUNGHEE));
+		bottomList.add(new Pair<>(R.id.btn_duksu, CULTURAL.DUCKSU));
+		bottomList.add(new Pair<>(R.id.btn_dongdae, CULTURAL.DONGDAEMUN));
+		bottomList.add(new Pair<>(R.id.btn_namdae, CULTURAL.NAMDAEMUN));
+		bottomList.add(new Pair<>(R.id.btn_bukdae, CULTURAL.BUKDAEMUN));
+		bottomList.add(new Pair<>(R.id.btn_taereung, CULTURAL.TAEREUNG));
+		bottomList.add(new Pair<>(R.id.btn_hyuninreung, CULTURAL.HYUNINREUNG));
 
-		for(Pair<Integer, Integer> pair : bottomList)
+		for(Pair<Integer, CULTURAL> pair : bottomList)
 		{
 			Button btn = (Button)findViewById(pair.first);
 			btn.setOnClickListener(this);
 		}
 
-		changeTabTo(0);
+		changeTabTo(MAIN_TAB.MAP);
 	} // onCreate()
 
 	@Override // button event: open drawer
@@ -269,9 +258,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 					Toast.makeText(TourMainActivity.this, "종료하시려면 한번 더 누르세요", Toast.LENGTH_SHORT).show();
 				}
 				else // 연속 Back Pressed일 경우
-				{
 					super.onBackPressed();
-				}
 			}
 			else // 구역지도 상태일 경우
 				goOutMap();
@@ -288,32 +275,33 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		switch (id)
 		{
-			case R.id.tab_map: changeTabTo(0); break;
-			case R.id.tab_stamp_all: changeTabTo(1); break;
-			case R.id.icon_jongmyo: startRegionActivity(1); break;
-			case R.id.icon_nakjungdae: startRegionActivity(2); break;
-			case R.id.icon_indepen: startRegionActivity(3); break;
-			case R.id.icon_gyungbok: startRegionActivity(4); break;
-			case R.id.icon_changduck: startRegionActivity(5); break;
-			case R.id.icon_changgyung: startRegionActivity(6); break;
-			case R.id.icon_gyunghee: startRegionActivity(7); break;
-			case R.id.icon_ducksu: startRegionActivity(8); break;
-			case R.id.icon_busin: startRegionActivity(9); break;
-			case R.id.icon_dongdaemun: startRegionActivity(10); break;
-			case R.id.icon_namdaemun: startRegionActivity(12); break;
-			case R.id.icon_bukdaemun: startRegionActivity(13); break;
-			case R.id.icon_taereung: startRegionActivity(14); break;
-			case R.id.icon_huninreung: startRegionActivity(15); break;
-			case R.id.icon_yangchun: startRegionActivity(16); break;
-			case R.id.icon_amsadong: startRegionActivity(17); break;
+			case R.id.tab_map: 			changeTabTo(MAIN_TAB.MAP); break;
+			case R.id.tab_stamp_all: 	changeTabTo(MAIN_TAB.STAMP_ALL); break;
 
-			case R.id.map_mid_button: goInMap(MAP_TYPE.MID); break;
-			case R.id.map_east_button: goInMap(MAP_TYPE.EAST); break;
-			case R.id.map_west_button: goInMap(MAP_TYPE.WEST); break;
-			case R.id.map_south_button: goInMap(MAP_TYPE.SOUTH); break;
-			case R.id.map_north_button: goInMap(MAP_TYPE.NORTH); break;
+			case R.id.icon_jongmyo: 	startRegionActivity(CULTURAL.JONGMYO); break;
+			case R.id.icon_nakjungdae: 	startRegionActivity(CULTURAL.NAKSUNGDAE); break;
+			case R.id.icon_indepen: 	startRegionActivity(CULTURAL.INDEPEN); break;
+			case R.id.icon_gyungbok: 	startRegionActivity(CULTURAL.GYUNGBOK); break;
+			case R.id.icon_changduck: 	startRegionActivity(CULTURAL.CHANGDUCK); break;
+			case R.id.icon_changgyung: 	startRegionActivity(CULTURAL.CHANGGYUNG); break;
+			case R.id.icon_gyunghee: 	startRegionActivity(CULTURAL.GYUNGHEE); break;
+			case R.id.icon_ducksu: 		startRegionActivity(CULTURAL.DUCKSU); break;
+			case R.id.icon_busin: 		startRegionActivity(CULTURAL.BUSIN); break;
+			case R.id.icon_dongdaemun: 	startRegionActivity(CULTURAL.DONGDAEMUN); break;
+			case R.id.icon_namdaemun: 	startRegionActivity(CULTURAL.NAMDAEMUN); break;
+			case R.id.icon_bukdaemun: 	startRegionActivity(CULTURAL.BUKDAEMUN); break;
+			case R.id.icon_taereung: 	startRegionActivity(CULTURAL.TAEREUNG); break;
+			case R.id.icon_huninreung: 	startRegionActivity(CULTURAL.HYUNINREUNG); break;
+			case R.id.icon_yangchun: 	startRegionActivity(CULTURAL.YANGCHUN); break;
+			case R.id.icon_amsadong: 	startRegionActivity(CULTURAL.AMSADONG); break;
+
+			case R.id.map_mid_button: 	goInMap(MAP_TYPE.MID); break;
+			case R.id.map_east_button: 	goInMap(MAP_TYPE.EAST); break;
+			case R.id.map_west_button: 	goInMap(MAP_TYPE.WEST); break;
+			case R.id.map_south_button:	goInMap(MAP_TYPE.SOUTH); break;
+			case R.id.map_north_button:	goInMap(MAP_TYPE.NORTH); break;
 			default:
-				for(Pair<Integer, Integer> pair : bottomList)
+				for(Pair<Integer, CULTURAL> pair : bottomList)
 				{
 					if (id == pair.first)
 					{
@@ -324,17 +312,17 @@ public class TourMainActivity extends GoogleApiClientActivity
 		}
 	} // onClick()
 
-	void changeTabTo(int targetIdx)
+	void changeTabTo(MAIN_TAB tab)
 	{
-		switch(targetIdx)
+		switch(tab)
 		{
-			case 0:
+			case MAP:
 				btnTabMap.setBackgroundColor(getResources().getColor(R.color.colorPressed));
 				btnTabStampAll.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 				tabMap.setVisibility(View.VISIBLE);
 				tabStampAll.setVisibility(View.GONE);
 				break;
-			case 1:
+			case STAMP_ALL:
 				btnTabMap.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 				btnTabStampAll.setBackgroundColor(getResources().getColor(R.color.colorPressed));
 				tabMap.setVisibility(View.GONE);
@@ -387,21 +375,21 @@ public class TourMainActivity extends GoogleApiClientActivity
 		});
 	} // signOut()
 
-	void startRegionActivity(int idx)
+	void startRegionActivity(CULTURAL idx)
 	{
-		regionIndex = idx;
+		cultural = idx;
 
-		DatabaseReference ref = FirebaseDatabase.getInstance().getReference(CULTURAL_REF).child(""+regionIndex);
+		DatabaseReference ref = FirebaseDatabase.getInstance().getReference(CULTURAL_REF).child(""+ cultural);
 		Log.v(TAG, ref.toString());
 
 		ValueEventListener listener = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				hideProgressDialog();
-				CulturalData cultural = dataSnapshot.getValue(CulturalData.class);
-				Log.d(TAG, "cultural: " + cultural);
+				CulturalData _culturalData = dataSnapshot.getValue(CulturalData.class);
+				Log.d(TAG, "culturalData: " + _culturalData);
 
-				SharedData.cultural = cultural;
+				culturalData = _culturalData;
 				hideProgressDialog();
 
 				Intent intent = new Intent(TourMainActivity.this, TourRegionActivity.class);
@@ -417,7 +405,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 		};
 
 		showProgressDialog();
-		addListenerWithTimeout(ref, listener, DATA_NAME.CULTURAL);
+		addListenerWithTimeout(ref, listener, DATA_NAME.CULTURAL_DATA);
 	} // startRegionActivity()
 
 	@Override
@@ -440,9 +428,7 @@ public class TourMainActivity extends GoogleApiClientActivity
 
 		//noinspection SimplifiableIfStatement
 		if (id == R.id.action_search)
-		{
 			return true;
-		}
 
 		return super.onOptionsItemSelected(item);
 	}

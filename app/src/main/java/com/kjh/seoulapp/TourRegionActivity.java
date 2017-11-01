@@ -40,10 +40,11 @@ import net.daum.mf.map.api.MapView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kjh.seoulapp.data.SharedData.cultural;
+import static com.kjh.seoulapp.data.SharedData.culturalData;
+import static com.kjh.seoulapp.data.SharedData.culturalIndex;
 import static com.kjh.seoulapp.data.SharedData.locNow;
 import static com.kjh.seoulapp.data.SharedData.locRegion;
-import static com.kjh.seoulapp.data.SharedData.regionIndex;
+import static com.kjh.seoulapp.data.SharedData.cultural;
 import static com.kjh.seoulapp.data.SharedData.userData;
 
 public class TourRegionActivity extends AppCompatActivity
@@ -69,8 +70,8 @@ public class TourRegionActivity extends AppCompatActivity
 
 		/* init members */
 		locRegion = new Location("locRegion");
-		locRegion.setLatitude(cultural.latitude);
-		locRegion.setLongitude(cultural.longitude);
+		locRegion.setLatitude(culturalData.latitude);
+		locRegion.setLongitude(culturalData.longitude);
 		locNow = new Location("locNow");
 
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -160,7 +161,7 @@ public class TourRegionActivity extends AppCompatActivity
 //						}
 		}
 
-		setTitle(cultural.title);
+		setTitle(culturalData.title);
 	}
 
     @Override
@@ -274,15 +275,15 @@ public class TourRegionActivity extends AppCompatActivity
 					for(ImageView imgView : imgViewList)
 					{
 						Resources res = getResources();
-						final int resourceId = res.getIdentifier("regpic_"+regionIndex+"_"+i, "drawable",
-								getContext().getPackageName());
+						final int resourceId = res.getIdentifier("regpic_"+ cultural +"_"+i, "drawable",
+																 getContext().getPackageName());
 						imgView.setImageDrawable(res.getDrawable(resourceId));
 						i++;
 					}
 
 					// 설명 텍스트뷰
 					TextView infotextview = rootView.findViewById(R.id.infotext);
-					infotextview.setText(cultural.content);
+					infotextview.setText(culturalData.content);
 
 					break;
 				case ROAD_TAB:
@@ -349,7 +350,7 @@ public class TourRegionActivity extends AppCompatActivity
 			stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_2));
 			stampViewList.add((ImageView)rootView.findViewById(R.id.my_stamp_image_3));
 
-			int stampCnt = userData.stampList.get(regionIndex);
+			int stampCnt = userData.stampList.get(culturalIndex(cultural));
 
 			for(int i=0;i<stampCnt;i++)
 				stampViewList.get(i).setImageResource(R.drawable.stamp_color);
