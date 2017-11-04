@@ -10,8 +10,7 @@ import com.kjh.seoulapp.R;
 
 public class SharedData
 {
-	public enum POPUP_TYPE { APP_INFO, CONTACT, DONATE, END_QUIZ }
-	public enum DATA_NAME { USER_DATA, CULTURAL_DATA}
+	public enum DATA_NAME { USER_DATA, CULTURAL_DATA }
 	public enum CULTURAL { NONE,
 		JONGMYO, 	NAKSUNGDAE, 	INDEPEN, 	GYUNGBOK,
 		CHANGDUCK, 	CHANGGYUNG, 	GYUNGHEE, 	DUCKSU,
@@ -21,8 +20,8 @@ public class SharedData
 	public static final String USER_REF = "user";
 	public static final String CULTURAL_REF = "culturalData";
 
-	public static final String EXTRA_POPUP_TYPE = "POPUP_TYPE";
-	public static final String EXTRA_CORRECT_CNT = "correctCnt";
+	public static String popupTitle;
+	public static String popupMsg;
 
 	public static UserData     userData;
 	public static CulturalData culturalData;

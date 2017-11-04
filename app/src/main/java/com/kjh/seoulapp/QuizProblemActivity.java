@@ -15,12 +15,7 @@ import com.kjh.seoulapp.data.ProblemData;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kjh.seoulapp.data.SharedData.EXTRA_CORRECT_CNT;
-import static com.kjh.seoulapp.data.SharedData.EXTRA_POPUP_TYPE;
-import static com.kjh.seoulapp.data.SharedData.POPUP_TYPE;
-import static com.kjh.seoulapp.data.SharedData.correctCnt;
-import static com.kjh.seoulapp.data.SharedData.culturalData;
-import static com.kjh.seoulapp.data.SharedData.stampLevel;
+import static com.kjh.seoulapp.data.SharedData.*;
 
 public class QuizProblemActivity extends AppCompatActivity
     implements View.OnClickListener
@@ -126,8 +121,9 @@ public class QuizProblemActivity extends AppCompatActivity
     void endQuiz()
     {
         Intent intent = new Intent(QuizProblemActivity.this, PopupActivity.class);
-        intent.putExtra(EXTRA_POPUP_TYPE, POPUP_TYPE.END_QUIZ);
-        intent.putExtra(EXTRA_CORRECT_CNT, correctCnt);
+		popupTitle = "퀴즈 결과";
+        popupMsg = "맞춘 갯수: " + correctCnt + "\n" +
+				"축하드립니다! 다음 화면에서 스탬프를 획득하세요!";
         startActivityForResult(intent, END_QUIZ);
     }
 

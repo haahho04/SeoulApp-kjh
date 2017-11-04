@@ -411,7 +411,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
 		//getMenuInflater().inflate(R.menu.menu_search, menu);
 
 		//return initSearch(menu);
@@ -421,9 +420,6 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
 		//noinspection SimplifiableIfStatement
@@ -436,14 +432,20 @@ public class TourMainActivity extends GoogleApiClientActivity
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item)
 	{
-		// Handle navigation view item clicks here.
 		int id = item.getItemId();
 
 		switch(id)
 		{
 			case R.id.nav_sign_out: signOut(); break;
-			case R.id.nav_app_info: popupActivity(POPUP_TYPE.APP_INFO); break;
-			case R.id.nav_contact: popupActivity(POPUP_TYPE.CONTACT); break;
+			case R.id.nav_app_info:
+				popupActivity("APP_INFO",
+							  "이름: 역사의제왕, 서울원정대! \n" +
+									  "개발진: 김명길, 전종호, 한제우(디자이너)");
+				break;
+			case R.id.nav_contact:
+				popupActivity("CONTACT",
+							  "연락처: kjh@gmail.com");
+				break;
 		}
 
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -452,10 +454,9 @@ public class TourMainActivity extends GoogleApiClientActivity
 		return true;
 	} // onNavigationItemSelected()
 
-	void popupActivity(POPUP_TYPE type)
+	void popupActivity(String title, String msg)
 	{
 		Intent intent = new Intent(TourMainActivity.this, PopupActivity.class);
-		intent.putExtra("POPUP_TYPE", type);
 		startActivity(intent);
 	}
 } // class
